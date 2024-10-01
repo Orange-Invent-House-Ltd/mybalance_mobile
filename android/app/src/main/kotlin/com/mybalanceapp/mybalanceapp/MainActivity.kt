@@ -1,4 +1,4 @@
-package com.mybalanceapp.mybalanceapp
+package com.mybalanceapp
 
 import io.flutter.embedding.android.FlutterActivity
 
