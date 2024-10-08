@@ -97,7 +97,9 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      
+      maximumSize: WidgetStateProperty.all(
+        const Size(double.infinity, 44),
+      ),
     ),
   );
 }

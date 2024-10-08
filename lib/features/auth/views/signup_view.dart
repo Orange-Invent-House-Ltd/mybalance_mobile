@@ -1,17 +1,18 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../core/widgets/app_rich_text.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
-import '../../../core/utils/validators.dart';
-import '../../../core/widgets/custom_dropdown.dart';
-import '../../../core/widgets/label_text_field.dart';
+import '../../../core/widgets/app_rich_text.dart';
 import '../../../core/widgets/overlay_loading.dart';
 import '../models/means_of_id.dart';
 import './widgets/sell_buy_toggle.dart';
+import './widgets/sign_up_buyer_step1.dart';
+import './widgets/sign_up_buyer_step2.dart';
+import './widgets/sign_up_seller_step1.dart';
+import './widgets/sign_up_seller_step2.dart';
+import './widgets/sign_up_seller_step3.dart';
+import './widgets/sign_up_seller_step4.dart';
 import './widgets/step_progress_indicator.dart';
 
 class SignupView extends StatefulWidget {
@@ -24,9 +25,13 @@ class SignupView extends StatefulWidget {
 class _SignupViewState extends State<SignupView> {
   late GlobalKey<FormState> _formKey;
   late ValueNotifier<bool> _isBuyer;
-  late ValueNotifier<int> _currentStep;
-  final totalSteps = 4;
-  late PageController _stepperController;
+  late ValueNotifier<int> _currentSellerStep;
+  late ValueNotifier<int> _currentBuyerStep;
+  final totalSellerSteps = 4;
+  final totalBuyerSteps = 3;
+  late PageStorageKey _buyerKey;
+  late PageStorageKey _sellerKey;
+  late PageController _sellerStepperController, _buyerStepperController;
   late TextEditingController _fullnameController,
       _businessNameController,
       _serviceController,
@@ -37,15 +42,20 @@ class _SignupViewState extends State<SignupView> {
       _bankNameController,
       _accountNumberController,
       _accountNameController,
-      _meansOfIdController;
+      _meansOfIdController,
+      _otpNumberController;
 
   @override
   initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
     _isBuyer = ValueNotifier(false);
-    _currentStep = ValueNotifier(1);
-    _stepperController = PageController();
+    _currentSellerStep = ValueNotifier(1);
+    _currentBuyerStep = ValueNotifier(1);
+    _buyerKey = const PageStorageKey('buyer');
+    _sellerKey = const PageStorageKey('seller');
+    _sellerStepperController = PageController();
+    _buyerStepperController = PageController();
     _fullnameController = TextEditingController();
     _businessNameController = TextEditingController();
     _serviceController = TextEditingController();
@@ -57,13 +67,16 @@ class _SignupViewState extends State<SignupView> {
     _accountNumberController = TextEditingController();
     _accountNameController = TextEditingController();
     _meansOfIdController = TextEditingController();
+    _otpNumberController = TextEditingController();
   }
 
   @override
   void dispose() {
     _isBuyer.dispose();
-    _currentStep.dispose();
-    _stepperController.dispose();
+    _currentSellerStep.dispose();
+    _currentBuyerStep.dispose();
+    _sellerStepperController.dispose();
+    _buyerStepperController.dispose();
     _fullnameController.dispose();
     _businessNameController.dispose();
     _serviceController.dispose();
@@ -75,24 +88,108 @@ class _SignupViewState extends State<SignupView> {
     _accountNumberController.dispose();
     _accountNameController.dispose();
     _meansOfIdController.dispose();
+    _otpNumberController.dispose();
     super.dispose();
   }
 
-  int buildNo = 0;
+  double _calculatePageHeightFactor() {
+    if (_isBuyer.value) {
+      if (_currentBuyerStep.value <= 2) {
+        return .26;
+      } else {
+        return .10;
+      }
+    } else {
+      if (_currentSellerStep.value <= 2) {
+        return .54;
+      } else if (_currentSellerStep.value == 3) {
+        if (_meansOfIdController.text.isEmpty) {
+          return .11;
+        } else if (_meansOfIdController.text == MeansOfId.nin.label) {
+          return .23;
+        } else if (_meansOfIdController.text == MeansOfId.votersCard.label) {
+          return .70;
+        } else {
+          return .33;
+        }
+      } else {
+        return .11;
+      }
+    }
+  }
+
+  void _nextStep() {
+    if (_isBuyer.value) {
+      if (_currentBuyerStep.value < totalBuyerSteps) {
+        _currentBuyerStep.value++;
+        _buyerStepperController.nextPage(
+          duration: const Duration(milliseconds: 1),
+          curve: Curves.easeInOut,
+        );
+      }
+    } else {
+      if (_currentSellerStep.value < totalSellerSteps) {
+        _currentSellerStep.value++;
+        _sellerStepperController.nextPage(
+          duration: const Duration(milliseconds: 1),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
+  }
+
+  String _title() {
+    if (_currentBuyerStep.value <= 2 || _currentSellerStep.value <= 2) {
+      return 'Create your account now';
+    } else if (_currentSellerStep.value == 3 && !_isBuyer.value) {
+      return 'We need your identity';
+    } else {
+      return 'Check your email';
+    }
+  }
+
+  bool _titleAlign() {
+    if (_isBuyer.value) {
+      if (_currentBuyerStep.value <= 2) {
+        return false;
+      }
+      return true;
+    } else {
+      if (_currentSellerStep.value <= 2) {
+        return false;
+      }
+      return true;
+    }
+  }
+
+  String _subTitle(String email) {
+    if (_isBuyer.value) {
+      if (_currentBuyerStep.value == 1 || _currentBuyerStep.value == 2) {
+        return 'Create your customer account in minutes and enjoy the full features of MyBalance';
+      } else {
+        return 'We sent a verification link to $email';
+      }
+    } else {
+      if (_currentSellerStep.value == 1 || _currentSellerStep.value == 2) {
+        return 'Create your seller account in minutes and enjoy the full features of MyBalance';
+      } else if (_currentSellerStep.value == 3) {
+        return 'Choose your means of identity.';
+      }
+      return 'We sent a verification link to $email';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Size size = MediaQuery.of(context).size;
-    log('Build called: $buildNo');
-    buildNo += 1;
+    final Size size = MediaQuery.sizeOf(context);
 
     return Scaffold(
       body: SafeArea(
         child: OverlayLoading(
           isLoading: false,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -103,264 +200,245 @@ class _SignupViewState extends State<SignupView> {
                     alignment: Alignment.center,
                     child: SvgPicture.asset(
                       AppAssets.logo,
-                      width: 100,
-                      height: 100,
+                      width: 50,
+                      height: 50,
                     ),
                   ),
+                  const SizedBox(height: 32),
                   SellBuyToggle(
                     onSelect: (value) {
                       _isBuyer.value = value;
                     },
                   ),
                   const SizedBox(height: 32),
-                  ValueListenableBuilder(
-                    valueListenable: _currentStep,
-                    builder: (_, value, child) {
+                  ListenableBuilder(
+                    listenable: Listenable.merge(
+                      [_currentSellerStep, _currentBuyerStep, _isBuyer],
+                    ),
+                    builder: (_, __) {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: value <= 2
-                            ? CrossAxisAlignment.start
-                            : CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          StepProgressIndicator(
-                            currentStep: value,
-                            totalSteps: totalSteps,
+                          _isBuyer.value
+                              ? StepProgressIndicator(
+                                  currentStep: _currentBuyerStep.value,
+                                  totalSteps: totalBuyerSteps,
+                                )
+                              : StepProgressIndicator(
+                                  currentStep: _currentSellerStep.value,
+                                  totalSteps: totalSellerSteps,
+                                ),
+                          SizedBox(
+                            height: _currentSellerStep.value <= 2 ? 0 : 16,
                           ),
-                          Text(
-                            value == 1 || value == 2
-                                ? 'Create your account now'
-                                : value == 3
-                                    ? 'We need your identity'
-                                    : 'Check your email',
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                              color: AppColors.b300,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
+                          SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              _title(),
+                              textAlign: _titleAlign()
+                                  ? TextAlign.center
+                                  : TextAlign.start,
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: AppColors.b300,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 8.0),
-                          if (value <= 2) child!,
+                          SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              _subTitle(_emailController.text),
+                              textAlign: TextAlign.center,
+                              style: theme.textTheme.bodyMedium
+                                  ?.copyWith(color: AppColors.g200),
+                            ),
+                          ),
                           const SizedBox(height: 16),
                         ],
                       );
                     },
-                    child: ValueListenableBuilder(
-                      valueListenable: _isBuyer,
-                      builder: (context, value, child) {
-                        return Text(
-                          'Create your ${value ? 'buyer' : 'seller'} account in minutes and enjoy the full features of MyBalance',
-                          style: theme.textTheme.bodyMedium
-                              ?.copyWith(color: AppColors.g200),
-                        );
-                      },
-                    ),
                   ),
-                  SizedBox(
-                    height: size.height * 0.55,
-                    child: PageView(
-                      controller: _stepperController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        _buildStep1(),
-                        _buildStep2(),
-                        SignUpStep3(
-                          meansOfIdController: _meansOfIdController,
-                        ),
+                  ListenableBuilder(
+                    listenable: Listenable.merge(
+                      [
+                        _meansOfIdController,
+                        _isBuyer,
+                        _currentSellerStep,
+                        _currentBuyerStep
                       ],
                     ),
+                    builder: (context, child) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 1),
+                        height: size.height * _calculatePageHeightFactor(),
+                        // height: size.height * 0.85,
+                        // child: AnimatedSwitcher(duration: Duration(milliseconds: 1)),
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 1),
+                          child: _isBuyer.value
+                              ? PageView(
+                                  key: _buyerKey,
+                                  controller: _buyerStepperController,
+                                  // physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    SignUpBuyerStep1(
+                                      fullnameController: _fullnameController,
+                                      emailController: _emailController,
+                                    ),
+                                    SignUpBuyerStep2(
+                                      phoneController: _phoneController,
+                                      passwordController: _passwordController,
+                                    ),
+                                    SignUpSellerStep4(
+                                      otpNumberController: _otpNumberController,
+                                    ),
+                                  ],
+                                )
+                              : PageView(
+                                  key: _sellerKey,
+                                  controller: _sellerStepperController,
+                                  // physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    SignUpSellerStep1(
+                                      fullnameController: _fullnameController,
+                                      businessNameController:
+                                          _businessNameController,
+                                      serviceController: _serviceController,
+                                      addressController: _addressController,
+                                      phoneController: _phoneController,
+                                    ),
+                                    SignUpSellerStep2(
+                                      emailController: _emailController,
+                                      passwordController: _passwordController,
+                                      bankNameController: _bankNameController,
+                                      accountNumberController:
+                                          _accountNumberController,
+                                      accountNameController:
+                                          _accountNameController,
+                                    ),
+                                    SignUpSellerStep3(
+                                      meansOfIdController: _meansOfIdController,
+                                    ),
+                                    SignUpSellerStep4(
+                                      otpNumberController: _otpNumberController,
+                                    ),
+                                  ],
+                                ),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     child: ListenableBuilder(
                       listenable: Listenable.merge(
-                        [_stepperController, _meansOfIdController],
+                        [
+                          _isBuyer,
+                          _currentSellerStep,
+                          _currentBuyerStep,
+                          _meansOfIdController
+                        ],
                       ),
                       builder: (context, child) {
-                        // return _currentStep.value == 3 &&
-                        // _meansOfIdController.text.isNotEmpty
-                        return ElevatedButton(
-                          onPressed: () {
-                            if (_currentStep.value < totalSteps) {
-                              _currentStep.value++;
-                              _stepperController.nextPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            }
-                          },
-                          child: const Text('Next'),
+                        return Column(
+                          children: [
+                            (!_isBuyer.value &&
+                                    _currentSellerStep.value == 3 &&
+                                    _meansOfIdController.text.isEmpty)
+                                ? Text.rich(
+                                    TextSpan(
+                                      text: 'Note: ',
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              'Verify your identity for easy funds withdrawal from escrow.',
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(
+                                            color: const Color(0xff667085),
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: const Color(0xff667085),
+                                    ),
+                                  )
+                                : SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        _nextStep();
+                                      },
+                                      child: Text(
+                                        _currentSellerStep.value != 4 ||
+                                                _currentBuyerStep.value != 3
+                                            ? 'Next'
+                                            : 'Verify',
+                                      ),
+                                    ),
+                                  ),
+                            if (!_isBuyer.value &&
+                                _currentSellerStep.value == 3)
+                              TextButton(
+                                onPressed: () {
+                                  _nextStep();
+                                },
+                                child: Text(
+                                  'Skip this part',
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: AppColors.p300,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            if (_currentSellerStep.value == 4 ||
+                                _currentBuyerStep.value == 3) ...[
+                              const SizedBox(height: 32),
+                              AppRichText(
+                                primaryText: 'Didn\'t receive the email?',
+                                secondaryText: 'Click to resend',
+                                onSecondaryTap: () {},
+                              ),
+                            ]
+                          ],
                         );
-                        // : const SizedBox.shrink();
                       },
                     ),
                   ),
-                  const SizedBox(height: 32),
-                  SizedBox(
-                    height: 32,
-                    width: double.infinity,
-                    child: AppRichText(
-                      onSecondaryTap: () {},
-                      primaryText: 'Existing user?',
-                      secondaryText: 'Log in here',
-                    ),
+                  ValueListenableBuilder(
+                    valueListenable: _currentSellerStep,
+                    child: const SizedBox(height: 32),
+                    builder: (context, value, child) {
+                      return Column(
+                        children: [
+                          if (value <= 2) ...[
+                            child!,
+                            SizedBox(
+                              width: double.infinity,
+                              child: AppRichText(
+                                onSecondaryTap: () {},
+                                primaryText: 'Existing user?',
+                                secondaryText: 'Log in here',
+                              ),
+                            ),
+                          ],
+                          child!,
+                        ],
+                      );
+                    },
                   ),
-                  const SizedBox(height: 40),
                 ],
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildStep1() {
-    return Column(
-      children: [
-        LabelTextField(
-          controller: _fullnameController,
-          label: 'Full name',
-          hintText: 'e.g "Aremu Jamiu"',
-        ),
-        const SizedBox(height: 16),
-        LabelTextField(
-          controller: _businessNameController,
-          label: 'Business name',
-          hintText: 'e.g “Musty Feet”',
-        ),
-        const SizedBox(height: 16),
-        LabelTextField(
-          controller: _serviceController,
-          label: 'Describe your service',
-          hintText: 'e.g Sales of footwear',
-        ),
-        const SizedBox(height: 16),
-        LabelTextField(
-          controller: _addressController,
-          label: 'Address',
-          hintText: 'Ikeja, Lagos.',
-        ),
-        const SizedBox(height: 16),
-        LabelTextField(
-          controller: _phoneController,
-          label: 'Phone number',
-          hintText: '+234 000 0000 000',
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStep2() {
-    // _stepperController.animateToPage(
-    //   0,
-    //   duration: const Duration(milliseconds: 300),
-    //   curve: Curves.easeInOut,
-    // );
-    // _currentStep.value = 1;
-    return Column(
-      children: [
-        LabelTextField(
-          controller: _emailController,
-          validator: Validator.emailValidator,
-          keyboardType: TextInputType.emailAddress,
-          textInputAction: TextInputAction.next,
-          label: 'Email',
-          hintText: 'e.g tmusty@gmail.com',
-        ),
-        const SizedBox(height: 16.0),
-        LabelTextField(
-          controller: _passwordController,
-          validator: Validator.passwordValidator,
-          textInputAction: TextInputAction.next,
-          label: 'Password',
-          hintText: 'e.g *******',
-          obscureText: true,
-        ),
-        const SizedBox(height: 16.0),
-        LabelTextField(
-          controller: _bankNameController,
-          validator: Validator.nameValidator,
-          textInputAction: TextInputAction.next,
-          label: 'Bank name',
-          hintText: 'e.g “UBA”',
-        ),
-        const SizedBox(height: 16.0),
-        LabelTextField(
-          controller: _accountNumberController,
-          keyboardType: TextInputType.number,
-          textInputAction: TextInputAction.next,
-          label: 'Bank account number',
-          hintText: 'e.g 000000000',
-        ),
-        const SizedBox(height: 16.0),
-        LabelTextField(
-          controller: _accountNameController,
-          validator: Validator.nameValidator,
-          textInputAction: TextInputAction.done,
-          label: 'Account Name',
-          hintText: 'e.g Jamiu Aremu',
-        ),
-      ],
-    );
-  }
-}
-
-class SignUpStep3 extends StatelessWidget {
-  const SignUpStep3({
-    super.key,
-    required this.meansOfIdController,
-  });
-  final TextEditingController meansOfIdController;
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return Column(
-      children: [
-        CustomDropdown(
-          textController: meansOfIdController,
-          label: 'Means of ID',
-          hintText: 'Select means of ID',
-          items: MeansOfId.values.map((MeansOfId id) {
-            return CustomDropdownEntry(
-              id.name,
-              id.label,
-            );
-          }).toList(),
-        ),
-        const SizedBox(height: 32),
-        TextButton(
-          onPressed: () {},
-          child: Text(
-            'Skip this part',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: AppColors.p300,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Text.rich(
-          TextSpan(
-            text: 'Note: ',
-            children: [
-              TextSpan(
-                text:
-                    'Verify your identity for easy funds withdrawal from escrow.',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: const Color(0xff667085),
-                  fontSize: 13,
-                ),
-              ),
-            ],
-          ),
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w700,
-            color: const Color(0xff667085),
-          ),
-        )
-      ],
     );
   }
 }

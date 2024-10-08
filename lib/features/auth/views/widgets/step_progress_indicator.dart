@@ -34,12 +34,15 @@ class StepProgressIndicator extends StatelessWidget {
           }),
         ),
         const SizedBox(height: 8),
-        Text(
-          'STEP $currentStep OF $totalSteps',
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.grey,
-            fontWeight: FontWeight.bold,
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            'STEP $currentStep OF $totalSteps',
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],

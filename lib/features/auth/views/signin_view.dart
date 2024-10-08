@@ -55,7 +55,7 @@ class _SigninViewState extends State<SigninView> {
         child: OverlayLoading(
           isLoading: false,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
@@ -67,10 +67,11 @@ class _SigninViewState extends State<SigninView> {
                       alignment: Alignment.center,
                       child: SvgPicture.asset(
                         AppAssets.logo,
-                        width: 100,
-                        height: 100,
+                        height: 50,
+                        width: 50,
                       ),
                     ),
+                    const SizedBox(height: 32),
                     SellBuyToggle(
                       onSelect: (value) {
                         _isBuyer.value = value;
@@ -130,7 +131,9 @@ class _SigninViewState extends State<SigninView> {
                     Align(
                       alignment: Alignment.topRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () => context.push(
+                          RouteName.forgetPassword.toPath(),
+                        ),
                         child: Text(
                           'Forgot Password?',
                           style: theme.textTheme.labelLarge?.copyWith(

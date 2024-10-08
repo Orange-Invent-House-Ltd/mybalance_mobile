@@ -7,9 +7,7 @@ import '../../core/utils/extensions/string_extension.dart';
 import '../../features/auth/views/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/onboarding/views/views.dart';
-import './auth_guards.dart';
 import './error_view.dart';
-import './redirect_builder.dart';
 import './route_name.dart';
 import './route_refresh.dart';
 
@@ -22,10 +20,10 @@ final goRouterProvider = Provider<GoRouter>(
       debugLogDiagnostics: true,
       initialLocation: RouteName.onboard.toPath(),
       navigatorKey: _navigatorKey,
-      redirect: RedirectBuilder({
-        RedirectIfAuthenticatedGuard(),
-        RedirectIfUnauthenticatedGuard(),
-      }).call,
+      // redirect: RedirectBuilder({
+      //   RedirectIfAuthenticatedGuard(),
+      //   RedirectIfUnauthenticatedGuard(),
+      // }).call,
       refreshListenable:
           GoRouterRefreshStream<AuthenticationStatus>(authStream),
       errorBuilder: (_, state) {
@@ -47,6 +45,19 @@ final goRouterProvider = Provider<GoRouter>(
           name: RouteName.signUp,
           path: RouteName.signUp.toPath(),
           builder: (context, state) => const SignupView(),
+        ),
+        GoRoute(
+          name: RouteName.forgetPassword,
+          path: RouteName.forgetPassword.toPath(),
+          builder: (context, state) => const ForgetPasswordView(),
+        ),
+        GoRoute(
+          name: RouteName.checkEmail,
+          path: RouteName.checkEmail.toPath(),
+          builder: (context, state) {
+            final String email = state.uri.queryParameters['email']!;
+            return CheckYourMailView(email: email);
+          },
         ),
       ],
     );

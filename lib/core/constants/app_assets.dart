@@ -2,6 +2,7 @@ class AppAssets {
   const AppAssets._();
 
   static const String logo = 'assets/icons/logo.svg';
+  static const String calendar = 'assets/icons/calendar.svg';
   // static const String logoDark = 'assets/images/logo_dark.png';
   // static const String logoLight = 'assets/images/logo_light.png';
   // static const String logoTransparent = 'assets/images/logo_transparent.png';

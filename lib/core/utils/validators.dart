@@ -7,6 +7,10 @@ class Validator {
     return null;
   }
 
+  static bool isNameValid(String? value) {
+    return nameValidator(value) == null;
+  }
+
   static String? emailValidator(String? value) {
     if (value == null || value.isEmpty) return 'Email cannot be empty';
     if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
@@ -14,6 +18,10 @@ class Validator {
       return 'Please enter a valid email';
     }
     return null;
+  }
+
+  static bool isEmailValid(String? value) {
+    return emailValidator(value) == null;
   }
 
   static String? phoneValidator(String? value) {

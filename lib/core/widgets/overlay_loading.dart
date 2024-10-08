@@ -52,7 +52,7 @@ class _OverlayLoadingState extends State<OverlayLoading>
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.sizeOf(context);
     return Stack(
       children: [
         widget.child,

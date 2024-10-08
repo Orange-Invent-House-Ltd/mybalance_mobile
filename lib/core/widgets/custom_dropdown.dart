@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../config/themes/app_colors.dart';
@@ -75,8 +77,11 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
     });
     widget.textController.text = item.label;
     widget.onChanged?.call(item);
-    print(_activeItem?.label);
+    log('${_activeItem?.label}');
     controller.hide();
+    if (_controller.isCompleted) {
+      _controller.reverse();
+    }
   }
 
   @override
@@ -95,11 +100,14 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
             turns: _iconAnimation,
             child: const Icon(Icons.keyboard_arrow_down),
           ),
-          onTap: widget.onChanged == null
-              ? null
-              : () {
-                  _toggleDropdown(controller);
-                },
+          onTap: () {
+            _toggleDropdown(controller);
+          },
+          // onTap: widget.onChanged == null
+          //     ? null
+          //     : () {
+          //         _toggleDropdown(controller);
+          //       },
         ),
       ),
       follower: (context, controller) => PopupFollower(
