@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:open_mail_app/open_mail_app.dart';
+// import 'package:open_mail_app/open_mail_app.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
@@ -33,22 +33,22 @@ class CheckYourMailView extends StatelessWidget {
     );
   }
 
-  void _openEmailApp(BuildContext context) async {
-    var result = await OpenMailApp.openMailApp();
+  // void _openEmailApp(BuildContext context) async {
+  //   var result = await OpenMailApp.openMailApp();
 
-    if (!result.didOpen && !result.canOpen) {
-      showNoMailAppsDialog(context);
-    } else if (!result.didOpen && result.canOpen) {
-      showDialog(
-        context: context,
-        builder: (_) {
-          return MailAppPickerDialog(
-            mailApps: result.options,
-          );
-        },
-      );
-    }
-  }
+  //   if (!result.didOpen && !result.canOpen) {
+  //     showNoMailAppsDialog(context);
+  //   } else if (!result.didOpen && result.canOpen) {
+  //     showDialog(
+  //       context: context,
+  //       builder: (_) {
+  //         return MailAppPickerDialog(
+  //           mailApps: result.options,
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,8 @@ class CheckYourMailView extends StatelessWidget {
               height: 44,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => _openEmailApp(context),
+                onPressed: (){},
+                // onPressed: () => _openEmailApp(context),
                 child: const Text('Open email app'),
               ),
             ),

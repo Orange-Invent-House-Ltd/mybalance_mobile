@@ -44,7 +44,7 @@ class _SigninViewState extends State<SigninView> {
   }
 
   void _trySignin(String email, String password) {
-    context.go(RouteName.home);
+    context.go(RouteName.dashboard.toPath());
   }
 
   @override

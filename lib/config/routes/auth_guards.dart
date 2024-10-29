@@ -16,11 +16,11 @@ final class RedirectIfAuthenticatedGuard extends Guard {
   @override
   String? redirect(BuildContext context, GoRouterState state) {
     final auth = context.read(authProvider);
-    print('authenticated');
-    print('auth.status: ${auth.status}');
+    debugPrint('authenticated');
+    debugPrint('auth.status: ${auth.status}');
 
     if (auth.status == AuthenticationStatus.authenticated) {
-      return RouteName.home.toPath();
+      return RouteName.dashboard.toPath();
     }
 
     return null;

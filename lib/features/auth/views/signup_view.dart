@@ -179,6 +179,20 @@ class _SignupViewState extends State<SignupView> {
     }
   }
 
+  bool _subTitleAlign() {
+    if (_isBuyer.value) {
+      if (_currentBuyerStep.value <= 2) {
+        return false;
+      }
+      return true;
+    } else {
+      if (_currentSellerStep.value <= 2) {
+        return false;
+      }
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -251,7 +265,9 @@ class _SignupViewState extends State<SignupView> {
                             width: double.infinity,
                             child: Text(
                               _subTitle(_emailController.text),
-                              textAlign: TextAlign.center,
+                              textAlign: _titleAlign()
+                                  ? TextAlign.center
+                                  : TextAlign.start,
                               style: theme.textTheme.bodyMedium
                                   ?.copyWith(color: AppColors.g200),
                             ),
@@ -282,7 +298,7 @@ class _SignupViewState extends State<SignupView> {
                               ? PageView(
                                   key: _buyerKey,
                                   controller: _buyerStepperController,
-                                  // physics: const NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     SignUpBuyerStep1(
                                       fullnameController: _fullnameController,
@@ -300,7 +316,7 @@ class _SignupViewState extends State<SignupView> {
                               : PageView(
                                   key: _sellerKey,
                                   controller: _sellerStepperController,
-                                  // physics: const NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     SignUpSellerStep1(
                                       fullnameController: _fullnameController,

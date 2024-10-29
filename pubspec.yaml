@@ -37,9 +37,9 @@ dependencies:
   json_annotation: ^4.9.0
   logging: ^1.2.0
   meta: ^1.15.0
-  open_mail_app: ^0.4.5
   pin_input_text_field: ^4.5.2
   shared_preferences: ^2.3.2
+  table_calendar: ^3.1.2
 
 dev_dependencies:
   build_runner: ^2.4.12

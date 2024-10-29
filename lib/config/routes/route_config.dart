@@ -7,6 +7,7 @@ import '../../core/utils/extensions/string_extension.dart';
 import '../../features/auth/views/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/onboarding/views/views.dart';
+import '../../features/dashboard/views/views.dart';
 import './error_view.dart';
 import './route_name.dart';
 import './route_refresh.dart';
@@ -34,30 +35,47 @@ final goRouterProvider = Provider<GoRouter>(
         GoRoute(
           name: RouteName.onboard,
           path: RouteName.onboard.toPath(),
-          builder: (context, state) => const OnboardStoryView(),
+          builder: (_, __) => const OnboardStoryView(),
         ),
         GoRoute(
           name: RouteName.signIn,
           path: RouteName.signIn.toPath(),
-          builder: (context, state) => const SigninView(),
+          builder: (_, __) => const SigninView(),
         ),
         GoRoute(
           name: RouteName.signUp,
           path: RouteName.signUp.toPath(),
-          builder: (context, state) => const SignupView(),
+          builder: (_, __) => const SignupView(),
         ),
         GoRoute(
           name: RouteName.forgetPassword,
           path: RouteName.forgetPassword.toPath(),
-          builder: (context, state) => const ForgetPasswordView(),
+          builder: (_, __) => const ForgetPasswordView(),
         ),
         GoRoute(
           name: RouteName.checkEmail,
           path: RouteName.checkEmail.toPath(),
-          builder: (context, state) {
+          builder: (_, state) {
             final String email = state.uri.queryParameters['email']!;
             return CheckYourMailView(email: email);
           },
+        ),
+        GoRoute(
+          name: RouteName.dashboard,
+          path: RouteName.dashboard.toPath(),
+          builder: (_, __) => const DashboardView(),
+          routes: [
+            GoRoute(
+              name: RouteName.createLink,
+              path: RouteName.createLink,
+              builder: (_, __) => const CreateLinkView(),
+            ),
+            GoRoute(
+              name: RouteName.depositMoney,
+              path: RouteName.depositMoney,
+              builder: (_, __) => const DeposiitMoneyView(),
+            ),
+          ],
         ),
       ],
     );
