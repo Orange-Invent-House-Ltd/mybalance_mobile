@@ -152,29 +152,33 @@ class DashboardView extends StatelessWidget {
               ),
             ),
             const Height(20),
-            const Wrap(
+            Wrap(
               spacing: 24,
               runSpacing: 24,
               children: [
                 QuickActionCard(
+                  onTap: () => context.goNamed(RouteName.depositMoney),
                   svgIcon: AppAssets.add,
                   title: 'Deposit money',
                   subTitle: 'Add money to your escrow wallet',
                 ),
                 QuickActionCard(
-                  svgIcon: AppAssets.add,
-                  title: 'Deposit money',
-                  subTitle: 'Add money to your escrow wallet',
+                  onTap: () {},
+                  svgIcon: AppAssets.unlock,
+                  title: 'Unlock money',
+                  subTitle: 'Release the money in your wallet',
                 ),
                 QuickActionCard(
-                  svgIcon: AppAssets.add,
-                  title: 'Deposit money',
-                  subTitle: 'Add money to your escrow wallet',
+                  onTap: () {},
+                  svgIcon: AppAssets.download,
+                  title: 'Withdraw money',
+                  subTitle: 'Withdraw your money from your wallet',
                 ),
                 QuickActionCard(
-                  svgIcon: AppAssets.add,
-                  title: 'Deposit money',
-                  subTitle: 'Add money to your escrow wallet',
+                  onTap: () {},
+                  svgIcon: AppAssets.share,
+                  title: 'Share link',
+                  subTitle: 'Share your escrow information with everyone',
                 ),
               ],
             ),

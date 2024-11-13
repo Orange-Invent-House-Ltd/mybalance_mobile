@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/components/rest_client/rest_client.dart';
 import '../../core/utils/extensions/string_extension.dart';
+import '../../core/widgets/loading_page.dart';
 import '../../features/auth/views/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/onboarding/views/views.dart';
@@ -36,6 +37,11 @@ final goRouterProvider = Provider<GoRouter>(
           name: RouteName.onboard,
           path: RouteName.onboard.toPath(),
           builder: (_, __) => const OnboardStoryView(),
+        ),
+        GoRoute(
+          name: RouteName.loading,
+          path: RouteName.loading.toPath(),
+          pageBuilder: (_, __) => const NoTransitionPage(child: LoadingPage()),
         ),
         GoRoute(
           name: RouteName.signIn,

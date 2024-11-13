@@ -1,5 +1,6 @@
 class RouteName {
   static const String onboard = 'onboard';
+  static const String loading = 'loading';
   static const String dashboard = 'dashboard';
   static const String signIn = 'signin';
   static const String signUp = 'signup';
