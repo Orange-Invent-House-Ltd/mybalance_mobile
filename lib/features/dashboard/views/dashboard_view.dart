@@ -163,7 +163,7 @@ class DashboardView extends StatelessWidget {
                   subTitle: 'Add money to your escrow wallet',
                 ),
                 QuickActionCard(
-                  onTap: () {},
+                  onTap: () =>context.goNamed(RouteName.unlockMoney),
                   svgIcon: AppAssets.unlock,
                   title: 'Unlock money',
                   subTitle: 'Release the money in your wallet',

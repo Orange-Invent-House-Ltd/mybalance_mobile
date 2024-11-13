@@ -9,6 +9,7 @@ class RouteName {
   static const String checkEmail = 'check-email';
   static const String createLink = 'create-link';
   static const String depositMoney = 'deposit-money';
+  static const String unlockMoney = 'unlock-money';
   // static const String createLink = 'create-link';
 
 }

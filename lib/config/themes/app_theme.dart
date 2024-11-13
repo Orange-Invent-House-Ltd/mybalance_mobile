@@ -16,6 +16,7 @@ class AppTheme {
         // ),
         inputDecorationTheme: inputDecorationTheme,
         elevatedButtonTheme: elevatedButtonTheme,
+        outlinedButtonTheme: outlinedButtonTheme,
       );
 
   static TextTheme textTheme = TextTheme(
@@ -99,6 +100,35 @@ class AppTheme {
       ),
       maximumSize: WidgetStateProperty.all(
         const Size(double.infinity, 44),
+      ),
+    ),
+  );
+
+  static final OutlinedButtonThemeData outlinedButtonTheme =
+      OutlinedButtonThemeData(
+    style: const ButtonStyle().copyWith(
+      side: WidgetStateProperty.resolveWith((state) {
+        if (state.contains(WidgetState.disabled)) {
+          return const BorderSide(color: AppColors.p75);
+        } else if (state.contains(WidgetState.hovered)) {
+          return const BorderSide(color: AppColors.p200);
+        }
+        return const BorderSide(color: AppColors.p300);
+      }),
+      shape: WidgetStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      foregroundColor: WidgetStateColor.resolveWith(
+        (state) {
+          if (state.contains(WidgetState.disabled)) {
+            return AppColors.p75;
+          } else if (state.contains(WidgetState.hovered)) {
+            return AppColors.p200;
+          }
+          return AppColors.p300;
+        },
       ),
     ),
   );

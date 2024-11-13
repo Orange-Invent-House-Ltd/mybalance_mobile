@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/components/rest_client/rest_client.dart';
 import '../../core/utils/extensions/string_extension.dart';
-import '../../core/widgets/loading_page.dart';
+import '../../core/widgets/payment_loading_page.dart';
 import '../../features/auth/views/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/onboarding/views/views.dart';
@@ -41,7 +41,8 @@ final goRouterProvider = Provider<GoRouter>(
         GoRoute(
           name: RouteName.loading,
           path: RouteName.loading.toPath(),
-          pageBuilder: (_, __) => const NoTransitionPage(child: LoadingPage()),
+          pageBuilder: (_, __) =>
+              const NoTransitionPage(child: PaymentLoadingPage()),
         ),
         GoRoute(
           name: RouteName.signIn,
@@ -80,6 +81,11 @@ final goRouterProvider = Provider<GoRouter>(
               name: RouteName.depositMoney,
               path: RouteName.depositMoney,
               builder: (_, __) => const DeposiitMoneyView(),
+            ),
+            GoRoute(
+              name: RouteName.unlockMoney,
+              path: RouteName.unlockMoney,
+              builder: (_, __) => const UnlockMoneyView(),
             ),
           ],
         ),

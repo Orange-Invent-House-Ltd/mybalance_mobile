@@ -200,6 +200,7 @@ class DepositTransferDialog extends StatelessWidget {
               width: 167,
               child: ElevatedButton(
                 onPressed: () {
+                  Navigator.of(context).pop();
                   context.push(RouteName.loading.toPath());
                 },
                 child: const Text('Continue'),
