@@ -10,8 +10,12 @@ class AppAssets {
   static const String unlock = 'assets/icons/unlock.svg';
   static const String share = 'assets/icons/share.svg';
   static const String info = 'assets/icons/info.svg';
+  static const String unlocked = 'assets/icons/unlocked.svg';
 
 // IMAGES
   static const String paymentSuccess = 'assets/images/payment_success.svg';
   static const String paymentFailed = 'assets/images/payment_failed.svg';
+  static const String withdrawFailed = 'assets/images/withdraw_error.svg';
+  static const String accountArc = 'assets/images/arc.svg';
+  static const String smallAccountArc = 'assets/images/small_arc.svg';
 }

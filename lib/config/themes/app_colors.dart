@@ -32,4 +32,6 @@ class AppColors {
   static const Color w500 = Color(0xff9C9C9C);
   // red color
   static const Color error = Color(0xffDA1E28);
+  static const Color green = Color(0xff039855);
+
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/widgets/sizedbox.dart';
-import './filled_icon.dart';
+import 'filled_icon.dart';
 
 class QuickActionCard extends StatelessWidget {
   const QuickActionCard({

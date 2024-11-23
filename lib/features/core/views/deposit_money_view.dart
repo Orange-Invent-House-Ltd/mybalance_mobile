@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mybalanceapp/core/models/loading_from.dart';
 
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
-import '../../../core/utils/extensions/string_extension.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/sizedbox.dart';
@@ -103,7 +103,12 @@ class _DeposiitMoneyViewState extends State<DeposiitMoneyView>
                                 },
                               );
                             } else {
-                              context.push(RouteName.loading.toPath());
+                              context.pushNamed(
+                                RouteName.loading,
+                                queryParameters: <String, String>{
+                                  'loadingFrom': LoadingFrom.paymentStatus.name,
+                                },
+                              );
                             }
                           },
                     child: const Text('Continue'),
@@ -201,7 +206,12 @@ class DepositTransferDialog extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  context.push(RouteName.loading.toPath());
+                  context.pushNamed(
+                    RouteName.loading,
+                    queryParameters: <String, String>{
+                      'loadingFrom': LoadingFrom.paymentStatus.name,
+                    },
+                  );
                 },
                 child: const Text('Continue'),
               ),

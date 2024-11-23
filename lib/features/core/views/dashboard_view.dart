@@ -4,12 +4,13 @@ import 'package:go_router/go_router.dart';
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
+import '../../../core/widgets/app_drawer.dart';
 import '../../../core/widgets/sizedbox.dart';
 import '../models/models.dart';
-import './widgets/amount_card.dart';
-import './widgets/our_charges_card.dart';
-import './widgets/quick_action_card.dart';
-import './widgets/transaction_history_card.dart';
+import 'widgets/amount_card.dart';
+import 'widgets/our_charges_card.dart';
+import 'widgets/quick_action_card.dart';
+import 'widgets/transaction_history_card.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
@@ -24,7 +25,7 @@ class DashboardView extends StatelessWidget {
         backgroundColor: theme.scaffoldBackgroundColor,
         actions: [
           IconButton.filled(
-            onPressed: () {},
+            onPressed: () => context.pushNamed(RouteName.notification),
             style: IconButton.styleFrom(
               backgroundColor: AppColors.p50,
               foregroundColor: AppColors.p500,
@@ -34,7 +35,7 @@ class DashboardView extends StatelessWidget {
           const Width(16),
         ],
       ),
-      drawer: const Drawer(),
+      drawer: const AppDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -125,22 +126,29 @@ class DashboardView extends StatelessWidget {
               ),
             ),
             const Height(32),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AmountCard(
-                  title: 'Available balance in escrow',
-                  amount: 30000,
-                ),
-                AmountCard(
-                  title: 'Total amount locked',
-                  amount: 10000,
-                ),
-                AmountCard(
-                  title: 'Total amount unlocked',
-                  amount: 0,
-                ),
-              ],
+            SizedBox(
+              height: 94,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.only(right: 20),
+                children: const [
+                  AmountCard(
+                    title: 'Available balance in escrow',
+                    amount: 30000,
+                  ),
+                  Width(20),
+                  AmountCard(
+                    title: 'Total amount locked',
+                    amount: 10000,
+                  ),
+                  Width(20),
+                  AmountCard(
+                    title: 'Total amount unlocked',
+                    amount: 0,
+                  ),
+                  Width(20),
+                ],
+              ),
             ),
             const Height(32),
             const OurChargesCard(),
@@ -157,19 +165,28 @@ class DashboardView extends StatelessWidget {
               runSpacing: 24,
               children: [
                 QuickActionCard(
-                  onTap: () => context.goNamed(RouteName.depositMoney),
+                  onTap: () => context.goNamed(
+                    RouteName.quickAction,
+                    queryParameters: <String, String>{'index': '0'},
+                  ),
                   svgIcon: AppAssets.add,
                   title: 'Deposit money',
                   subTitle: 'Add money to your escrow wallet',
                 ),
                 QuickActionCard(
-                  onTap: () =>context.goNamed(RouteName.unlockMoney),
+                  onTap: () => context.goNamed(
+                    RouteName.quickAction,
+                    queryParameters: <String, String>{'index': '1'},
+                  ),
                   svgIcon: AppAssets.unlock,
                   title: 'Unlock money',
                   subTitle: 'Release the money in your wallet',
                 ),
                 QuickActionCard(
-                  onTap: () {},
+                  onTap: () => context.goNamed(
+                    RouteName.quickAction,
+                    queryParameters: <String, String>{'index': '2'},
+                  ),
                   svgIcon: AppAssets.download,
                   title: 'Withdraw money',
                   subTitle: 'Withdraw your money from your wallet',
@@ -194,7 +211,8 @@ class DashboardView extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      context.goNamed(RouteName.transactionHistory),
                   style: TextButton.styleFrom(foregroundColor: AppColors.p300),
                   child: const Text('View all'),
                 ),

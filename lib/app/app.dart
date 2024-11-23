@@ -13,6 +13,7 @@ class MyBalanceApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       title: 'My Balance',
+      // debugShowCheckedModeBanner: false,
       // showSemanticsDebugger: true,
       localizationsDelegates: Localization.localizationDelegates,
       supportedLocales: Localization.supportedLocales,

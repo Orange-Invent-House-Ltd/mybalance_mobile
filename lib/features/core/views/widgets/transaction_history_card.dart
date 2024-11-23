@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
-import 'package:mybalanceapp/features/dashboard/models/transaction_status.dart';
+import 'package:mybalanceapp/features/core/models/transaction_status.dart';
 
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/constants/app_assets.dart';

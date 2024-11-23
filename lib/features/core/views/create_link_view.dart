@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mybalanceapp/core/widgets/custom_app_bar.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:mybalanceapp/features/core/views/widgets/calendar_dialog.dart';
 
 import '../../../config/themes/app_colors.dart';
+import '../../../core/utils/date_format.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/sizedbox.dart';
 
@@ -128,7 +131,17 @@ class _CreateLinkViewState extends State<CreateLinkView> {
                 onTap: () {
                   showDialog(
                     context: context,
-                    builder: (context) => const CalendarDialog(),
+                    builder: (context) => CalendarDialog(
+                      onDateRangeSelected: (DateTime? start, DateTime? end) {
+                        if (start != null && end != null) {
+                          _timelineController.text = FormatDate.ddMMYYYY(end);
+                          log('Selected range: $start - $end');
+                        } else if (start != null) {
+                          _timelineController.text = FormatDate.ddMMYYYY(start);
+                          log('Selected date: $start');
+                        }
+                      },
+                    ),
                   );
                 },
                 label: 'Delivery timeline',
@@ -186,95 +199,3 @@ class _CreateLinkViewState extends State<CreateLinkView> {
   }
 }
 
-class CalendarDialog extends StatefulWidget {
-  const CalendarDialog({super.key});
-
-  @override
-  State<CalendarDialog> createState() => _CalendarDialogState();
-}
-
-class _CalendarDialogState extends State<CalendarDialog> {
-  DateTime? _rangeStart;
-  DateTime? _rangeEnd;
-  DateTime _focusedDay = DateTime.now();
-  @override
-  Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TableCalendar(
-            firstDay: DateTime.now(),
-            focusedDay: _focusedDay,
-            rangeStartDay: _rangeStart,
-            rangeEndDay: _rangeEnd,
-            lastDay: DateTime(DateTime.now().year + 1),
-            rangeSelectionMode: RangeSelectionMode.toggledOn,
-            onRangeSelected: (start, end, focusedDay) {
-              setState(() {
-                _rangeStart = start;
-                _rangeEnd = end;
-                _focusedDay = focusedDay;
-              });
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _focusedDay = focusedDay;
-                _rangeStart = selectedDay;
-                _rangeEnd = null;
-              });
-            },
-            pageJumpingEnabled: false,
-            calendarStyle: CalendarStyle(
-              outsideDaysVisible: false,
-              disabledTextStyle: textTheme.bodyMedium!.copyWith(
-                fontSize: 13,
-                color: AppColors.g75,
-              ),
-              defaultTextStyle: textTheme.bodyMedium!.copyWith(
-                fontSize: 13,
-                color: AppColors.p300,
-              ),
-              weekendTextStyle: textTheme.bodyMedium!.copyWith(
-                fontSize: 13,
-                color: AppColors.p300,
-              ),
-              todayTextStyle: textTheme.bodyMedium!.copyWith(fontSize: 13),
-              todayDecoration: const BoxDecoration(
-                color: AppColors.p300,
-                shape: BoxShape.circle,
-              ),
-              rangeStartDecoration: const BoxDecoration(
-                color: AppColors.p100,
-                shape: BoxShape.circle,
-              ),
-              rangeEndDecoration: const BoxDecoration(
-                color: AppColors.p100,
-                shape: BoxShape.circle,
-              ),
-              rangeHighlightColor: AppColors.p50,
-            ),
-            headerStyle: HeaderStyle(
-              titleCentered: true,
-              formatButtonVisible: false,
-              titleTextStyle: textTheme.bodyLarge!.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppColors.b300,
-              ),
-            ),
-            daysOfWeekStyle: DaysOfWeekStyle(
-              weekdayStyle: textTheme.labelSmall!
-                  .copyWith(fontSize: 10, color: AppColors.g300),
-              weekendStyle: textTheme.labelSmall!
-                  .copyWith(fontSize: 10, color: AppColors.g300),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

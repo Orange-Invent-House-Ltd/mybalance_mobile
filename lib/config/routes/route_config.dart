@@ -4,11 +4,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/components/rest_client/rest_client.dart';
 import '../../core/utils/extensions/string_extension.dart';
-import '../../core/widgets/payment_loading_page.dart';
+import '../../core/widgets/loading_page.dart';
 import '../../features/auth/views/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/onboarding/views/views.dart';
-import '../../features/dashboard/views/views.dart';
+import '../../features/core/views/views.dart';
 import './error_view.dart';
 import './route_name.dart';
 import './route_refresh.dart';
@@ -39,11 +39,14 @@ final goRouterProvider = Provider<GoRouter>(
           builder: (_, __) => const OnboardStoryView(),
         ),
         GoRoute(
-          name: RouteName.loading,
-          path: RouteName.loading.toPath(),
-          pageBuilder: (_, __) =>
-              const NoTransitionPage(child: PaymentLoadingPage()),
-        ),
+            name: RouteName.loading,
+            path: RouteName.loading.toPath(),
+            pageBuilder: (_, state) {
+              final String loadFrom = state.uri.queryParameters['loadingFrom']!;
+              return NoTransitionPage(
+                child: LoadingPage(loadFrom: loadFrom),
+              );
+            }),
         GoRoute(
           name: RouteName.signIn,
           path: RouteName.signIn.toPath(),
@@ -86,6 +89,35 @@ final goRouterProvider = Provider<GoRouter>(
               name: RouteName.unlockMoney,
               path: RouteName.unlockMoney,
               builder: (_, __) => const UnlockMoneyView(),
+            ),
+            GoRoute(
+              name: RouteName.withdrawMoney,
+              path: RouteName.withdrawMoney,
+              builder: (_, __) => const WithdrawMoneyView(),
+            ),
+            GoRoute(
+              name: RouteName.transactionHistory,
+              path: RouteName.transactionHistory,
+              builder: (_, __) => const TransactionHistoryView(),
+            ),
+            GoRoute(
+              name: RouteName.quickAction,
+              path: RouteName.quickAction,
+              builder: (_, state) {
+                final String? indexString = state.uri.queryParameters['index'];
+                final int? index = int.tryParse(indexString ?? '');
+                return QuickActionsView(index: index);
+              },
+            ),
+            GoRoute(
+              name: RouteName.notification,
+              path: RouteName.notification,
+              builder: (_, __) => const NotificatificationsView(),
+            ),
+            GoRoute(
+              name: RouteName.profile,
+              path: RouteName.profile,
+              builder: (_, __) => const ProfileView(),
             ),
           ],
         ),

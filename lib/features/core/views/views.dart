@@ -1,0 +1,9 @@
+export 'dashboard_view.dart';
+export 'create_link_view.dart';
+export 'deposit_money_view.dart';
+export 'unlock_money_view.dart';
+export 'withdraw_money_view.dart';
+export 'transaction_history_view.dart';
+export 'quick_actions_view.dart';
+export 'notificatifications_view.dart';
+export './profile_view.dart';

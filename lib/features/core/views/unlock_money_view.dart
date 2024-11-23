@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:mybalanceapp/features/core/views/widgets/unlock_fund_dialog.dart';
 
 import '../../../config/themes/app_colors.dart';
+import '../../../core/utils/date_format.dart';
+import '../../../core/utils/validators.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/sizedbox.dart';
+import 'widgets/calendar_dialog.dart';
 
 class UnlockMoneyView extends StatefulWidget {
   const UnlockMoneyView({super.key});
@@ -73,32 +79,52 @@ class _UnlockMoneyViewState extends State<UnlockMoneyView> {
               controller: _titleController,
               label: 'Title',
               hintText: 'Purchase of sneakers',
-                textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.next,
             ),
             const Height(16),
             LabelTextField(
               controller: _descriptionController,
               label: 'Description',
               hintText: 'Nike sneakers',
-                textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.next,
             ),
             const Height(16),
             LabelTextField(
               controller: _noOfItemController,
               label: 'Number of item(s)',
-                hintText: '1',
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
+              hintText: '1',
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.next,
             ),
             const Height(16),
             LabelTextField(
               controller: _amountController,
               label: 'Amount',
+              hintText: '20,000',
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.next,
             ),
             const Height(16),
             LabelTextField(
               controller: _deliveryTimeController,
               label: 'Delivery timeline',
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => CalendarDialog(
+                    onDateRangeSelected: (DateTime? start, DateTime? end) {
+                      if (start != null && end != null) {
+                        log('Selected range: $start - $end');
+                        _deliveryTimeController.text = FormatDate.ddMMYYYY(end);
+                      } else if (start != null) {
+                        log('Selected date: $start');
+                      }
+                    },
+                  ),
+                );
+              },
+              hintText: '__/__/____',
+              readOnly: true,
             ),
             const Height(24),
             Text(
@@ -112,6 +138,8 @@ class _UnlockMoneyViewState extends State<UnlockMoneyView> {
               controller: _emailController,
               label: 'Email address',
               hintText: 'Mustyfeet@gmail.com',
+              validator: (value) => Validator.emailValidator(value),
+              textInputAction: TextInputAction.done,
             ),
             const Height(24),
             SizedBox(
@@ -131,7 +159,6 @@ class _UnlockMoneyViewState extends State<UnlockMoneyView> {
                     _noOfItemController,
                     _amountController,
                     _deliveryTimeController,
-                    _emailController,
                   ]),
                   builder: (context, child) {
                     return ElevatedButton(
@@ -141,7 +168,12 @@ class _UnlockMoneyViewState extends State<UnlockMoneyView> {
                               _amountController.text.isEmpty ||
                               _deliveryTimeController.text.isEmpty
                           ? null
-                          : () {},
+                          : () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => const UnlockFundDialog(),
+                              );
+                            },
                       child: const Text('Unlock amount'),
                     );
                   }),
