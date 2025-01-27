@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
 import './app_text_styles.dart';
+import 'app_colors.dart';
 
 class AppTheme {
   const AppTheme._();
@@ -71,6 +71,13 @@ class AppTheme {
       ),
     ),
     errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+      borderSide: const BorderSide(
+        color: AppColors.error,
+        strokeAlign: BorderSide.strokeAlignCenter,
+      ),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
       borderSide: const BorderSide(
         color: AppColors.error,

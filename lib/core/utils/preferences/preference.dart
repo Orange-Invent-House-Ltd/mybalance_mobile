@@ -9,7 +9,8 @@ abstract class StorageProvider<T> {
   Future<void> removeValue(String key);
 }
 
-class SharedPreferencesProvider<T extends Object> implements StorageProvider<T> {
+class SharedPreferencesProvider<T extends Object>
+    implements StorageProvider<T> {
   final SharedPreferences _sharedPreferences;
 
   SharedPreferencesProvider(this._sharedPreferences);
@@ -33,12 +34,11 @@ class SharedPreferencesProvider<T extends Object> implements StorageProvider<T> 
   T? getValue(String key) {
     final value = _sharedPreferences.get(key);
     if (value == null) return null;
-     if (value is T) return value;
+    if (value is T) return value;
 
     throw Exception(
       'The value of $key is not of type ${T.runtimeType.toString()}',
     );
-    
   }
 
   @override

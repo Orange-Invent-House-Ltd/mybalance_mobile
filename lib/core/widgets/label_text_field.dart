@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import '../../../config/themes/app_colors.dart';
 
 class LabelTextField extends StatelessWidget {
@@ -18,6 +20,7 @@ class LabelTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.style,
+    this.inputFormatters,
   });
   final TextEditingController controller;
   final String label;
@@ -33,12 +36,14 @@ class LabelTextField extends StatelessWidget {
   final bool readOnly;
   final GestureTapCallback? onTap;
   final TextStyle? style;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Text(
           label,
@@ -47,26 +52,30 @@ class LabelTextField extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6.0),
-        TextFormField(
-          controller: controller,
-          focusNode: focusNode,
-          onChanged: onChanged,
-          readOnly: readOnly,
-          onTap: onTap,
-          validator: validator,
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-          obscureText: obscureText,
-          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-          style: style ??
-              const TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                color: AppColors.b300,
-              ),
-          decoration: InputDecoration(
-            hintText: hintText,
-            suffixIcon: suffixIcon,
+        SizedBox(
+          // height: 50,
+          child: TextFormField(
+            controller: controller,
+            focusNode: focusNode,
+            onChanged: onChanged,
+            readOnly: readOnly,
+            onTap: onTap,
+            validator: validator,
+            keyboardType: keyboardType,
+            textInputAction: textInputAction,
+            obscureText: obscureText,
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+            inputFormatters: inputFormatters,
+            style: style ??
+                const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                  color: AppColors.b300,
+                ),
+            decoration: InputDecoration(
+              hintText: hintText,
+              suffixIcon: suffixIcon,
+            ),
           ),
         ),
       ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mybalanceapp/core/widgets/label_text_field.dart';
+
+import '../../../../core/utils/validators.dart';
+import '../../../../core/widgets/label_text_field.dart';
 
 class SignUpBuyerStep2 extends StatelessWidget {
   const SignUpBuyerStep2({
@@ -23,6 +25,7 @@ class SignUpBuyerStep2 extends StatelessWidget {
         const SizedBox(height: 20),
         LabelTextField(
           controller: _passwordController,
+          validator: Validator.passwordValidator,
           label: 'Password',
           hintText: '**************',
           obscureText: true,

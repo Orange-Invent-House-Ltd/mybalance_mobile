@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/widgets/app_rich_text.dart';
@@ -438,7 +440,8 @@ class _SignupViewState extends State<SignupView> {
                             SizedBox(
                               width: double.infinity,
                               child: AppRichText(
-                                onSecondaryTap: () {},
+                                onSecondaryTap: () =>
+                                    context.goNamed(RouteName.signIn),
                                 primaryText: 'Existing user?',
                                 secondaryText: 'Log in here',
                               ),

@@ -6,6 +6,7 @@ import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/utils/extensions/string_extension.dart';
+import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_rich_text.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/overlay_loading.dart';
@@ -44,7 +45,9 @@ class _SigninViewState extends State<SigninView> {
   }
 
   void _trySignin(String email, String password) {
-    context.go(RouteName.dashboard.toPath());
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      context.go(RouteName.dashboard.toPath());
+    }
   }
 
   @override
@@ -99,9 +102,10 @@ class _SigninViewState extends State<SigninView> {
                     ),
                     const SizedBox(height: 16.0),
                     LabelTextField(
+                      controller: _emailController,
+                      validator: (value) => Validator.emailValidator(value),
                       label: 'Email',
                       hintText: 'test@test.com',
-                      controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                     ),
@@ -110,8 +114,10 @@ class _SigninViewState extends State<SigninView> {
                         valueListenable: _passwordObscure,
                         builder: (context, value, child) {
                           return LabelTextField(
-                            label: 'Password',
                             controller: _passwordController,
+                            validator: (value) =>
+                                Validator.passwordValidator(value),
+                            label: 'Password',
                             textInputAction: TextInputAction.done,
                             obscureText: !value,
                             suffixIcon: IconButton(

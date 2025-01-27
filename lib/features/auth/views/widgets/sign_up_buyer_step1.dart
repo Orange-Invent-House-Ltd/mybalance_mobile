@@ -25,9 +25,9 @@ class SignUpBuyerStep1 extends StatelessWidget {
         const SizedBox(height: 20),
         LabelTextField(
           controller: emailController,
+          validator: Validator.emailValidator,
           label: 'Email',
           hintText: 'alb.ert@gmail.com',
-          validator: Validator.emailValidator,
         ),
         const SizedBox(height: 6),
         Text.rich(
