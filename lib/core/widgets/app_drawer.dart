@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../config/routes/route_name.dart';
 import '../../config/themes/app_colors.dart';
+import '../../features/core/views/widgets/logout_dialog.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
@@ -75,7 +76,11 @@ class AppDrawer extends StatelessWidget {
             DrawerListTile(
               onTap: () {
                 Navigator.of(context).pop();
-                context.goNamed(RouteName.signIn);
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => const LogoutDialog(),
+                );
               },
               leading: SvgPicture.asset('assets/icons/dashboard.svg'),
               title: 'Logout',

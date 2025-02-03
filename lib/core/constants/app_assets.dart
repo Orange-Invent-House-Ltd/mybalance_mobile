@@ -10,6 +10,7 @@ class AppAssets {
   static const String unlock = 'assets/icons/unlock.svg';
   static const String share = 'assets/icons/share.svg';
   static const String info = 'assets/icons/info.svg';
+  static const String errorInfo = 'assets/icons/error_info.svg';
   static const String unlocked = 'assets/icons/unlocked.svg';
 
 // IMAGES
