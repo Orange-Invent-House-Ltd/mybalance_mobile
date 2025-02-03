@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:mybalanceapp/core/widgets/custom_app_bar.dart';
-import 'package:mybalanceapp/features/core/views/widgets/calendar_dialog.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/date_format.dart';
+import '../../../core/utils/validators.dart';
+import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/sizedbox.dart';
+import './widgets/calendar_dialog.dart';
 
 class CreateLinkView extends StatefulWidget {
   const CreateLinkView({super.key});
@@ -55,24 +56,6 @@ class _CreateLinkViewState extends State<CreateLinkView> {
         theme: theme,
         text: 'Create MyBalance Link',
       ),
-      // appBar: AppBar(
-      //   backgroundColor: theme.scaffoldBackgroundColor,
-      //   scrolledUnderElevation: 0,
-      //   leading: const Row(
-      //     mainAxisSize: MainAxisSize.min,
-      //     children: [
-      //       Width(25),
-      //       AppBackButton(),
-      //     ],
-      //   ),
-      //   title: Text(
-      //     'Create MyBalance Link',
-      //     style: theme.textTheme.titleLarge?.copyWith(
-      //       fontSize: 23,
-      //       color: AppColors.b300,
-      //     ),
-      //   ),
-      // ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Form(
@@ -98,6 +81,7 @@ class _CreateLinkViewState extends State<CreateLinkView> {
               const Height(16),
               LabelTextField(
                 controller: _titleController,
+                validator: Validator.notEmptyValidator,
                 label: 'Title',
                 hintText: 'Purchase of sneakers',
                 textInputAction: TextInputAction.next,
@@ -112,6 +96,7 @@ class _CreateLinkViewState extends State<CreateLinkView> {
               const Height(16),
               LabelTextField(
                 controller: _noItemController,
+                validator: Validator.notEmptyValidator,
                 label: 'Number of item(s)',
                 hintText: '1',
                 keyboardType: TextInputType.number,
@@ -120,6 +105,7 @@ class _CreateLinkViewState extends State<CreateLinkView> {
               const Height(16),
               LabelTextField(
                 controller: _amountController,
+                validator: Validator.notEmptyValidator,
                 label: 'Amount',
                 hintText: '20,000',
                 keyboardType: TextInputType.number,
@@ -134,7 +120,8 @@ class _CreateLinkViewState extends State<CreateLinkView> {
                     builder: (context) => CalendarDialog(
                       onDateRangeSelected: (DateTime? start, DateTime? end) {
                         if (start != null && end != null) {
-                          _timelineController.text = FormatDate.ddMMYYYY(end);
+                          _timelineController.text =
+                              '${FormatDate.ddMMYYYY(start)} - ${FormatDate.ddMMYYYY(end)}';
                           log('Selected range: $start - $end');
                         } else if (start != null) {
                           _timelineController.text = FormatDate.ddMMYYYY(start);
@@ -159,6 +146,7 @@ class _CreateLinkViewState extends State<CreateLinkView> {
               const Height(16),
               LabelTextField(
                 controller: _emailController,
+                validator: Validator.emailValidator,
                 label: 'Email address',
                 hintText: 'Mustyfeet@gmail.com',
                 keyboardType: TextInputType.emailAddress,
@@ -198,4 +186,3 @@ class _CreateLinkViewState extends State<CreateLinkView> {
     );
   }
 }
-

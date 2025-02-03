@@ -115,8 +115,6 @@ class _SigninViewState extends State<SigninView> {
                         builder: (context, value, child) {
                           return LabelTextField(
                             controller: _passwordController,
-                            validator: (value) =>
-                                Validator.passwordValidator(value),
                             label: 'Password',
                             textInputAction: TextInputAction.done,
                             obscureText: !value,

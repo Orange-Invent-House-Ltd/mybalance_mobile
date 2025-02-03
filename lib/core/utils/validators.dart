@@ -65,4 +65,9 @@ class Validator {
     if (int.tryParse(value) == null) return 'Please enter a valid number';
     return null;
   }
+
+  static String? notEmptyValidator(String? value) {
+    if (value == null || value.isEmpty) return 'Field cannot be empty';
+    return null;
+  }
 }
