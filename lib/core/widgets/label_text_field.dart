@@ -9,6 +9,7 @@ class LabelTextField extends StatelessWidget {
     required this.controller,
     required this.label,
     this.hintText,
+    this.initialText,
     this.focusNode,
     this.onChanged,
     this.validator,
@@ -25,6 +26,7 @@ class LabelTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String? hintText;
+  final String? initialText;
   final FocusNode? focusNode;
   final ValueChanged<String>? onChanged;
   final FormFieldValidator<String?>? validator;
@@ -43,7 +45,7 @@ class LabelTextField extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
+      // mainAxisSize: MainAxisSize.max,
       children: [
         Text(
           label,
@@ -52,30 +54,27 @@ class LabelTextField extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6.0),
-        SizedBox(
-          // height: 50,
-          child: TextFormField(
-            controller: controller,
-            focusNode: focusNode,
-            onChanged: onChanged,
-            readOnly: readOnly,
-            onTap: onTap,
-            validator: validator,
-            keyboardType: keyboardType,
-            textInputAction: textInputAction,
-            obscureText: obscureText,
-            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-            inputFormatters: inputFormatters,
-            style: style ??
-                const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                  color: AppColors.b300,
-                ),
-            decoration: InputDecoration(
-              hintText: hintText,
-              suffixIcon: suffixIcon,
-            ),
+        TextFormField(
+          controller: controller,
+          focusNode: focusNode,
+          onChanged: onChanged,
+          readOnly: readOnly,
+          onTap: onTap,
+          validator: validator,
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
+          obscureText: obscureText,
+          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+          inputFormatters: inputFormatters,
+          style: style ??
+              const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color: AppColors.b300,
+              ),
+          decoration: InputDecoration(
+            hintText: hintText,
+            suffixIcon: suffixIcon,
           ),
         ),
       ],

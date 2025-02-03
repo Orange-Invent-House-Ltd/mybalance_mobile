@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import './components/rest_client/rest_client.dart';
 import './components/database/src/token_storage.dart';
 import './utils/preferences/preference.dart';
+import 'utils/preferences/preference_dao.dart';
 
 final sharedPrefProvider = FutureProvider<SharedPreferences>((_) async {
   return SharedPreferences.getInstance();
@@ -14,6 +15,9 @@ final sharedPrefProvider = FutureProvider<SharedPreferences>((_) async {
 final secureStorageProvider = Provider<FlutterSecureStorage>(
   (_) => const FlutterSecureStorage(),
 );
+
+
+
 
 final _dioProvider = Provider<Dio>((_) {
   final Dio dio = Dio();
@@ -35,6 +39,12 @@ final secureProvider = Provider<StorageProvider>((ref) {
   final storage = ref.read(secureStorageProvider);
   return FlutterSecureStorageProvider(storage);
 });
+
+
+  final secureStorageDaoProvider = Provider<PreferencesDao>((ref) {
+    return PreferencesDao(storageProvider: ref.read(secureProvider));
+  }); 
+
 
 final tokenStorageProvider = Provider<TokenStorage>((ref) {
   final storageProvider = ref.read(secureProvider);

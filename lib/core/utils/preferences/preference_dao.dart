@@ -15,7 +15,7 @@ abstract base class PreferencesEntry<T extends Object> {
       value == null ? remove() : set(value);
 }
 
-abstract base class PreferencesDao {
+base class PreferencesDao {
   final StorageProvider _storageProvider;
 
   const PreferencesDao({required StorageProvider storageProvider})
@@ -70,6 +70,4 @@ final class TypedEntry<T extends Object> extends PreferencesEntry<T> {
   Future<void> remove() async {
     await _storageProvider.removeValue(key);
   }
-
-
 }
