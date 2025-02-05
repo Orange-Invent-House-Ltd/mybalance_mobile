@@ -63,7 +63,7 @@ class _OverlayLoadingState extends State<OverlayLoading>
                   children: [
                     ModalBarrier(
                       dismissible: false,
-                      color: AppColors.w50.withOpacity(0.6),
+                      color: AppColors.w50.withAlpha((255.0 * 0.6).round()),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

@@ -7,8 +7,8 @@ import '../../core/utils/extensions/string_extension.dart';
 import '../../core/widgets/loading_page.dart';
 import '../../features/auth/views/provider.dart';
 import '../../features/auth/views/views.dart';
-import '../../features/onboarding/views/views.dart';
 import '../../features/core/views/views.dart';
+import '../../features/onboarding/views/views.dart';
 import './error_view.dart';
 import './route_name.dart';
 import './route_refresh.dart';
@@ -96,9 +96,22 @@ final goRouterProvider = Provider<GoRouter>(
               builder: (_, __) => const WithdrawMoneyView(),
             ),
             GoRoute(
+              name: RouteName.withdrawFunds,
+              path: RouteName.withdrawFunds,
+              builder: (_, __) => const WithdrawMoneyView(),
+            ),
+            GoRoute(
               name: RouteName.transactionHistory,
               path: RouteName.transactionHistory,
               builder: (_, __) => const TransactionHistoryView(),
+            ),
+            GoRoute(
+              name: RouteName.transactionDetails,
+              path: RouteName.transactionDetails,
+              builder: (_, state) {
+                final id = state.uri.queryParameters['id']!;
+                return ViewTransDetail(id: id);
+              },
             ),
             GoRoute(
               name: RouteName.quickAction,

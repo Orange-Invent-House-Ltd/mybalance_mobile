@@ -12,8 +12,10 @@ class RouteName {
   static const String unlockMoney = 'unlock-money';
   static const String withdrawMoney = 'withdraw-money';
   static const String transactionHistory = 'transaction-history';
+  static const String transactionDetails = 'transaction-details';
   static const String quickAction = 'quick-action';
   static const String notification = 'notification';
   static const String profile = 'profile';
+  static const String withdrawFunds = 'withdraw-funds';
   // static const String createLink = 'create-link';
 }

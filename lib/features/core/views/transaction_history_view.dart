@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mybalanceapp/features/core/models/models.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../config/themes/app_colors.dart';
+import '../../../core/constants/app_assets.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/sizedbox.dart';
+import '../models/transaction_model.dart';
 import 'widgets/transaction_history_card.dart';
 
 class TransactionHistoryView extends StatefulWidget {
@@ -40,97 +42,65 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Column(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Text(
-                    'You can view an endless list of transactions you have transacted over time.',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.g500,
+            Column(
+              children: [
+                Text(
+                  'You can view an endless list of transactions you have transacted over time.',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: AppColors.g500,
+                  ),
+                ),
+                const Height(19),
+                TabBar(
+                  controller: _tabController,
+                  isScrollable: true,
+                  tabAlignment: TabAlignment.start,
+                  labelPadding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 12,
+                  ),
+                  padding: EdgeInsets.zero,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorColor: AppColors.p500,
+                  indicator: const BoxDecoration(
+                    color: AppColors.p50,
+                    border: Border(
+                      bottom: BorderSide(color: AppColors.p500, width: 2),
                     ),
                   ),
-                  const Height(19),
-                  TabBar(
-                    controller: _tabController,
-                    isScrollable: true,
-                    tabAlignment: TabAlignment.start,
-                    labelPadding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 12,
-                    ),
-                    padding: EdgeInsets.zero,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorColor: AppColors.p500,
-                    indicator: const BoxDecoration(
-                      color: AppColors.p50,
-                      border: Border(
-                        bottom: BorderSide(color: AppColors.p500, width: 2),
-                      ),
-                    ),
-                    labelStyle: theme.textTheme.bodyMedium?.copyWith(
-                      fontSize: 13,
-                      color: AppColors.p500,
-                    ),
-                    unselectedLabelStyle: theme.textTheme.bodyMedium?.copyWith(
-                      fontSize: 13,
-                      color: AppColors.g200,
-                    ),
-                    tabs: const [
-                      Tab(
-                        text: 'All transactions',
-                      ),
-                      Tab(
-                        text: 'Deposits',
-                      ),
-                      Tab(
-                        text: 'Escrows',
-                      ),
-                      Tab(
-                        text: 'Withdrawals',
-                      ),
-                    ],
+                  labelStyle: theme.textTheme.bodyMedium?.copyWith(
+                    fontSize: 13,
+                    color: AppColors.p500,
                   ),
-                ],
-              ),
+                  unselectedLabelStyle: theme.textTheme.bodyMedium?.copyWith(
+                    fontSize: 13,
+                    color: AppColors.g200,
+                  ),
+                  tabs: const [
+                    Tab(
+                      text: 'All transactions',
+                    ),
+                    Tab(
+                      text: 'Deposits',
+                    ),
+                    Tab(
+                      text: 'Escrows',
+                    ),
+                    Tab(
+                      text: 'Withdrawals',
+                    ),
+                  ],
+                ),
+              ],
             ),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  ListView.separated(
-                    padding: const EdgeInsets.symmetric(vertical: 24),
-                    itemCount: 10,
-                    itemBuilder: (_, index) {
-                      return TransactionHistoryCard(
-                        refId: '20240528agyudnjhddh2$index',
-                        status: TransactionStatus.inProgress,
-                        title: 'Apple Series 2',
-                        price: 10000,
-                        description:
-                            'Apple series 2 smartwatch Apple series 2 smartwatch Apple series 2 smartwatch ',
-                        dateTime: DateTime.now(),
-                      );
-                    },
-                    separatorBuilder: (_, index) => const Height(12),
-                  ),
-                  Center(
-                    child: Text(
-                      '${_tabController.index}',
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      '${_tabController.index}',
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      '${_tabController.index}',
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                  ),
+                  TransactionHistoryList(transactions: trans),
+                  TransactionHistoryList(transactions: trans),
+                  const TransactionHistoryList(transactions: []),
+                  TransactionHistoryList(transactions: trans),
                 ],
               ),
             ),
@@ -138,5 +108,61 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
         ),
       ),
     );
+  }
+}
+
+class TransactionHistoryList extends StatelessWidget {
+  const TransactionHistoryList({
+    super.key,
+    required this.transactions,
+  });
+  final List<Transactions> transactions;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    return transactions.isNotEmpty
+        ? ListView.separated(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            itemCount: transactions.length,
+            itemBuilder: (_, index) {
+              final Transactions transaction = transactions[index];
+              return TransactionHistoryCard(
+                id: transaction.id,
+                refId: transaction.refId,
+                status: transaction.status,
+                title: transaction.title,
+                price: transaction.amount,
+                description: transaction.description ?? '',
+                dateTime: DateTime.now(),
+              );
+            },
+            separatorBuilder: (_, index) => const Height(12),
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 28),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(AppAssets.empty),
+                const Height(16),
+                Text(
+                  'No recent activity',
+                  style: textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.g200,
+                  ),
+                ),
+                const Height(8),
+                Text(
+                  'Sorry, but it seems your transaction history is currently empty. ',
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: AppColors.g200,
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              ],
+            ),
+          );
   }
 }

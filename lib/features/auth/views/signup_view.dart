@@ -181,19 +181,19 @@ class _SignupViewState extends State<SignupView> {
     }
   }
 
-  bool _subTitleAlign() {
-    if (_isBuyer.value) {
-      if (_currentBuyerStep.value <= 2) {
-        return false;
-      }
-      return true;
-    } else {
-      if (_currentSellerStep.value <= 2) {
-        return false;
-      }
-      return true;
-    }
-  }
+  // bool _subTitleAlign() {
+  //   if (_isBuyer.value) {
+  //     if (_currentBuyerStep.value <= 2) {
+  //       return false;
+  //     }
+  //     return true;
+  //   } else {
+  //     if (_currentSellerStep.value <= 2) {
+  //       return false;
+  //     }
+  //     return true;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

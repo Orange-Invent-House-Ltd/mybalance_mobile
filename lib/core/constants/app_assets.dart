@@ -12,6 +12,9 @@ class AppAssets {
   static const String info = 'assets/icons/info.svg';
   static const String errorInfo = 'assets/icons/error_info.svg';
   static const String unlocked = 'assets/icons/unlocked.svg';
+  static const String empty = 'assets/icons/empty.svg';
+  static const String successMarkGreen = 'assets/icons/success_mark_green.svg';
+  static const String errorWarningRed = 'assets/icons/error_warning_red.svg';
 
 // IMAGES
   static const String paymentSuccess = 'assets/images/payment_success.svg';

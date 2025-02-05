@@ -6,7 +6,7 @@ import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/widgets/app_drawer.dart';
 import '../../../core/widgets/sizedbox.dart';
-import '../models/models.dart';
+import '../models/transaction_model.dart';
 import 'widgets/amount_card.dart';
 import 'widgets/our_charges_card.dart';
 import 'widgets/quick_action_card.dart';
@@ -143,11 +143,42 @@ class DashboardView extends StatelessWidget {
                   ),
                   Width(20),
                   AmountCard(
-                    title: 'Total amount unlocked',
+                    title: 'Total amount withdrawn',
                     amount: 0,
                   ),
                   Width(20),
                 ],
+              ),
+            ),
+            const Height(32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  context.goNamed(RouteName.withdrawFunds);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.p500,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: const Text('Withdraw funds'),
+              ),
+            ),
+            const Height(16),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: AppColors.p500,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: const BorderSide(color: AppColors.p500),
+                  ),
+                ),
+                child: const Text('Share MyBalance link'),
               ),
             ),
             const Height(32),
@@ -219,26 +250,19 @@ class DashboardView extends StatelessWidget {
               ],
             ),
             const Height(20),
-            TransactionHistoryCard(
-              refId: '20240528agyudnjhddh22',
-              status: TransactionStatus.inProgress,
-              title: 'White Air Jordans',
-              price: 20000,
-              description:
-                  'Pair of white Air Jordans That is the best whatever',
-              dateTime: DateTime.now(),
-            ),
-            const Height(12),
-            TransactionHistoryCard(
-              refId: '20240528agyudnjhddh22',
-              status: TransactionStatus.pending,
-              title: 'Apple Series 2',
-              price: 10000,
-              description:
-                  'Apple series 2 smartwatch That is the best whatever',
-              dateTime: DateTime.now(),
-            ),
-            const Height(32),
+            for (var i = trans.length - 2; i < trans.length; i++) ...[
+              TransactionHistoryCard(
+                id: trans[i].id,
+                refId: trans[i].refId,
+                status: trans[i].status,
+                title: trans[i].title,
+                price: trans[i].amount,
+                description: trans[i].description ?? '',
+                dateTime: trans[i].date,
+              ),
+              const Height(12),
+            ],
+            const Height(20),
           ],
         ),
       ),
