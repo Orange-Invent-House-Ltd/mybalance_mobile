@@ -22,6 +22,7 @@ class LabelTextField extends StatelessWidget {
     this.onTap,
     this.style,
     this.inputFormatters,
+    this.isDescription = false,
   });
   final TextEditingController controller;
   final String label;
@@ -39,6 +40,7 @@ class LabelTextField extends StatelessWidget {
   final GestureTapCallback? onTap;
   final TextStyle? style;
   final List<TextInputFormatter>? inputFormatters;
+  final bool isDescription;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,7 @@ class LabelTextField extends StatelessWidget {
           controller: controller,
           focusNode: focusNode,
           onChanged: onChanged,
+          initialValue: initialText,
           readOnly: readOnly,
           onTap: onTap,
           validator: validator,
@@ -76,6 +79,8 @@ class LabelTextField extends StatelessWidget {
             hintText: hintText,
             suffixIcon: suffixIcon,
           ),
+          maxLines: isDescription ? 4 : 1,
+          minLines: isDescription ? 4 : 1,
         ),
       ],
     );

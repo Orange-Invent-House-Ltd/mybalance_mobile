@@ -48,7 +48,7 @@ class AppTheme {
       horizontal: 14,
       vertical: 10,
     ),
-    constraints: const BoxConstraints(minHeight: 44, maxHeight: 44),
+    constraints: const BoxConstraints(minHeight: 44, maxHeight: 161),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
       borderSide: const BorderSide(

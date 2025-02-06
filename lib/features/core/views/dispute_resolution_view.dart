@@ -1,0 +1,206 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mybalanceapp/features/core/models/dispute_resolution_status.dart';
+
+import '../../../config/themes/app_colors.dart';
+import '../../../core/constants/app_assets.dart';
+import '../../../core/utils/date_format.dart';
+import '../../../core/widgets/custom_app_bar.dart';
+import '../../../core/widgets/sizedbox.dart';
+import '../models/dispute_resolution_model.dart';
+
+class DisputeResolutionView extends StatelessWidget {
+  const DisputeResolutionView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final List<DisputeResolution> disputes = dummyDisputes;
+    return Scaffold(
+      appBar: CustomAppBar(
+        theme: theme,
+        text: 'Dispute Resolution',
+      ),
+      body: disputes.isEmpty
+          ? const EmptyDispute()
+          : NotEmptyDispute(disputes: disputes),
+    );
+  }
+}
+
+class NotEmptyDispute extends StatelessWidget {
+  const NotEmptyDispute({super.key, required this.disputes});
+  final List<DisputeResolution> disputes;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Size size = MediaQuery.sizeOf(context);
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Manage disputes with vendors by creating a dispute thread here.',
+            style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.g500),
+          ),
+          const Height(34),
+          ...List.generate(
+            disputes.length,
+            (index) {
+              final dispute = disputes[index];
+              return DisputeResolutionCard(dispute: dispute);
+            },
+            growable: false,
+          ),
+          const Height(84),
+        ],
+      ),
+    );
+  }
+}
+
+class DisputeResolutionCard extends StatelessWidget {
+  const DisputeResolutionCard({
+    super.key,
+    required this.dispute,
+  });
+
+  final DisputeResolution dispute;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Size size = MediaQuery.sizeOf(context);
+    return InkWell(
+      onTap: (){},
+      child: Card(
+        color: AppColors.w50,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        margin: const EdgeInsets.only(top: 16),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: size.width * 0.45,
+                    child: Text(
+                      dispute.title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: AppColors.g500.withAlpha(
+                          (dispute.status == DisputeResolutionStatus.resolved
+                                  ? 255.0 * .4
+                                  : 255.0 * 1)
+                              .round(),
+                        ),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: dispute.status.backgroundColor,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(16),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 2,
+                        horizontal: 8,
+                      ),
+                      child: Text(
+                        dispute.status.name,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 15,
+                          color: dispute.status.foregroundColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Height(8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: size.width * 0.45,
+                    child: Text(
+                      dispute.description,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: AppColors.g500.withAlpha(
+                          (dispute.status == DisputeResolutionStatus.resolved
+                                  ? 255.0 * .4
+                                  : 255.0 * 1)
+                              .round(),
+                        ),
+                        fontSize: 13,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Text(
+                    FormatDate.monthDayYear(dispute.timestamp),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontSize: 10,
+                      color: AppColors.g300.withAlpha(
+                        (dispute.status == DisputeResolutionStatus.resolved
+                                ? 255.0 * .4
+                                : 255.0 * 1)
+                            .round(),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class EmptyDispute extends StatelessWidget {
+  const EmptyDispute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Size size = MediaQuery.sizeOf(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            'Manage disputes with vendors by creating a dispute thread here.',
+            style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.g500),
+          ),
+          Height(size.height * .15),
+          SvgPicture.asset(
+            AppAssets.empty,
+            width: size.width,
+          ),
+          const Height(12),
+          Text(
+            'Oops! It seems that no dispute has been raised yet.',
+            style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.g500),
+          ),
+        ],
+      ),
+    );
+  }
+}

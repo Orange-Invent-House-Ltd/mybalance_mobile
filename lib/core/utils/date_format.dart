@@ -4,6 +4,9 @@ class FormatDate {
   static String ddMMYYYY(DateTime dateTime) {
     return DateFormat("dd/MM/yyyy").format(dateTime);
   }
+  static String monthDayYear(DateTime dateTime) {
+  return DateFormat("MMM d, y h:mm a").format(dateTime);
+}
 
   static String timeAgo(DateTime date) {
   final Duration difference = DateTime.now().difference(date);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/date_format.dart';
 import '../../../core/widgets/custom_app_bar.dart';
@@ -50,6 +52,7 @@ class _ViewTransDetailState extends State<ViewTransDetail> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: CustomAppBar(
         theme: theme,
@@ -122,7 +125,26 @@ class _ViewTransDetailState extends State<ViewTransDetail> {
               label: 'Email address',
               hintText: 'MustyFeet@gmail.com',
             ),
-            const Height(184),
+            const Height(32),
+            SizedBox(
+              width: size.width,
+              child: OutlinedButton(
+                onPressed: () => context.goNamed(
+                  RouteName.disputeResolutionRaise,
+                  queryParameters: {'id': widget.id},
+                ),
+                child: const Text('Raise a dispute'),
+              ),
+            ),
+            const Height(16),
+            SizedBox(
+              width: size.width,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text('Copy escrow link'),
+              ),
+            ),
+            const Height(84),
           ],
         ),
       ),

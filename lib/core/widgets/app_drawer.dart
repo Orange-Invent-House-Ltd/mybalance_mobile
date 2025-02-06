@@ -60,7 +60,7 @@ class AppDrawer extends StatelessWidget {
             DrawerListTile(
               onTap: () {
                 Navigator.of(context).pop();
-                context.pushNamed(RouteName.quickAction);
+                context.pushNamed(RouteName.disputeResolution);
               },
               leading: SvgPicture.asset('assets/icons/dashboard.svg'),
               title: 'Dispute resolution',

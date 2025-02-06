@@ -17,5 +17,7 @@ class RouteName {
   static const String notification = 'notification';
   static const String profile = 'profile';
   static const String withdrawFunds = 'withdraw-funds';
+  static const String disputeResolutionRaise = 'dispute-resolution-raise';
+  static const String disputeResolution = 'dispute-resolution';
   // static const String createLink = 'create-link';
 }

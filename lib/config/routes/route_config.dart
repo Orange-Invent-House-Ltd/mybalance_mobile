@@ -112,6 +112,16 @@ final goRouterProvider = Provider<GoRouter>(
                 final id = state.uri.queryParameters['id']!;
                 return ViewTransDetail(id: id);
               },
+              routes: [
+                GoRoute(
+                  name: RouteName.disputeResolutionRaise,
+                  path: RouteName.disputeResolutionRaise,
+                  builder: (_, state) {
+                    final String? transId = state.uri.queryParameters['id'];
+                    return DisputeResolutionRaiseView(transactionId: transId);
+                  },
+                ),
+              ],
             ),
             GoRoute(
               name: RouteName.quickAction,
@@ -131,6 +141,11 @@ final goRouterProvider = Provider<GoRouter>(
               name: RouteName.profile,
               path: RouteName.profile,
               builder: (_, __) => const ProfileView(),
+            ),
+            GoRoute(
+              name: RouteName.disputeResolution,
+              path: RouteName.disputeResolution,
+              builder: (_, __) => const DisputeResolutionView(),
             ),
           ],
         ),
