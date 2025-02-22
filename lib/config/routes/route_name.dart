@@ -19,5 +19,7 @@ class RouteName {
   static const String withdrawFunds = 'withdraw-funds';
   static const String disputeResolutionRaise = 'dispute-resolution-raise';
   static const String disputeResolution = 'dispute-resolution';
+  static const String disputeResolutionChat = 'dispute-resolution-chat';
+  static const String settings = 'settings';
   // static const String createLink = 'create-link';
 }

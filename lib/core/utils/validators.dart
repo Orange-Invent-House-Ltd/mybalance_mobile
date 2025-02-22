@@ -60,6 +60,14 @@ class Validator {
     return null;
   }
 
+  static String? confirmPhoneValidator(String? value, String? phone) {
+    if (value == null || value.isEmpty) {
+      return 'Confirm phone number cannot be empty';
+    }
+    if (value != phone) return 'Phone numbers do not match';
+    return null;
+  }
+
   static String? ageValidator(String? value) {
     if (value == null || value.isEmpty) return 'Age cannot be empty';
     if (int.tryParse(value) == null) return 'Please enter a valid number';

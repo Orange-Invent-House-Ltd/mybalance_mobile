@@ -8,9 +8,11 @@ class CustomAppBar extends AppBar {
     super.key,
     required this.theme,
     this.text,
+    this.action,
   });
   final ThemeData theme;
   final String? text;
+  final Widget? action;
   @override
   Color? get backgroundColor => theme.scaffoldBackgroundColor;
 
@@ -21,7 +23,7 @@ class CustomAppBar extends AppBar {
   Widget? get leading => const Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Width(25),
+          Width(24),
           AppBackButton(),
         ],
       );
@@ -36,4 +38,8 @@ class CustomAppBar extends AppBar {
           ),
         )
       : super.title;
+
+  @override
+  List<Widget>? get actions =>
+      action != null ? [action!, const Width(8)] : null;
 }

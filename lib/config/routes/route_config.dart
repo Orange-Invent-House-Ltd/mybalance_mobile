@@ -8,6 +8,7 @@ import '../../core/widgets/loading_page.dart';
 import '../../features/auth/views/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/core/views/views.dart';
+import '../../features/notification/views/views.dart';
 import '../../features/onboarding/views/views.dart';
 import './error_view.dart';
 import './route_name.dart';
@@ -133,11 +134,6 @@ final goRouterProvider = Provider<GoRouter>(
               },
             ),
             GoRoute(
-              name: RouteName.notification,
-              path: RouteName.notification,
-              builder: (_, __) => const NotificatificationsView(),
-            ),
-            GoRoute(
               name: RouteName.profile,
               path: RouteName.profile,
               builder: (_, __) => const ProfileView(),
@@ -146,8 +142,28 @@ final goRouterProvider = Provider<GoRouter>(
               name: RouteName.disputeResolution,
               path: RouteName.disputeResolution,
               builder: (_, __) => const DisputeResolutionView(),
+              routes: [
+                GoRoute(
+                  name: RouteName.disputeResolutionChat,
+                  path: '${RouteName.disputeResolutionChat}:id',
+                  builder: (_, state) {
+                    final String? id = state.pathParameters['id'];
+                    return DisputeResolutionChatView(id: id);
+                  },
+                ),
+              ],
+            ),
+            GoRoute(
+              name: RouteName.settings,
+              path: RouteName.settings,
+              builder: (_, __) => const SettingsView(),
             ),
           ],
+        ),
+        GoRoute(
+          name: RouteName.notification,
+          path: RouteName.notification.toPath(),
+          builder: (_, __) => const NotificatificationsView(),
         ),
       ],
     );

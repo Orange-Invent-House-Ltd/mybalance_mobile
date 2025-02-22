@@ -7,8 +7,8 @@ enum DisputeResolutionStatus {
 
   const DisputeResolutionStatus(
     this.name,
-    this.backgroundColor,
     this.foregroundColor,
+    this.backgroundColor,
   );
   final String name;
   final Color foregroundColor;

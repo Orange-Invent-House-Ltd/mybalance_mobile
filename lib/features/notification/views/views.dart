@@ -1,0 +1,1 @@
+export './notificatifications_view.dart';

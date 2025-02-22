@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mybalanceapp/features/core/models/dispute_resolution_status.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/utils/date_format.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/sizedbox.dart';
 import '../models/dispute_resolution_model.dart';
+import '../models/dispute_resolution_status.dart';
+import '../views/widgets/dispute_status_tooltip.dart';
 
 class DisputeResolutionView extends StatelessWidget {
   const DisputeResolutionView({super.key});
@@ -35,7 +38,6 @@ class NotEmptyDispute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Size size = MediaQuery.sizeOf(context);
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -74,14 +76,18 @@ class DisputeResolutionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Size size = MediaQuery.sizeOf(context);
-    return InkWell(
-      onTap: (){},
-      child: Card(
-        color: AppColors.w50,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(6)),
+    return Card(
+      color: AppColors.w50,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+      ),
+      margin: const EdgeInsets.only(top: 16),
+      child: InkWell(
+        onTap: () => context.goNamed(
+          RouteName.disputeResolutionChat,
+          pathParameters: {'id': dispute.id},
         ),
-        margin: const EdgeInsets.only(top: 16),
+        borderRadius: const BorderRadius.all(Radius.circular(6)),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
           child: Column(
@@ -106,27 +112,7 @@ class DisputeResolutionCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: dispute.status.backgroundColor,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(16),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 2,
-                        horizontal: 8,
-                      ),
-                      child: Text(
-                        dispute.status.name,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontSize: 15,
-                          color: dispute.status.foregroundColor,
-                        ),
-                      ),
-                    ),
-                  ),
+                  DisputeStatusTooltip(status: dispute.status),
                 ],
               ),
               const Height(8),

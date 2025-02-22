@@ -15,6 +15,9 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: AppColors.b200,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 100),
         child: Column(
@@ -68,7 +71,7 @@ class AppDrawer extends StatelessWidget {
             DrawerListTile(
               onTap: () {
                 Navigator.of(context).pop();
-                context.pushNamed(RouteName.quickAction);
+                context.pushNamed(RouteName.settings);
               },
               leading: SvgPicture.asset('assets/icons/dashboard.svg'),
               title: 'Settings',

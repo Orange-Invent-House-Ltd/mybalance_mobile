@@ -4,7 +4,7 @@ import '../../../config/themes/app_colors.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/sizedbox.dart';
 import '../models/notification_model.dart';
-import 'widgets/notification_card.dart';
+import './widgets/notification_card.dart';
 
 class NotificatificationsView extends StatelessWidget {
   const NotificatificationsView({super.key});
