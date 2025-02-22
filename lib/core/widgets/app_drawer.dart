@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../config/routes/route_name.dart';
 import '../../config/themes/app_colors.dart';
-import '../../features/core/views/widgets/logout_dialog.dart';
+import '../../features/auth/views/widgets/logout_dialog.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({

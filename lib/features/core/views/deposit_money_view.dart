@@ -10,14 +10,14 @@ import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/sizedbox.dart';
 
-class DeposiitMoneyView extends StatefulWidget {
-  const DeposiitMoneyView({super.key});
+class DepositMoneyView extends StatefulWidget {
+  const DepositMoneyView({super.key});
 
   @override
-  State<DeposiitMoneyView> createState() => _DeposiitMoneyViewState();
+  State<DepositMoneyView> createState() => _DepositMoneyViewState();
 }
 
-class _DeposiitMoneyViewState extends State<DeposiitMoneyView>
+class _DepositMoneyViewState extends State<DepositMoneyView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late TextEditingController _amountController;

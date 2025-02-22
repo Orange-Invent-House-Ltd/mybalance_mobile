@@ -7,8 +7,7 @@ import '../../../config/themes/app_colors.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/sizedbox.dart';
-import 'provider/profile_provider.dart';
-// import './provider/profile_provider.dart';
+import './provider/profile_provider.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({super.key});

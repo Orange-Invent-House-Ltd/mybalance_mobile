@@ -7,7 +7,7 @@ import '../../../core/utils/date_format.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/sizedbox.dart';
-import '../models/transaction_model.dart';
+import '../model/transaction_model.dart';
 
 class ViewTransDetail extends StatefulWidget {
   const ViewTransDetail({super.key, required this.id});
@@ -129,7 +129,7 @@ class _ViewTransDetailState extends State<ViewTransDetail> {
             SizedBox(
               width: size.width,
               child: OutlinedButton(
-                onPressed: () => context.goNamed(
+                onPressed: () => context.pushNamed(
                   RouteName.disputeResolutionRaise,
                   queryParameters: {'id': widget.id},
                 ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mybalanceapp/features/core/views/widgets/unlock_fund_dialog.dart';
 
@@ -112,14 +110,19 @@ class _UnlockMoneyViewState extends State<UnlockMoneyView> {
                 showDialog(
                   context: context,
                   builder: (context) => CalendarDialog(
-                    onDateRangeSelected: (DateTime? start, DateTime? end) {
-                      if (start != null && end != null) {
-                        log('Selected range: $start - $end');
-                        _deliveryTimeController.text = FormatDate.ddMMYYYY(end);
-                      } else if (start != null) {
-                        log('Selected date: $start');
+                    onDateSelected: (date) {
+                      if (date != null) {
+                        _deliveryTimeController.text =
+                            FormatDate.ddMMYYYY(date);
                       }
                     },
+                    // onDateRangeSelected: (DateTime? start, DateTime? end) {
+                    //   if (start != null && end != null) {
+                    //     _deliveryTimeController.text = FormatDate.ddMMYYYY(end);
+                    //   } else if (start != null) {
+                    //     log('Selected date: $start');
+                    //   }
+                    // },
                   ),
                 );
               },

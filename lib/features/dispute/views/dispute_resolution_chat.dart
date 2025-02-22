@@ -1,84 +1,10 @@
-// class DisputeResolutionChatView extends StatefulWidget {
-//   const DisputeResolutionChatView({
-//     super.key,
-//     required this.id,
-//   });
-//   final String? id;
-
-//   @override
-//   State<DisputeResolutionChatView> createState() =>
-//       _DisputeResolutionChatViewState();
-// }
-
-// class _DisputeResolutionChatViewState extends State<DisputeResolutionChatView> {
-//   late TextEditingController _messageController;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _messageController = TextEditingController();
-//   }
-
-//   @override
-//   void dispose() {
-//     _messageController.dispose();
-//     super.dispose();
-//   }
-
-//   DisputeResolution get dispute =>
-//       dummyDisputes.firstWhere((dispute) => dispute.id == widget.id);
-//   @override
-//   Widget build(BuildContext context) {
-//     final ThemeData theme = Theme.of(context);
-//     return Scaffold(
-//       appBar: CustomAppBar(
-//         theme: theme,
-//         text: dispute.title,
-//         action: DisputeStatusTooltip(status: dispute.status),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//         child: Column(
-//           children: [
-//             Text(
-//               dispute.description,
-//               style:
-//                   theme.textTheme.bodyMedium?.copyWith(color: AppColors.g500),
-//             ),
-//             const Divider(),
-//             Expanded(
-//               child: ListView(
-//                 children: const [
-//                   SizedBox(height: 16),
-//                   DisputeMessage(
-//                     message: 'Hello, I have an issue with my payment.',
-//                     isUser: false,
-//                   ),
-//                   DisputeMessage(
-//                     message: 'I will look into it and get back to you.',
-//                     isUser: true,
-//                   ),
-//                   DisputeMessage(
-//                     message: 'Thank you.',
-//                     isUser: false,
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/date_format.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../models/dispute_resolution_model.dart';
-import 'widgets/dispute_status_tooltip.dart';
+import './widgets/dispute_status_tooltip.dart';
 
 class DisputeResolutionChatView extends StatefulWidget {
   const DisputeResolutionChatView({super.key, required this.id});
@@ -262,3 +188,78 @@ class ChatBubble extends StatelessWidget {
     );
   }
 }
+
+
+// class DisputeResolutionChatView extends StatefulWidget {
+//   const DisputeResolutionChatView({
+//     super.key,
+//     required this.id,
+//   });
+//   final String? id;
+
+//   @override
+//   State<DisputeResolutionChatView> createState() =>
+//       _DisputeResolutionChatViewState();
+// }
+
+// class _DisputeResolutionChatViewState extends State<DisputeResolutionChatView> {
+//   late TextEditingController _messageController;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _messageController = TextEditingController();
+//   }
+
+//   @override
+//   void dispose() {
+//     _messageController.dispose();
+//     super.dispose();
+//   }
+
+//   DisputeResolution get dispute =>
+//       dummyDisputes.firstWhere((dispute) => dispute.id == widget.id);
+//   @override
+//   Widget build(BuildContext context) {
+//     final ThemeData theme = Theme.of(context);
+//     return Scaffold(
+//       appBar: CustomAppBar(
+//         theme: theme,
+//         text: dispute.title,
+//         action: DisputeStatusTooltip(status: dispute.status),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//         child: Column(
+//           children: [
+//             Text(
+//               dispute.description,
+//               style:
+//                   theme.textTheme.bodyMedium?.copyWith(color: AppColors.g500),
+//             ),
+//             const Divider(),
+//             Expanded(
+//               child: ListView(
+//                 children: const [
+//                   SizedBox(height: 16),
+//                   DisputeMessage(
+//                     message: 'Hello, I have an issue with my payment.',
+//                     isUser: false,
+//                   ),
+//                   DisputeMessage(
+//                     message: 'I will look into it and get back to you.',
+//                     isUser: true,
+//                   ),
+//                   DisputeMessage(
+//                     message: 'Thank you.',
+//                     isUser: false,
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mybalanceapp/features/core/models/dispute_resolution_status.dart';
+
+import '../../models/dispute_resolution_status.dart';
 
 class DisputeStatusTooltip extends StatelessWidget {
   const DisputeStatusTooltip({

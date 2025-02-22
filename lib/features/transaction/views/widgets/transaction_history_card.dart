@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:mybalanceapp/features/core/views/widgets/status_tooltip.dart';
 
 import '../../../../config/routes/route_name.dart';
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/utils/extensions/num_extension.dart';
 import '../../../../core/widgets/sizedbox.dart';
-import '../../models/transaction_status.dart';
+import '../../model/transaction_status.dart';
+import './status_tooltip.dart';
 
 class TransactionHistoryCard extends StatelessWidget {
   const TransactionHistoryCard({
@@ -35,7 +35,8 @@ class TransactionHistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return InkWell(
-      onTap: () => context.pushNamed(RouteName.transactionDetails,queryParameters: {'id': id}),
+      onTap: () => context
+          .pushNamed(RouteName.transactionDetails, queryParameters: {'id': id}),
       child: Card(
         elevation: 3,
         color: AppColors.w50,

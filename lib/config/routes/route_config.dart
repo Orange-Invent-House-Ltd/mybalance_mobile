@@ -8,8 +8,10 @@ import '../../core/widgets/loading_page.dart';
 import '../../features/auth/views/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/core/views/views.dart';
+import '../../features/dispute/views/views.dart';
 import '../../features/notification/views/views.dart';
 import '../../features/onboarding/views/views.dart';
+import '../../features/transaction/views/views.dart';
 import './error_view.dart';
 import './route_name.dart';
 import './route_refresh.dart';
@@ -40,14 +42,15 @@ final goRouterProvider = Provider<GoRouter>(
           builder: (_, __) => const OnboardStoryView(),
         ),
         GoRoute(
-            name: RouteName.loading,
-            path: RouteName.loading.toPath(),
-            pageBuilder: (_, state) {
-              final String loadFrom = state.uri.queryParameters['loadingFrom']!;
-              return NoTransitionPage(
-                child: LoadingPage(loadFrom: loadFrom),
-              );
-            }),
+          name: RouteName.loading,
+          path: RouteName.loading.toPath(),
+          pageBuilder: (_, state) {
+            final String loadFrom = state.uri.queryParameters['loadingFrom']!;
+            return NoTransitionPage(
+              child: LoadingPage(loadFrom: loadFrom),
+            );
+          },
+        ),
         GoRoute(
           name: RouteName.signIn,
           path: RouteName.signIn.toPath(),
@@ -84,7 +87,7 @@ final goRouterProvider = Provider<GoRouter>(
             GoRoute(
               name: RouteName.depositMoney,
               path: RouteName.depositMoney,
-              builder: (_, __) => const DeposiitMoneyView(),
+              builder: (_, __) => const DepositMoneyView(),
             ),
             GoRoute(
               name: RouteName.unlockMoney,
@@ -102,29 +105,6 @@ final goRouterProvider = Provider<GoRouter>(
               builder: (_, __) => const WithdrawMoneyView(),
             ),
             GoRoute(
-              name: RouteName.transactionHistory,
-              path: RouteName.transactionHistory,
-              builder: (_, __) => const TransactionHistoryView(),
-            ),
-            GoRoute(
-              name: RouteName.transactionDetails,
-              path: RouteName.transactionDetails,
-              builder: (_, state) {
-                final id = state.uri.queryParameters['id']!;
-                return ViewTransDetail(id: id);
-              },
-              routes: [
-                GoRoute(
-                  name: RouteName.disputeResolutionRaise,
-                  path: RouteName.disputeResolutionRaise,
-                  builder: (_, state) {
-                    final String? transId = state.uri.queryParameters['id'];
-                    return DisputeResolutionRaiseView(transactionId: transId);
-                  },
-                ),
-              ],
-            ),
-            GoRoute(
               name: RouteName.quickAction,
               path: RouteName.quickAction,
               builder: (_, state) {
@@ -133,37 +113,58 @@ final goRouterProvider = Provider<GoRouter>(
                 return QuickActionsView(index: index);
               },
             ),
-            GoRoute(
-              name: RouteName.profile,
-              path: RouteName.profile,
-              builder: (_, __) => const ProfileView(),
-            ),
-            GoRoute(
-              name: RouteName.disputeResolution,
-              path: RouteName.disputeResolution,
-              builder: (_, __) => const DisputeResolutionView(),
-              routes: [
-                GoRoute(
-                  name: RouteName.disputeResolutionChat,
-                  path: '${RouteName.disputeResolutionChat}:id',
-                  builder: (_, state) {
-                    final String? id = state.pathParameters['id'];
-                    return DisputeResolutionChatView(id: id);
-                  },
-                ),
-              ],
-            ),
-            GoRoute(
-              name: RouteName.settings,
-              path: RouteName.settings,
-              builder: (_, __) => const SettingsView(),
-            ),
           ],
         ),
         GoRoute(
           name: RouteName.notification,
           path: RouteName.notification.toPath(),
           builder: (_, __) => const NotificatificationsView(),
+        ),
+        GoRoute(
+          name: RouteName.transactionHistory,
+          path: RouteName.transactionHistory.toPath(),
+          builder: (_, __) => const TransactionHistoryView(),
+        ),
+        GoRoute(
+          name: RouteName.transactionDetails,
+          path: RouteName.transactionDetails.toPath(),
+          builder: (_, state) {
+            final id = state.uri.queryParameters['id']!;
+            return ViewTransDetail(id: id);
+          },
+        ),
+        GoRoute(
+          name: RouteName.disputeResolutionRaise,
+          path: RouteName.disputeResolutionRaise.toPath(),
+          builder: (_, state) {
+            final String? transId = state.uri.queryParameters['id'];
+            return DisputeResolutionRaiseView(transactionId: transId);
+          },
+        ),
+        GoRoute(
+          name: RouteName.disputeResolution,
+          path: RouteName.disputeResolution.toPath(),
+          builder: (_, __) => const DisputeResolutionView(),
+          routes: [
+            GoRoute(
+              name: RouteName.disputeResolutionChat,
+              path: '${RouteName.disputeResolutionChat}:id',
+              builder: (_, state) {
+                final String? id = state.pathParameters['id'];
+                return DisputeResolutionChatView(id: id);
+              },
+            ),
+          ],
+        ),
+        GoRoute(
+          name: RouteName.profile,
+          path: RouteName.profile,
+          builder: (_, __) => const ProfileView(),
+        ),
+        GoRoute(
+          name: RouteName.settings,
+          path: RouteName.settings,
+          builder: (_, __) => const SettingsView(),
         ),
       ],
     );

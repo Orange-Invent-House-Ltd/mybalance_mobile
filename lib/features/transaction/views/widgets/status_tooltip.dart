@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mybalanceapp/features/core/models/transaction_status.dart';
+
+import '../../model/transaction_status.dart';
 
 class StatusTooltip extends StatelessWidget {
   const StatusTooltip({super.key, required this.status});

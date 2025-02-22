@@ -1,4 +1,4 @@
-import './transaction_status.dart';
+import 'transaction_status.dart';
 
 class Transactions {
   final String id;

@@ -10,7 +10,7 @@ import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/sizedbox.dart';
 import '../models/dispute_resolution_model.dart';
 import '../models/dispute_resolution_status.dart';
-import '../views/widgets/dispute_status_tooltip.dart';
+import './widgets/dispute_status_tooltip.dart';
 
 class DisputeResolutionView extends StatelessWidget {
   const DisputeResolutionView({super.key});
@@ -83,7 +83,7 @@ class DisputeResolutionCard extends StatelessWidget {
       ),
       margin: const EdgeInsets.only(top: 16),
       child: InkWell(
-        onTap: () => context.goNamed(
+        onTap: () => context.pushNamed(
           RouteName.disputeResolutionChat,
           pathParameters: {'id': dispute.id},
         ),

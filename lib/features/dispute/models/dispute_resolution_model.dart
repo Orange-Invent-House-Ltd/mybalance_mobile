@@ -1,4 +1,4 @@
-import './dispute_resolution_status.dart';
+import 'dispute_resolution_status.dart';
 
 class DisputeResolution {
   DisputeResolution({

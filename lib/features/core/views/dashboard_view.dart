@@ -6,11 +6,11 @@ import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/widgets/app_drawer.dart';
 import '../../../core/widgets/sizedbox.dart';
-import '../models/transaction_model.dart';
+import '../../transaction/model/transaction_model.dart';
+import '../../transaction/views/widgets/transaction_history_card.dart';
 import 'widgets/amount_card.dart';
 import 'widgets/our_charges_card.dart';
 import 'widgets/quick_action_card.dart';
-import 'widgets/transaction_history_card.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
@@ -243,7 +243,7 @@ class DashboardView extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () =>
-                      context.goNamed(RouteName.transactionHistory),
+                      context.pushNamed(RouteName.transactionHistory),
                   style: TextButton.styleFrom(foregroundColor: AppColors.p300),
                   child: const Text('View all'),
                 ),

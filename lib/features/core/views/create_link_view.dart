@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import '../../../config/themes/app_colors.dart';
@@ -118,16 +116,21 @@ class _CreateLinkViewState extends State<CreateLinkView> {
                   showDialog(
                     context: context,
                     builder: (context) => CalendarDialog(
-                      onDateRangeSelected: (DateTime? start, DateTime? end) {
-                        if (start != null && end != null) {
-                          _timelineController.text =
-                              '${FormatDate.ddMMYYYY(start)} - ${FormatDate.ddMMYYYY(end)}';
-                          log('Selected range: $start - $end');
-                        } else if (start != null) {
-                          _timelineController.text = FormatDate.ddMMYYYY(start);
-                          log('Selected date: $start');
+                      onDateSelected: (date) {
+                        if (date != null) {
+                          _timelineController.text = FormatDate.ddMMYYYY(date);
                         }
                       },
+                      // onDateRangeSelected: (DateTime? start, DateTime? end) {
+                      //   if (start != null && end != null) {
+                      //     _timelineController.text =
+                      //         '${FormatDate.ddMMYYYY(start)} - ${FormatDate.ddMMYYYY(end)}';
+                      //     log('Selected range: $start - $end');
+                      //   } else if (start != null) {
+                      //     _timelineController.text = FormatDate.ddMMYYYY(start);
+                      //     log('Selected date: $start');
+                      //   }
+                      // },
                     ),
                   );
                 },

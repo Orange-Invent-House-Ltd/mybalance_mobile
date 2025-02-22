@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/profile_repository.dart';
+import '../../../core/data/profile_repository.dart';
 
 final profileRepositoryProvider = Provider((ref) => ProfileRepository());
 

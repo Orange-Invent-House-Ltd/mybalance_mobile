@@ -1,13 +1,8 @@
 export './create_link_view.dart';
 export './dashboard_view.dart';
 export './deposit_money_view.dart';
-export './dispute_resolution_chat.dart';
-export './dispute_resolution_raise_view.dart';
-export './dispute_resolution_view.dart';
-export './profile_view.dart';
+export '../../profile/views/profile_view.dart';
 export './quick_actions_view.dart';
-export './settings_view.dart';
-export './transaction_history_view.dart';
+export '../../profile/views/settings_view.dart';
 export './unlock_money_view.dart';
-export './view_trans_detail.dart';
 export './withdraw_money_view.dart';

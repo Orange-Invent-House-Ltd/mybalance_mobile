@@ -5,8 +5,9 @@ import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/sizedbox.dart';
-import '../models/transaction_model.dart';
-import 'widgets/transaction_history_card.dart';
+
+import '../model/transaction_model.dart';
+import './widgets/transaction_history_card.dart';
 
 class TransactionHistoryView extends StatefulWidget {
   const TransactionHistoryView({super.key});
