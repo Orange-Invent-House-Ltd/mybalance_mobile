@@ -10,7 +10,6 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_rich_text.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/overlay_loading.dart';
-import './widgets/sell_buy_toggle.dart';
 
 class SigninView extends StatefulWidget {
   const SigninView({super.key});
@@ -73,12 +72,6 @@ class _SigninViewState extends State<SigninView> {
                         height: 50,
                         width: 50,
                       ),
-                    ),
-                    const SizedBox(height: 32),
-                    SellBuyToggle(
-                      onSelect: (value) {
-                        _isBuyer.value = value;
-                      },
                     ),
                     const SizedBox(height: 32),
                     Text(

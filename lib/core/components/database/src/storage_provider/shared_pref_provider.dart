@@ -1,13 +1,6 @@
-import 'dart:async';
-
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class StorageProvider<T> {
-  Future<void> setValue(String key, T value);
-  FutureOr<T?> getValue(String key);
-  Future<void> removeValue(String key);
-}
+import './storage_provider.dart';
 
 class SharedPreferencesProvider<T extends Object>
     implements StorageProvider<T> {
@@ -44,26 +37,5 @@ class SharedPreferencesProvider<T extends Object>
   @override
   Future<void> removeValue(String key) async {
     await _sharedPreferences.remove(key);
-  }
-}
-
-class FlutterSecureStorageProvider implements StorageProvider<String> {
-  final FlutterSecureStorage _secureStorage;
-
-  FlutterSecureStorageProvider(this._secureStorage);
-
-  @override
-  Future<void> setValue(String key, String? value) async {
-    await _secureStorage.write(key: key, value: value);
-  }
-
-  @override
-  Future<String?> getValue(String key) async {
-    return await _secureStorage.read(key: key);
-  }
-
-  @override
-  Future<void> removeValue(String key) async {
-    await _secureStorage.delete(key: key);
   }
 }

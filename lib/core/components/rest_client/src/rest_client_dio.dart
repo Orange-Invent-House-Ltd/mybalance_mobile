@@ -3,11 +3,8 @@ import 'package:dio/dio.dart';
 import './rest_client_base.dart';
 import './exception/network_exception.dart';
 
-/// {@template rest_client_dio}
-/// Rest client that uses [Dio] as HTTP library.
-/// {@endtemplate}
+
 final class RestClientDio extends RestClientBase {
-  /// {@macro rest_client_dio}
   RestClientDio({required Dio dio})
       : _dio = dio,
         super(baseUrl: dio.options.baseUrl);

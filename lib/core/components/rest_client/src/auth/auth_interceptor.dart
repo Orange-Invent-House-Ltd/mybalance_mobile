@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../../../storage_manager.dart';
+import '../../../database/src/storage_manager.dart';
 import './token.dart';
 import '../../../../utils/retry_request_mixin.dart';
 import 'authentication_status.dart';

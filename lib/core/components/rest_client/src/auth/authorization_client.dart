@@ -15,11 +15,9 @@ abstract interface class AuthorizationClient<T> {
   Future<T> refresh(T token);
 }
 
-/// {@template revoke_token_exception}
 /// Revoke token exception
 ///
-/// This exception is thrown when the token is not valid and cannot be refreshed
-/// {@endtemplate}
+/// This exception is thrown when the token is not valid and cannot be refreshed.
 class RevokeTokenException implements Exception {
   /// Create a [RevokeTokenException]
   const RevokeTokenException(this.message);

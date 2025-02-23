@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import '../../../utils/preferences/preference.dart';
-import '../../../utils/preferences/preference_dao.dart';
 import '../../rest_client/rest_client.dart';
-import '../../storage_manager.dart';
+import './storage_manager.dart';
+import './storage_provider/storage_provider.dart';
+import './preference_entry.dart';
 
 final class TokenStorage implements StorageManager<Token> {
   TokenStorage({required StorageProvider storageProvider})
