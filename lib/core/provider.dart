@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import './components/database/database.dart';
 import './components/rest_client/rest_client.dart';
+import './constants/config.dart';
 
 // Storage Providers
 
@@ -62,7 +63,7 @@ final tokenStorageProvider = Provider<TokenStorage>((ref) {
 
 final _dioProvider = Provider<Dio>((_) {
   final Dio dio = Dio();
-  dio.options.baseUrl = 'https://jsonplaceholder.typicode.com';
+  dio.options.baseUrl = Constants.apiBaseUrl;
   return dio;
 });
 

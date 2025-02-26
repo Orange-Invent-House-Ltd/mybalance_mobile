@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../../config/routes/route_name.dart';
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/widgets/sizedbox.dart';
+import '../providers/provider.dart';
 
-class LogoutDialog extends StatelessWidget {
+class LogoutDialog extends ConsumerWidget {
   const LogoutDialog({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return Dialog(
       backgroundColor: Colors.white,
@@ -63,9 +63,8 @@ class LogoutDialog extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Add logout logic here
                   Navigator.of(context).pop();
-                  context.goNamed(RouteName.signIn);
+                  ref.read(authProvider.notifier).signOut();
                 },
                 child: Text(
                   'Logout',

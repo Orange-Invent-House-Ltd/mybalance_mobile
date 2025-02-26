@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,15 +11,16 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_rich_text.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/overlay_loading.dart';
+import 'providers/provider.dart';
 
-class SigninView extends StatefulWidget {
+class SigninView extends ConsumerStatefulWidget {
   const SigninView({super.key});
 
   @override
-  State<SigninView> createState() => _SigninViewState();
+  ConsumerState<SigninView> createState() => _SigninViewState();
 }
 
-class _SigninViewState extends State<SigninView> {
+class _SigninViewState extends ConsumerState<SigninView> {
   late GlobalKey<FormState> _formKey;
   late final TextEditingController _emailController, _passwordController;
   late ValueNotifier<bool> _passwordObscure;
@@ -45,7 +47,11 @@ class _SigninViewState extends State<SigninView> {
 
   void _trySignin(String email, String password) {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      context.go(RouteName.dashboard.toPath());
+      // context.go(RouteName.dashboard.toPath());
+      ref.read(authProvider.notifier).signInWithEmailAndPassword(
+            email,
+            password,
+          );
     }
   }
 
@@ -146,12 +152,21 @@ class _SigninViewState extends State<SigninView> {
                       width: double.infinity,
                       child: ListenableBuilder(
                           listenable: Listenable.merge(
-                            [_emailController, _passwordController],
+                            [
+                              _emailController,
+                              _passwordController,
+                            ],
                           ),
                           builder: (context, child) {
+                            final bool isLoading =
+                                ref.watch(authProvider).maybeMap(
+                                      orElse: () => false,
+                                      processing: (value) => true,
+                                    );
                             return ElevatedButton(
                               onPressed: _emailController.text.isEmpty ||
-                                      _passwordController.text.isEmpty
+                                      _passwordController.text.isEmpty ||
+                                      isLoading
                                   ? null
                                   : () {
                                       _trySignin(
@@ -159,7 +174,26 @@ class _SigninViewState extends State<SigninView> {
                                         _passwordController.text,
                                       );
                                     },
-                              child: const Text('Login'),
+                              child: isLoading
+                                  ? const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          height: 16,
+                                          width: 16,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            valueColor: AlwaysStoppedAnimation(
+                                              Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
+                                        Text('Signing in...'),
+                                      ],
+                                    )
+                                  : const Text('Login'),
                             );
                           }),
                     ),

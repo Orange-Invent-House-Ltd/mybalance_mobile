@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import '../../rest_client/rest_client.dart';
+import './preference_entry.dart';
 import './storage_manager.dart';
 import './storage_provider/storage_provider.dart';
-import './preference_entry.dart';
 
 final class TokenStorage implements StorageManager<Token> {
   TokenStorage({required StorageProvider storageProvider})
@@ -14,11 +14,16 @@ final class TokenStorage implements StorageManager<Token> {
         _refreshToken = TypedEntry(
           storageProvider: storageProvider,
           key: 'authorization.refresh_token',
-        );
+        ) {
+    getStream().listen((token) {
+      _cachedToken = token;
+    });
+  }
 
   late final PreferencesEntry<String> _accessToken;
   late final PreferencesEntry<String> _refreshToken;
   final _streamController = StreamController<Token?>.broadcast();
+  Token? _cachedToken;
 
   @override
   Future<Token?> load() {
@@ -30,8 +35,9 @@ final class TokenStorage implements StorageManager<Token> {
       final refreshToken = values[1];
 
       if (accessToken == null || refreshToken == null) return null;
-
-      return Token(accessToken, refreshToken);
+      final token = Token(accessToken, refreshToken);
+      _cachedToken = token;
+      return token;
     });
   }
 
@@ -42,6 +48,7 @@ final class TokenStorage implements StorageManager<Token> {
       _refreshToken.set(tokenPair.refreshToken)
     ).wait;
 
+    _cachedToken = tokenPair;
     _streamController.add(tokenPair);
   }
 
@@ -51,9 +58,12 @@ final class TokenStorage implements StorageManager<Token> {
   @override
   Future<void> clear() async {
     await (_accessToken.remove(), _refreshToken.remove()).wait;
+    _cachedToken = null;
     _streamController.add(null);
   }
 
   @override
   Future<void> close() => _streamController.close();
+
+  Token? get cachedToken => _cachedToken;
 }

@@ -5,32 +5,42 @@ import 'package:go_router/go_router.dart';
 import '../../core/components/rest_client/rest_client.dart';
 import '../../core/utils/extensions/string_extension.dart';
 import '../../core/widgets/loading_page.dart';
-import '../../features/auth/views/provider.dart';
+import '../../features/auth/views/providers/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/core/views/views.dart';
 import '../../features/dispute/views/views.dart';
 import '../../features/notification/views/views.dart';
+import '../../features/onboarding/views/provider/provider.dart';
 import '../../features/onboarding/views/views.dart';
 import '../../features/transaction/views/views.dart';
 import './error_view.dart';
 import './route_name.dart';
-import './route_refresh.dart';
+import './redirect_guards/guards.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
 
 final goRouterProvider = Provider<GoRouter>(
   (ref) {
-    final authStream = ref.watch(authRepositoryProvider).authStatus;
+    final authStatusStream = ref.watch(authRepositoryProvider).authStatus;
+    final authStatusAsync = ref.watch(authStatusProvider);
+    final onboardedStatusAsync = ref.watch(onboardedStatusProvider);
+
+    final authStatus =
+        authStatusAsync.value ?? AuthenticationStatus.unauthenticated;
+    final isOnboarded = onboardedStatusAsync.value ?? false;
+
+    final refreshNotifier = GoRouterRefreshStream(authStatusStream);
+    ref.onDispose(refreshNotifier.dispose);
     return GoRouter(
       debugLogDiagnostics: true,
       initialLocation: RouteName.onboard.toPath(),
       navigatorKey: _navigatorKey,
-      // redirect: RedirectBuilder({
-      //   RedirectIfAuthenticatedGuard(),
-      //   RedirectIfUnauthenticatedGuard(),
-      // }).call,
-      refreshListenable:
-          GoRouterRefreshStream<AuthenticationStatus>(authStream),
+      redirect: (context, state) => RedirectBuilder({
+        RedirectIfOnboarded(isOnboarded),
+        RedirectIfAuthenticatedGuard(authStatus),
+        RedirectIfUnauthenticatedGuard(authStatus),
+      }).call(context, state),
+      refreshListenable: refreshNotifier,
       errorBuilder: (_, state) {
         final location = state.matchedLocation;
         return ErrorView(location: location);
@@ -40,6 +50,7 @@ final goRouterProvider = Provider<GoRouter>(
           name: RouteName.onboard,
           path: RouteName.onboard.toPath(),
           builder: (_, __) => const OnboardStoryView(),
+          // redirect:
         ),
         GoRoute(
           name: RouteName.loading,
@@ -158,12 +169,12 @@ final goRouterProvider = Provider<GoRouter>(
         ),
         GoRoute(
           name: RouteName.profile,
-          path: RouteName.profile,
+          path: RouteName.profile.toPath(),
           builder: (_, __) => const ProfileView(),
         ),
         GoRoute(
           name: RouteName.settings,
-          path: RouteName.settings,
+          path: RouteName.settings.toPath(),
           builder: (_, __) => const SettingsView(),
         ),
       ],

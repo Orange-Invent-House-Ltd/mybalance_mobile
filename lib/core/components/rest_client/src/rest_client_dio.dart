@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
 
-import './rest_client_base.dart';
 import './exception/network_exception.dart';
-
+import './rest_client_base.dart';
 
 final class RestClientDio extends RestClientBase {
   RestClientDio({required Dio dio})
@@ -11,7 +10,7 @@ final class RestClientDio extends RestClientBase {
 
   final Dio _dio;
 
-  Future<Map<String, Object?>?> sendRequest<T extends Object>({
+  Future<Map<String, dynamic>?> sendRequest<T extends Object>({
     required String path,
     required String method,
     Map<String, Object?>? body,
@@ -26,17 +25,16 @@ final class RestClientDio extends RestClientBase {
         contentType: 'application/json',
         responseType: ResponseType.json,
       );
-
       final response = await _dio.request<T>(
         uri.toString(),
         data: body,
         options: options,
       );
-
       final resp = await decodeResponse(
         response.data,
         statusCode: response.statusCode,
       );
+      // log('from: $resp["data"]');
 
       return resp;
     } on RestClientException {
@@ -79,7 +77,7 @@ final class RestClientDio extends RestClientBase {
   }
 
   @override
-  Future<Map<String, Object?>?> delete(
+  Future<Map<String, dynamic>?> delete(
     String path, {
     Map<String, Object?>? headers,
     Map<String, Object?>? queryParams,
@@ -92,7 +90,7 @@ final class RestClientDio extends RestClientBase {
       );
 
   @override
-  Future<Map<String, Object?>?> get(
+  Future<Map<String, dynamic>?> get(
     String path, {
     Map<String, Object?>? headers,
     Map<String, Object?>? queryParams,
@@ -105,7 +103,7 @@ final class RestClientDio extends RestClientBase {
       );
 
   @override
-  Future<Map<String, Object?>?> patch(
+  Future<Map<String, dynamic>?> patch(
     String path, {
     required Map<String, Object?> body,
     Map<String, Object?>? headers,
@@ -120,7 +118,7 @@ final class RestClientDio extends RestClientBase {
       );
 
   @override
-  Future<Map<String, Object?>?> post(
+  Future<Map<String, dynamic>?> post(
     String path, {
     required Map<String, Object?> body,
     Map<String, Object?>? headers,
@@ -135,7 +133,7 @@ final class RestClientDio extends RestClientBase {
       );
 
   @override
-  Future<Map<String, Object?>?> put(
+  Future<Map<String, dynamic>?> put(
     String path, {
     required Map<String, Object?> body,
     Map<String, Object?>? headers,

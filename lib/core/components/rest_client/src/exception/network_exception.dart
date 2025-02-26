@@ -64,12 +64,12 @@ final class CustomBackendException extends RestClientException {
   /// {@macro custom_backend_exception}
   const CustomBackendException({
     required super.message,
-    required this.error,
-    super.statusCode,
+    this.error,
+    required super.statusCode,
   });
 
   /// The error returned by the backend
-  final Map<String, Object?> error;
+  final Map<String, Object?>? error;
 
   @override
   String toString() => 'CustomBackendException('

@@ -1,4 +1,5 @@
 class RouteName {
+  // Auth routes
   static const String onboard = 'onboard';
   static const String loading = 'loading';
   static const String dashboard = 'dashboard';
@@ -7,6 +8,7 @@ class RouteName {
   static const String forgetPassword = 'forget-password';
   static const String resetPassword = 'reset-password';
   static const String checkEmail = 'check-email';
+  
   static const String createLink = 'create-link';
   static const String depositMoney = 'deposit-money';
   static const String unlockMoney = 'unlock-money';

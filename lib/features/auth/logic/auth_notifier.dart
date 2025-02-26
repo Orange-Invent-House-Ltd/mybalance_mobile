@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/components/rest_client/rest_client.dart';
 import '../data/data.dart';
 import './auth_state.dart';
@@ -16,16 +19,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     });
   }
 
- 
-
-  Future<void> signInWithEmailAndPassword(
-      String email, String password) async {
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
     state = AuthState.processing(status: state.status);
 
     try {
       await _authRepository.signInWithEmailAndPassword(email, password);
       state = const AuthState.idle(status: AuthenticationStatus.authenticated);
     } catch (e) {
+      log(e.toString());
       state = AuthState.error(
         status: AuthenticationStatus.unauthenticated,
         error: e,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../config/routes/route_name.dart';
 import '../../../core/utils/extensions/string_extension.dart';
+import 'provider/provider.dart';
 
 class OnboardStoryView extends StatefulWidget {
   const OnboardStoryView({super.key});
@@ -21,10 +23,15 @@ class _OnboardStoryViewState extends State<OnboardStoryView> {
         children: [
           const Text('Onboard Story View'),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () => context.go(RouteName.signIn.toPath()),
-            child: const Text('Complete Onboarding'),
-          ),
+          Consumer(builder: (context, ref, child) {
+            return ElevatedButton(
+              onPressed: () {
+                ref.read(onboardSetProvider);
+                context.go(RouteName.signIn.toPath());
+              },
+              child: const Text('Complete Onboarding'),
+            );
+          }),
         ],
       ),
     );

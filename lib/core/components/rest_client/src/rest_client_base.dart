@@ -47,7 +47,8 @@ abstract base class RestClientBase implements RestClient {
   /// Decodes [body] from JSON \ UTF8
   @protected
   @visibleForTesting
-  FutureOr<Map<String, Object?>?> decodeResponse(
+  FutureOr<Map<String, Object?>?>
+      decodeResponse(
     Object? body, {
     int? statusCode,
   }) async {
@@ -62,12 +63,12 @@ abstract base class RestClientBase implements RestClient {
           statusCode: statusCode,
         );
       }
-
+      // TODO: Ask the backend team to provide a consistent error response
       if (result
           case {
-            'code': 40000,
+            'success': false,
             'message': String message,
-            'data': Map<String, dynamic> error
+            'data': Map<String, dynamic>? error,
           }) {
         throw CustomBackendException(
           message: message,
@@ -77,8 +78,15 @@ abstract base class RestClientBase implements RestClient {
       }
 
       if (result
-          case {'code': 20000, 'data': final Map<String, dynamic> data}) {
-        return data;
+          case {
+            'success': true,
+            'data': final Map<String, dynamic>? data,
+            'meta': final Map<String, dynamic>? meta,
+          }) {
+        return {
+          'data': data,
+          'meta': meta,
+        };
       }
 
       return null;
