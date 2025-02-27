@@ -60,6 +60,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> forgetPassword(String email) async {
-    // await _authDataSource.forgetPassword(email);
+    await _authDataSource.forgetPassword(email);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 import './exception/network_exception.dart';
@@ -34,18 +36,29 @@ final class RestClientDio extends RestClientBase {
         response.data,
         statusCode: response.statusCode,
       );
-      // log('from: $resp["data"]');
 
       return resp;
     } on RestClientException {
       rethrow;
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.unknown) {
+        Error.throwWithStackTrace(
+          ConnectionException(
+            message:
+                'Unknown Error please check internet connection or restart the app',
+            statusCode: e.response?.statusCode,
+            cause: e,
+          ),
+          e.stackTrace,
+        );
+      }
       if (e.type == DioExceptionType.connectionError ||
           e.type == DioExceptionType.sendTimeout ||
           e.type == DioExceptionType.receiveTimeout) {
         Error.throwWithStackTrace(
           ConnectionException(
-            message: 'ConnectionException',
+            message:
+                'Connection Error please check internet connectivity and try again',
             statusCode: e.response?.statusCode,
             cause: e,
           ),
@@ -69,6 +82,7 @@ final class RestClientDio extends RestClientBase {
         e.stackTrace,
       );
     } on Object catch (e, stack) {
+      log(e.toString());
       Error.throwWithStackTrace(
         ClientException(message: e.toString(), cause: e),
         stack,

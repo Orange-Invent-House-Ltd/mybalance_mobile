@@ -48,4 +48,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
     }
   }
+
+  Future<void> forgetPassword(String email) async {
+    state = AuthState.processing(status: state.status);
+
+    try {
+      await _authRepository.forgetPassword(email);
+      state =
+          const AuthState.idle(status: AuthenticationStatus.unauthenticated);
+    } catch (e) {
+      state = AuthState.error(
+        status: AuthenticationStatus.unauthenticated,
+        error: e,
+      );
+    }
+  }
 }

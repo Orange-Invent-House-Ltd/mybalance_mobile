@@ -8,9 +8,11 @@ class OverlayLoading extends StatefulWidget {
     super.key,
     required this.isLoading,
     required this.child,
+    this.text,
   });
   final bool isLoading;
   final Widget child;
+  final String? text;
 
   @override
   State<OverlayLoading> createState() => _OverlayLoadingState();
@@ -79,7 +81,7 @@ class _OverlayLoadingState extends State<OverlayLoading>
                           width: double.infinity,
                         ),
                         Text(
-                          'Loading! Please wait...',
+                          widget.text ?? 'Loading! Please wait...',
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium

@@ -17,7 +17,7 @@ import './error_view.dart';
 import './route_name.dart';
 import './redirect_guards/guards.dart';
 
-final _navigatorKey = GlobalKey<NavigatorState>();
+final navigatorKey = GlobalKey<NavigatorState>();
 
 final goRouterProvider = Provider<GoRouter>(
   (ref) {
@@ -34,7 +34,7 @@ final goRouterProvider = Provider<GoRouter>(
     return GoRouter(
       debugLogDiagnostics: true,
       initialLocation: RouteName.onboard.toPath(),
-      navigatorKey: _navigatorKey,
+      navigatorKey: navigatorKey,
       redirect: (context, state) => RedirectBuilder({
         RedirectIfOnboarded(isOnboarded),
         RedirectIfAuthenticatedGuard(authStatus),
