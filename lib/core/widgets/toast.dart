@@ -1,19 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:toastification/toastification.dart';
 
-import '../../config/routes/route_config.dart';
-
 abstract class AppToast {
   static void show(
     String message, {
     ToastificationType type = ToastificationType.info,
   }) {
-    final BuildContext? context = navigatorKey.currentContext;
-    if (context == null) {
-      return;
-    }
+    // final BuildContext? context = navigatorKey.currentContext;
+    // if (context == null) {
+    //   return;
+    // }
     toastification.show(
-      context: context,
+      // context: context,
       title: Text(message),
       type: type,
       style: ToastificationStyle.flat,

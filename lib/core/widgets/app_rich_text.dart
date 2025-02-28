@@ -6,14 +6,14 @@ import '../../config/themes/app_colors.dart';
 class AppRichText extends StatelessWidget {
   const AppRichText({
     super.key,
-    required this.onSecondaryTap,
+    this.onSecondaryTap,
     required this.primaryText,
     required this.secondaryText,
     this.secondaryColor,
     this.secondaryFontSize,
     this.letterSpacing,
   });
-  final GestureTapCallback onSecondaryTap;
+  final GestureTapCallback? onSecondaryTap;
   final String primaryText;
   final String secondaryText;
   final Color? secondaryColor;

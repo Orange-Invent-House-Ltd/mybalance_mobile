@@ -1,22 +1,31 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
+import '../../../core/components/rest_client/rest_client.dart';
 import '../../../core/constants/app_assets.dart';
+import '../../../core/utils/extensions/string_extension.dart';
 import '../../../core/utils/validators.dart';
+import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/overlay_loading.dart';
+import '../../../core/widgets/toast.dart';
+import '../logic/auth_state.dart';
+import './providers/provider.dart';
 
-class ForgetPasswordView extends StatefulWidget {
+class ForgetPasswordView extends ConsumerStatefulWidget {
   const ForgetPasswordView({super.key});
 
   @override
-  State<ForgetPasswordView> createState() => _ForgetPasswordViewState();
+  ConsumerState<ForgetPasswordView> createState() => _ForgetPasswordViewState();
 }
 
-class _ForgetPasswordViewState extends State<ForgetPasswordView> {
+class _ForgetPasswordViewState extends ConsumerState<ForgetPasswordView> {
   late GlobalKey<FormState> _formKey;
   late TextEditingController _emailController;
   @override
@@ -32,17 +41,59 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
     super.dispose();
   }
 
+  Future<void> _trySubmit(String email) async {
+    if (_formKey.currentContext != null && _formKey.currentState!.validate()) {
+      await ref.read(authProvider.notifier).forgetPassword(
+            email,
+          );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bool isLoading = ref.watch(authProvider).maybeMap(
+          orElse: () => false,
+          processing: (_) => true,
+        );
     final ThemeData theme = Theme.of(context);
+    ref.listen<AuthState>(
+      authProvider,
+      (prev, next) {
+        next.maybeMap(
+          error: (value) {
+            log("from: ${ModalRoute.of(context)!.settings.name!}");
+
+            String errorMessage = 'An error occurred';
+            if (value.error is RestClientException) {
+              final ff = value.error as RestClientException;
+              errorMessage = ff.message;
+              log(errorMessage);
+            }
+            AppToast.error(errorMessage);
+          },
+          idle: (value) {
+            if (value.status == AuthenticationStatus.unauthenticated &&
+                prev?.maybeMap(processing: (_) => true, orElse: () => false) ==
+                    true) {
+              // if (context.mounted) {
+              context.pushNamed(
+                RouteName.checkEmail,
+                queryParameters: {'email': _emailController.text},
+              );
+              // }
+            }
+          },
+          orElse: () {},
+        );
+      },
+    );
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: AppColors.b300,
-        elevation: 0,
+      appBar: CustomAppBar(
+        theme: theme,
+        onBack: () => context.go(RouteName.signIn.toPath()),
       ),
       body: OverlayLoading(
-        isLoading: false,
+        isLoading: isLoading,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -90,13 +141,9 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                         return ElevatedButton(
                           onPressed:
                               Validator.isEmailValid(_emailController.text)
-                                  ? () {
-                                      context.pushNamed(
-                                        RouteName.checkEmail,
-                                        queryParameters: {
-                                          'email': _emailController.text
-                                        },
-                                      );
+                                  ? () async {
+                                      await _trySubmit(_emailController.text);
+                                      if (context.mounted) {}
                                     }
                                   : null,
                           child: child,

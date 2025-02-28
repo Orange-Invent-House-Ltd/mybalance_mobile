@@ -1,17 +1,61 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:open_mail_app/open_mail_app.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/widgets/app_rich_text.dart';
+import '../../../core/widgets/custom_app_bar.dart';
+import 'providers/provider.dart';
 
-class CheckYourMailView extends StatelessWidget {
+class CheckYourMailView extends ConsumerStatefulWidget {
   const CheckYourMailView({
     super.key,
     required this.email,
   });
   final String email;
+
+  @override
+  ConsumerState<CheckYourMailView> createState() => _CheckYourMailViewState();
+}
+
+class _CheckYourMailViewState extends ConsumerState<CheckYourMailView> {
+  final ValueNotifier<bool> canResendNotifier = ValueNotifier<bool>(false);
+  final ValueNotifier<int> countdownNotifier = ValueNotifier<int>(0);
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    startResendCooldown();
+  }
+
+  void startResendCooldown() {
+    canResendNotifier.value = false;
+    countdownNotifier.value = 300; // 5 minutes (in seconds)
+
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (countdownNotifier.value > 0) {
+        countdownNotifier.value--;
+      } else {
+        canResendNotifier.value = true;
+        timer.cancel();
+      }
+    });
+  }
+
+  void resendEmail() {
+    if (canResendNotifier.value) {
+      log("Resending email to ${widget.email}");
+      ref.read(authProvider.notifier).forgetPassword(widget.email);
+      startResendCooldown();
+    }
+  }
 
   void showNoMailAppsDialog(BuildContext context) {
     showDialog(
@@ -19,7 +63,7 @@ class CheckYourMailView extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           title: const Text("Open Mail App"),
-          content: const Text("No mail apps installed"),
+          content: const Text("Could not open email app."),
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),
@@ -33,31 +77,39 @@ class CheckYourMailView extends StatelessWidget {
     );
   }
 
-  // void _openEmailApp(BuildContext context) async {
-  //   var result = await OpenMailApp.openMailApp();
+  void _openEmailApp(BuildContext context) async {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: widget.email,
+    );
 
-  //   if (!result.didOpen && !result.canOpen) {
-  //     showNoMailAppsDialog(context);
-  //   } else if (!result.didOpen && result.canOpen) {
-  //     showDialog(
-  //       context: context,
-  //       builder: (_) {
-  //         return MailAppPickerDialog(
-  //           mailApps: result.options,
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
+    if (await canLaunchUrl(emailLaunchUri)) {
+      await launchUrl(emailLaunchUri);
+    } else {
+      if (context.mounted) showNoMailAppsDialog(context);
+    }
+  }
+
+  String formatCountdown(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return "$minutes:${remainingSeconds.toString().padLeft(2, '0')}";
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    canResendNotifier.dispose();
+    countdownNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: AppColors.b300,
-        elevation: 0,
+      appBar: CustomAppBar(
+        theme: theme,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -89,7 +141,7 @@ class CheckYourMailView extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: email,
+                    text: widget.email,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: AppColors.g200,
                       fontWeight: FontWeight.w500,
@@ -104,17 +156,29 @@ class CheckYourMailView extends StatelessWidget {
               height: 44,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: (){},
+                onPressed: () {
+                  _openEmailApp(context);
+                },
                 // onPressed: () => _openEmailApp(context),
                 child: const Text('Open email app'),
               ),
             ),
             const SizedBox(height: 24),
-            AppRichText(
-              onSecondaryTap: () {},
-              primaryText: 'Didn\'t receive the email?',
-              secondaryText: 'Click to resend',
-              secondaryColor: AppColors.p300,
+            ListenableBuilder(
+              listenable:
+                  Listenable.merge([canResendNotifier, countdownNotifier]),
+              builder: (context, child) {
+                return AppRichText(
+                  onSecondaryTap:
+                      canResendNotifier.value ? () => resendEmail() : null,
+                  primaryText: 'Didn\'t receive the email?',
+                  secondaryText: canResendNotifier.value
+                      ? "Click to resend"
+                      : "Resend available in ${formatCountdown(countdownNotifier.value)}",
+                  secondaryColor:
+                      canResendNotifier.value ? AppColors.p300 : AppColors.g100,
+                );
+              },
             ),
           ],
         ),

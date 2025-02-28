@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -69,6 +71,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
       (prev, next) {
         next.maybeMap(
           error: (value) {
+            log("from: ${ModalRoute.of(context)!.settings.name!}");
             String errorMessage = 'An error occurred';
             if (value.error is RestClientException) {
               final ff = value.error as RestClientException;
@@ -159,7 +162,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                       Align(
                         alignment: Alignment.topRight,
                         child: TextButton(
-                          onPressed: () => context.push(
+                          onPressed: () => context.go(
                             RouteName.forgetPassword.toPath(),
                           ),
                           child: Text(

@@ -6,7 +6,8 @@ import '../../config/themes/app_colors.dart';
 import '../../core/constants/app_assets.dart';
 
 class AppBackButton extends StatelessWidget {
-  const AppBackButton({super.key});
+  const AppBackButton({super.key, this.onBackPressed});
+  final VoidCallback? onBackPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class AppBackButton extends StatelessWidget {
       height: 30,
       width: 30,
       child: ElevatedButton(
-        onPressed: context.pop,
+        onPressed: onBackPressed ?? context.pop,
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(2),
           backgroundColor: AppColors.p50,

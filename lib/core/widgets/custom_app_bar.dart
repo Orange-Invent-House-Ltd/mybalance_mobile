@@ -9,10 +9,12 @@ class CustomAppBar extends AppBar {
     required this.theme,
     this.text,
     this.action,
+    this.onBack,
   });
   final ThemeData theme;
   final String? text;
   final Widget? action;
+  final VoidCallback? onBack;
   @override
   Color? get backgroundColor => theme.scaffoldBackgroundColor;
 
@@ -20,11 +22,11 @@ class CustomAppBar extends AppBar {
   double? get scrolledUnderElevation => 0;
 
   @override
-  Widget? get leading => const Row(
+  Widget? get leading => Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Width(24),
-          AppBackButton(),
+          const Width(24),
+          AppBackButton(onBackPressed: onBack),
         ],
       );
 
