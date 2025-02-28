@@ -10,7 +10,7 @@ import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/widgets/app_rich_text.dart';
 import '../../../core/widgets/custom_app_bar.dart';
-import 'providers/provider.dart';
+import './providers/provider.dart';
 
 class CheckYourMailView extends ConsumerStatefulWidget {
   const CheckYourMailView({

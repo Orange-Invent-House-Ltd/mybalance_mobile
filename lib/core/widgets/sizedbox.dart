@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Height extends StatelessWidget {
   const Height(this.height, {super.key});
@@ -6,7 +7,7 @@ class Height extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(height: height);
+    return SizedBox(height: height.h);
   }
 }
 
@@ -16,6 +17,6 @@ class Width extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: width);
+    return SizedBox(width: width.w);
   }
 }

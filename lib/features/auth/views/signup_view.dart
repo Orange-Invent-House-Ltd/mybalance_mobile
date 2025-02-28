@@ -7,6 +7,7 @@ import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/widgets/app_rich_text.dart';
 import '../../../core/widgets/overlay_loading.dart';
+import '../../../core/widgets/sizedbox.dart';
 import '../models/means_of_id.dart';
 import './widgets/sell_buy_toggle.dart';
 import './widgets/sign_up_buyer_step1.dart';
@@ -31,8 +32,8 @@ class _SignupViewState extends State<SignupView> {
   late ValueNotifier<int> _currentBuyerStep;
   final totalSellerSteps = 4;
   final totalBuyerSteps = 3;
-  late PageStorageKey _buyerKey;
-  late PageStorageKey _sellerKey;
+  late PageStorageKey<String> _buyerKey;
+  late PageStorageKey<String> _sellerKey;
   late PageController _sellerStepperController, _buyerStepperController;
   late TextEditingController _fullnameController,
       _businessNameController,
@@ -51,11 +52,11 @@ class _SignupViewState extends State<SignupView> {
   initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-    _isBuyer = ValueNotifier(false);
-    _currentSellerStep = ValueNotifier(1);
-    _currentBuyerStep = ValueNotifier(1);
-    _buyerKey = const PageStorageKey('buyer');
-    _sellerKey = const PageStorageKey('seller');
+    _isBuyer = ValueNotifier<bool>(true);
+    _currentSellerStep = ValueNotifier<int>(1);
+    _currentBuyerStep = ValueNotifier<int>(1);
+    _buyerKey = const PageStorageKey<String>('buyer');
+    _sellerKey = const PageStorageKey<String>('seller');
     _sellerStepperController = PageController();
     _buyerStepperController = PageController();
     _fullnameController = TextEditingController();
@@ -181,20 +182,6 @@ class _SignupViewState extends State<SignupView> {
     }
   }
 
-  // bool _subTitleAlign() {
-  //   if (_isBuyer.value) {
-  //     if (_currentBuyerStep.value <= 2) {
-  //       return false;
-  //     }
-  //     return true;
-  //   } else {
-  //     if (_currentSellerStep.value <= 2) {
-  //       return false;
-  //     }
-  //     return true;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -220,13 +207,13 @@ class _SignupViewState extends State<SignupView> {
                       height: 50,
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const Height( 32),
                   SellBuyToggle(
                     onSelect: (value) {
                       _isBuyer.value = value;
                     },
                   ),
-                  const SizedBox(height: 32),
+                  const Height( 32),
                   ListenableBuilder(
                     listenable: Listenable.merge(
                       [_currentSellerStep, _currentBuyerStep, _isBuyer],
@@ -245,8 +232,7 @@ class _SignupViewState extends State<SignupView> {
                                   currentStep: _currentSellerStep.value,
                                   totalSteps: totalSellerSteps,
                                 ),
-                          SizedBox(
-                            height: _currentSellerStep.value <= 2 ? 0 : 16,
+                          Height( _currentSellerStep.value <= 2 ? 0 : 16,
                           ),
                           SizedBox(
                             width: double.infinity,
@@ -262,7 +248,7 @@ class _SignupViewState extends State<SignupView> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 8.0),
+                          const Height( 8.0),
                           SizedBox(
                             width: double.infinity,
                             child: Text(
@@ -274,7 +260,7 @@ class _SignupViewState extends State<SignupView> {
                                   ?.copyWith(color: AppColors.g200),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const Height( 16),
                         ],
                       );
                     },
@@ -349,7 +335,7 @@ class _SignupViewState extends State<SignupView> {
                       );
                     },
                   ),
-                  const SizedBox(height: 24),
+                  const Height( 24),
                   SizedBox(
                     width: double.infinity,
                     child: ListenableBuilder(
@@ -417,7 +403,7 @@ class _SignupViewState extends State<SignupView> {
                               ),
                             if (_currentSellerStep.value == 4 ||
                                 _currentBuyerStep.value == 3) ...[
-                              const SizedBox(height: 32),
+                              const Height( 32),
                               AppRichText(
                                 primaryText: 'Didn\'t receive the email?',
                                 secondaryText: 'Click to resend',
@@ -431,7 +417,7 @@ class _SignupViewState extends State<SignupView> {
                   ),
                   ValueListenableBuilder(
                     valueListenable: _currentSellerStep,
-                    child: const SizedBox(height: 32),
+                    child: const Height( 32),
                     builder: (context, value, child) {
                       return Column(
                         children: [

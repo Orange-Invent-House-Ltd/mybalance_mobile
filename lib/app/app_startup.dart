@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toastification/toastification.dart';
 
 import 'app_startup_failed.dart';
 import 'app_startup_loading.dart';
@@ -14,7 +13,7 @@ class AppStartupWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appStartupState = ref.watch(appStartupProvider);
     return appStartupState.when(
-      data: (_) => ToastificationWrapper(child: onLoaded(context)),
+      data: (_) => onLoaded(context),
       error: (error, stackTrace) => AppStartupErrorWidget(
         error: error,
         stackTrace: stackTrace,

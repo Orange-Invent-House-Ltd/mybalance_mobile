@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import './app_text_styles.dart';
 import 'app_colors.dart';
@@ -10,10 +11,8 @@ class AppTheme {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         // colorScheme: AppColors.lightColorScheme,
-        textTheme: textTheme,
-        // iconTheme: const IconThemeData(
-        //   color: Color(0xff0F1340),
-        // ),
+        // textTheme: textTheme.apply(fontSizeFactor: 1.sp),
+        textTheme: Typography.englishLike2021.apply(fontSizeFactor: 1.sp),
         inputDecorationTheme: inputDecorationTheme,
         elevatedButtonTheme: elevatedButtonTheme,
         outlinedButtonTheme: outlinedButtonTheme,
