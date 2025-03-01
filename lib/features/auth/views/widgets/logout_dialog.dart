@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../config/themes/app_colors.dart';
@@ -38,7 +39,7 @@ class LogoutDialog extends ConsumerWidget {
             Text(
               'Are you sure you want to logout?',
               style: textTheme.bodyMedium!.copyWith(
-                fontSize: 14,
+                fontSize: 14.sp,
                 color: AppColors.g500,
               ),
             ),

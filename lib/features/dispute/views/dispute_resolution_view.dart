@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -131,7 +132,7 @@ class DisputeResolutionCard extends StatelessWidget {
                                   : 255.0 * 1)
                               .round(),
                         ),
-                        fontSize: 13,
+                        fontSize: 13.sp,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -140,7 +141,7 @@ class DisputeResolutionCard extends StatelessWidget {
                   Text(
                     FormatDate.monthDayYear(dispute.timestamp),
                     style: theme.textTheme.bodySmall?.copyWith(
-                      fontSize: 10,
+                      fontSize: 10.sp,
                       color: AppColors.g300.withAlpha(
                         (dispute.status == DisputeResolutionStatus.resolved
                                 ? 255.0 * .4

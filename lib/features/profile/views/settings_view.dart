@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/validators.dart';
@@ -162,7 +163,7 @@ class _SettingsViewState extends State<SettingsView> {
             'Change Phone',
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w700,
-              fontSize: 17,
+              fontSize: 17.sp,
               color: AppColors.b300,
             ),
           ),
@@ -245,7 +246,7 @@ class _SettingsViewState extends State<SettingsView> {
             'Change Password',
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w700,
-              fontSize: 17,
+              fontSize: 17.sp,
               color: AppColors.b300,
             ),
           ),
@@ -377,7 +378,7 @@ class SettingsButton extends StatelessWidget {
                     Text(
                       title,
                       style: theme.textTheme.titleSmall?.copyWith(
-                        fontSize: 13,
+                        fontSize: 13.sp,
                         color: value ? AppColors.p300 : AppColors.g300,
                       ),
                     ),

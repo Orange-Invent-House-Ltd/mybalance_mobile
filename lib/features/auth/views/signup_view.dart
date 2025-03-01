@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -203,17 +204,17 @@ class _SignupViewState extends State<SignupView> {
                     alignment: Alignment.center,
                     child: SvgPicture.asset(
                       AppAssets.logo,
-                      width: 50,
-                      height: 50,
+                      width: 50.r,
+                      height: 50.r,
                     ),
                   ),
-                  const Height( 32),
+                  const Height(32),
                   SellBuyToggle(
                     onSelect: (value) {
                       _isBuyer.value = value;
                     },
                   ),
-                  const Height( 32),
+                  const Height(32),
                   ListenableBuilder(
                     listenable: Listenable.merge(
                       [_currentSellerStep, _currentBuyerStep, _isBuyer],
@@ -232,7 +233,8 @@ class _SignupViewState extends State<SignupView> {
                                   currentStep: _currentSellerStep.value,
                                   totalSteps: totalSellerSteps,
                                 ),
-                          Height( _currentSellerStep.value <= 2 ? 0 : 16,
+                          Height(
+                            _currentSellerStep.value <= 2 ? 0 : 16,
                           ),
                           SizedBox(
                             width: double.infinity,
@@ -244,11 +246,11 @@ class _SignupViewState extends State<SignupView> {
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 color: AppColors.b300,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                                fontSize: 18.sp,
                               ),
                             ),
                           ),
-                          const Height( 8.0),
+                          const Height(8.0),
                           SizedBox(
                             width: double.infinity,
                             child: Text(
@@ -260,7 +262,7 @@ class _SignupViewState extends State<SignupView> {
                                   ?.copyWith(color: AppColors.g200),
                             ),
                           ),
-                          const Height( 16),
+                          const Height(16),
                         ],
                       );
                     },
@@ -335,7 +337,7 @@ class _SignupViewState extends State<SignupView> {
                       );
                     },
                   ),
-                  const Height( 24),
+                  const Height(24),
                   SizedBox(
                     width: double.infinity,
                     child: ListenableBuilder(
@@ -363,7 +365,7 @@ class _SignupViewState extends State<SignupView> {
                                           style: theme.textTheme.bodyMedium
                                               ?.copyWith(
                                             color: const Color(0xff667085),
-                                            fontSize: 13,
+                                            fontSize: 13.sp,
                                           ),
                                         ),
                                       ],
@@ -403,7 +405,7 @@ class _SignupViewState extends State<SignupView> {
                               ),
                             if (_currentSellerStep.value == 4 ||
                                 _currentBuyerStep.value == 3) ...[
-                              const Height( 32),
+                              const Height(32),
                               AppRichText(
                                 primaryText: 'Didn\'t receive the email?',
                                 secondaryText: 'Click to resend',
@@ -417,7 +419,7 @@ class _SignupViewState extends State<SignupView> {
                   ),
                   ValueListenableBuilder(
                     valueListenable: _currentSellerStep,
-                    child: const Height( 32),
+                    child: const Height(32),
                     builder: (context, value, child) {
                       return Column(
                         children: [

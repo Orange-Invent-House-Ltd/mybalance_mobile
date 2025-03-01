@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../config/themes/app_colors.dart';
+import 'sizedbox.dart';
 
 class LabelTextField extends StatelessWidget {
   const LabelTextField({
@@ -55,7 +56,7 @@ class LabelTextField extends StatelessWidget {
             color: AppColors.g400,
           ),
         ),
-        const SizedBox(height: 6.0),
+        const Height(6.0),
         TextFormField(
           controller: controller,
           focusNode: focusNode,
@@ -70,11 +71,7 @@ class LabelTextField extends StatelessWidget {
           onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           inputFormatters: inputFormatters,
           style: style ??
-              const TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                color: AppColors.b300,
-              ),
+              theme.textTheme.bodyLarge?.copyWith(color: AppColors.b300),
           decoration: InputDecoration(
             hintText: hintText,
             suffixIcon: suffixIcon,

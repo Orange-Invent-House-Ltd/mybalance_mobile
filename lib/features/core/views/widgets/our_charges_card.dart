@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/widgets/sizedbox.dart';
@@ -36,7 +37,7 @@ class OurChargesCard extends StatelessWidget {
           Text(
             'We offer very user-friendly charges which are range-based. The higher the transaction, the lower the charge percentage.',
             style: theme.textTheme.bodyMedium?.copyWith(
-              fontSize: 13,
+              fontSize: 13.sp,
               color: AppColors.g200,
             ),
           ),
@@ -82,7 +83,7 @@ class OurChargesCard extends StatelessWidget {
           child: Text(
             title,
             style: style?.copyWith(
-              fontSize: 13,
+              fontSize: 13.sp,
               color: AppColors.g400,
             ),
           ),
@@ -93,7 +94,7 @@ class OurChargesCard extends StatelessWidget {
             child: Text(
               '$percent% per party',
               style: style?.copyWith(
-                fontSize: 13,
+                fontSize: 13.sp,
                 color: AppColors.g400,
               ),
             ),
@@ -135,7 +136,7 @@ class OurChargesCard extends StatelessWidget {
 //             Text(
 //               'We offer very user friendly charges which are range-based. The higher the transaction, the lower the charge percentage.',
 //               style: theme.textTheme.bodyMedium?.copyWith(
-//                 fontSize: 13,
+//                 fontSize: 13.sp,
 //                 color: AppColors.g200,
 //               ),
 //             ),
@@ -183,7 +184,7 @@ class OurChargesCard extends StatelessWidget {
 //           child: Text(
 //             title,
 //             style: style?.copyWith(
-//               fontSize: 13,
+//               fontSize: 13.sp,
 //               color: AppColors.g400,
 //             ),
 //           ),
@@ -194,7 +195,7 @@ class OurChargesCard extends StatelessWidget {
 //             child: Text(
 //               '$percent% per party',
 //               style: style?.copyWith(
-//                 fontSize: 13,
+//                 fontSize: 13.sp,
 //                 color: AppColors.g400,
 //               ),
 //             ),

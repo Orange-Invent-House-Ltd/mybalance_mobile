@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -56,7 +57,7 @@ class TransactionHistoryCard extends StatelessWidget {
                       Text(
                         'Trans. Ref: $refId',
                         style: textTheme.bodySmall?.copyWith(
-                          fontSize: 10,
+                          fontSize: 10.sp,
                           color: AppColors.g100,
                         ),
                       ),
@@ -105,11 +106,11 @@ class TransactionHistoryCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 186,
+                    width: 186.w,
                     child: Text(
                       description,
                       style: textTheme.bodyMedium?.copyWith(
-                        fontSize: 13,
+                        fontSize: 13.sp,
                         color: status == TransactionStatus.inProgress
                             ? AppColors.g100
                             : AppColors.g400,
@@ -121,7 +122,7 @@ class TransactionHistoryCard extends StatelessWidget {
                   Text(
                     _formartDateTime(dateTime),
                     style: textTheme.bodySmall?.copyWith(
-                      fontSize: 10,
+                      fontSize: 10.sp,
                       color: AppColors.g100,
                     ),
                   ),

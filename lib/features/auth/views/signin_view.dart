@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mybalanceapp/features/auth/logic/auth_state.dart';
@@ -15,6 +16,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_rich_text.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/overlay_loading.dart';
+import '../../../core/widgets/sizedbox.dart';
 import '../../../core/widgets/toast.dart';
 import 'providers/provider.dart';
 
@@ -103,20 +105,20 @@ class _SigninViewState extends ConsumerState<SigninView> {
                         alignment: Alignment.center,
                         child: SvgPicture.asset(
                           AppAssets.logo,
-                          height: 50,
-                          width: 50,
+                          height: 50.r,
+                          width: 50.r,
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const Height(32),
                       Text(
                         'Log in to your account',
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: AppColors.b300,
                           fontWeight: FontWeight.w500,
-                          fontSize: 18,
+                          fontSize: 18.sp,
                         ),
                       ),
-                      const SizedBox(height: 8.0),
+                      const Height(8.0),
                       ValueListenableBuilder(
                         valueListenable: _isBuyer,
                         builder: (context, value, child) {
@@ -127,7 +129,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                           );
                         },
                       ),
-                      const SizedBox(height: 16.0),
+                      const Height(16.0),
                       LabelTextField(
                         controller: _emailController,
                         validator: (value) => Validator.emailValidator(value),
@@ -136,7 +138,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                       ),
-                      const SizedBox(height: 20),
+                      const Height(20),
                       ValueListenableBuilder(
                           valueListenable: _passwordObscure,
                           builder: (context, value, child) {
@@ -158,7 +160,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                               ),
                             );
                           }),
-                      const SizedBox(height: 20),
+                      const Height(20),
                       Align(
                         alignment: Alignment.topRight,
                         child: TextButton(
@@ -170,12 +172,12 @@ class _SigninViewState extends ConsumerState<SigninView> {
                             style: theme.textTheme.labelLarge?.copyWith(
                               color: AppColors.g300,
                               fontWeight: FontWeight.w500,
-                              fontSize: 14,
+                              fontSize: 14.sp,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16.0),
+                      const Height(16.0),
                       SizedBox(
                         width: double.infinity,
                         child: ListenableBuilder(
@@ -200,7 +202,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                               );
                             }),
                       ),
-                      const SizedBox(height: 20),
+                      const Height(20),
                       Align(
                         alignment: Alignment.center,
                         child: AppRichText(
@@ -211,7 +213,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                           secondaryText: 'Create one',
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const Height(32),
                       Align(
                         alignment: Alignment.center,
                         child: AppRichText(

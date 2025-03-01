@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/label_text_field.dart';
+import '../../../../core/widgets/sizedbox.dart';
 
 class SignUpSellerStep2 extends StatelessWidget {
   const SignUpSellerStep2({
@@ -41,7 +42,7 @@ class SignUpSellerStep2 extends StatelessWidget {
           label: 'Email',
           hintText: 'e.g tmusty@gmail.com',
         ),
-        const SizedBox(height: 16.0),
+        const Height(16.0),
         LabelTextField(
           controller: _passwordController,
           validator: Validator.passwordValidator,
@@ -50,7 +51,7 @@ class SignUpSellerStep2 extends StatelessWidget {
           hintText: 'e.g *******',
           obscureText: true,
         ),
-        const SizedBox(height: 16.0),
+        const Height(16.0),
         LabelTextField(
           controller: _bankNameController,
           validator: Validator.nameValidator,
@@ -58,7 +59,7 @@ class SignUpSellerStep2 extends StatelessWidget {
           label: 'Bank name',
           hintText: 'e.g “UBA”',
         ),
-        const SizedBox(height: 16.0),
+        const Height(16.0),
         LabelTextField(
           controller: _accountNumberController,
           keyboardType: TextInputType.number,
@@ -66,7 +67,7 @@ class SignUpSellerStep2 extends StatelessWidget {
           label: 'Bank account number',
           hintText: 'e.g 000000000',
         ),
-        const SizedBox(height: 16.0),
+        const Height(16.0),
         LabelTextField(
           controller: _accountNameController,
           validator: Validator.nameValidator,

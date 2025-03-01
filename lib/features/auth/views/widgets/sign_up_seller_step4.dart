@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 import '../../../../config/themes/app_colors.dart';
@@ -16,7 +17,7 @@ class SignUpSellerStep4 extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 44,
+          height: 44.h,
           child: PinInputTextFormField(
             controller: _otpNumberController,
             pinLength: pinLength ?? 6,

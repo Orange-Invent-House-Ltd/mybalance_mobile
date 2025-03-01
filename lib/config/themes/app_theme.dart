@@ -38,16 +38,16 @@ class AppTheme {
 
   static final InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
     floatingLabelBehavior: FloatingLabelBehavior.never,
-    hintStyle: const TextStyle(
+    hintStyle: TextStyle(
       color: AppColors.b50,
       fontWeight: FontWeight.w400,
-      fontSize: 16,
+      fontSize: 16.sp,
     ),
     contentPadding: const EdgeInsets.symmetric(
       horizontal: 14,
       vertical: 10,
     ),
-    constraints: const BoxConstraints(minHeight: 44, maxHeight: 161),
+    constraints: BoxConstraints(minHeight: 44.h, maxHeight: 161.h),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
       borderSide: const BorderSide(

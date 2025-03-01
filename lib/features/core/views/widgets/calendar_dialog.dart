@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../config/themes/app_colors.dart';
@@ -43,18 +44,18 @@ class _CalendarDialogState extends State<CalendarDialog> {
             calendarStyle: CalendarStyle(
               outsideDaysVisible: false,
               disabledTextStyle: textTheme.bodyMedium!.copyWith(
-                fontSize: 13,
+                fontSize: 13.sp,
                 color: AppColors.g75,
               ),
               defaultTextStyle: textTheme.bodyMedium!.copyWith(
-                fontSize: 13,
+                fontSize: 13.sp,
                 color: AppColors.p300,
               ),
               weekendTextStyle: textTheme.bodyMedium!.copyWith(
-                fontSize: 13,
+                fontSize: 13.sp,
                 color: AppColors.p300,
               ),
-              todayTextStyle: textTheme.bodyMedium!.copyWith(fontSize: 13),
+              todayTextStyle: textTheme.bodyMedium!.copyWith(fontSize: 13.sp),
               todayDecoration: const BoxDecoration(
                 color: AppColors.p300,
                 shape: BoxShape.circle,
@@ -79,9 +80,9 @@ class _CalendarDialogState extends State<CalendarDialog> {
             ),
             daysOfWeekStyle: DaysOfWeekStyle(
               weekdayStyle: textTheme.labelSmall!
-                  .copyWith(fontSize: 10, color: AppColors.g300),
+                  .copyWith(fontSize: 10.sp, color: AppColors.g300),
               weekendStyle: textTheme.labelSmall!
-                  .copyWith(fontSize: 10, color: AppColors.g300),
+                  .copyWith(fontSize: 10.sp, color: AppColors.g300),
             ),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StepProgressIndicator extends StatelessWidget {
   final int currentStep;
@@ -21,7 +22,7 @@ class StepProgressIndicator extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Container(
-                  height: 6,
+                  height: 6.h,
                   decoration: BoxDecoration(
                     color: index < currentStep
                         ? Colors.black // Active color
@@ -38,8 +39,8 @@ class StepProgressIndicator extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Text(
             'STEP $currentStep OF $totalSteps',
-            style: const TextStyle(
-              fontSize: 12,
+            style:  TextStyle(
+              fontSize: 12.sp,
               color: Colors.grey,
               fontWeight: FontWeight.bold,
             ),

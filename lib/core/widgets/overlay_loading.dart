@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../config/themes/app_colors.dart';
 
@@ -76,8 +77,8 @@ class _OverlayLoadingState extends State<OverlayLoading>
                           radius: 20.0,
                           color: AppColors.p300,
                         ),
-                        const SizedBox(
-                          height: 24.0,
+                         SizedBox(
+                          height: 24.0.h,
                           width: double.infinity,
                         ),
                         Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/date_format.dart';
@@ -72,7 +73,7 @@ class _CreateLinkViewState extends State<CreateLinkView> {
               Text(
                 'ITEM(S) INFORMATION',
                 style: theme.textTheme.titleMedium?.copyWith(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   color: AppColors.g50,
                 ),
               ),
@@ -142,7 +143,7 @@ class _CreateLinkViewState extends State<CreateLinkView> {
               Text(
                 'VENDOR ACCOUNT INFORMATION',
                 style: theme.textTheme.titleMedium?.copyWith(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   color: AppColors.g50,
                 ),
               ),

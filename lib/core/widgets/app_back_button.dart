@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../config/themes/app_colors.dart';
 import '../../core/constants/app_assets.dart';
+import './sizedbox.dart';
 
 class AppBackButton extends StatelessWidget {
   const AppBackButton({super.key, this.onBackPressed});
@@ -11,7 +12,7 @@ class AppBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return AppSizedBox(
       height: 30,
       width: 30,
       child: ElevatedButton(

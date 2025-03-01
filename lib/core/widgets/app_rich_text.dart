@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../config/themes/app_colors.dart';
 
@@ -38,7 +39,7 @@ class AppRichText extends StatelessWidget {
             text: secondaryText,
             style: theme.textTheme.labelLarge!.copyWith(
               fontWeight: FontWeight.w700,
-              fontSize: secondaryFontSize ?? 16,
+              fontSize: secondaryFontSize?.sp ?? 16.sp,
               color: secondaryColor ?? AppColors.b300,
               letterSpacing: letterSpacing,
             ),

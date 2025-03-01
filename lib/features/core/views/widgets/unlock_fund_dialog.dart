@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mybalanceapp/core/constants/app_assets.dart';
@@ -82,7 +83,7 @@ class UnlockFundDialog extends StatelessWidget {
                       TextSpan(
                         text: '“Terms and Conditions”',
                         style: textTheme.bodySmall?.copyWith(
-                          fontSize: 10,
+                          fontSize: 10.sp,
                           color: AppColors.p200,
                         ),
                       ),
@@ -90,7 +91,7 @@ class UnlockFundDialog extends StatelessWidget {
                     ],
                   ),
                   style: textTheme.bodySmall?.copyWith(
-                    fontSize: 10,
+                    fontSize: 10.sp,
                     color: AppColors.g300,
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/utils/date_format.dart';
@@ -28,8 +29,8 @@ class NotificationCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 6),
           child: SizedBox(
-            width: 10,
-            height: 10,
+            width: 10.w,
+            height: 10.h,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -54,7 +55,7 @@ class NotificationCard extends StatelessWidget {
               child: Text(
                 'For White pair of Air Jordans For White pair of Air Jordans For White pair of Air Jordans ',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   color: AppColors.g300,
                 ),
                 maxLines: 1,
@@ -65,7 +66,7 @@ class NotificationCard extends StatelessWidget {
             Text(
               FormatDate.timeAgo(timestamp),
               style: theme.textTheme.bodySmall?.copyWith(
-                fontSize: 10,
+                fontSize: 10.sp,
                 color: AppColors.g75,
               ),
             ),

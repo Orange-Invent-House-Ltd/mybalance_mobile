@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextStyles {
   const AppTextStyles._();
 
   static TextStyle? get displayLarge =>
-      const TextTheme().displayLarge?.copyWith(fontSize: 57.sp);
+      const TextTheme().displayLarge?.copyWith();
   static TextStyle? get displayMedium =>
-      const TextTheme().displayMedium?.copyWith(fontSize: 45.sp);
+      const TextTheme().displayMedium?.copyWith();
   static TextStyle? get displaySmall =>
       const TextTheme().displaySmall?.copyWith();
 

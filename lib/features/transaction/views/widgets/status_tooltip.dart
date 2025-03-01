@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../model/transaction_status.dart';
 
@@ -18,7 +19,7 @@ class StatusTooltip extends StatelessWidget {
       child: Text(
         status.name,
         style: textTheme.labelSmall?.copyWith(
-          fontSize: 10,
+          fontSize: 10.sp,
           color: status.foregroundColor,
         ),
       ),

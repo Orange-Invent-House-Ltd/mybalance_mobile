@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/label_text_field.dart';
+import '../../../../core/widgets/sizedbox.dart';
 
 class SignUpBuyerStep1 extends StatelessWidget {
   const SignUpBuyerStep1({
@@ -22,14 +23,14 @@ class SignUpBuyerStep1 extends StatelessWidget {
           label: 'Full name',
           hintText: 'e.g "Albert"',
         ),
-        const SizedBox(height: 20),
+        const Height(20),
         LabelTextField(
           controller: emailController,
           validator: Validator.emailValidator,
           label: 'Email',
           hintText: 'alb.ert@gmail.com',
         ),
-        const SizedBox(height: 6),
+        const Height(6),
         Text.rich(
           TextSpan(
             text: 'NOTE: ',

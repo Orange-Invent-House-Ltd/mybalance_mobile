@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/themes/app_colors.dart';
 
@@ -36,7 +37,7 @@ class _SellBuyToggleState extends State<SellBuyToggle> {
               color: isBuyer ? AppColors.p50 : null,
               border: Border(
                 bottom: BorderSide(
-                  width: isBuyer ? 2 : 1,
+                  width: isBuyer ? 2.w : 1.w,
                   color: isBuyer ? AppColors.p500 : AppColors.g200,
                 ),
               ),
@@ -58,7 +59,7 @@ class _SellBuyToggleState extends State<SellBuyToggle> {
               color: !isBuyer ? AppColors.p50 : null,
               border: Border(
                 bottom: BorderSide(
-                  width: !isBuyer ? 2 : 1,
+                  width: !isBuyer ? 2.w : 1.w,
                   color: !isBuyer ? AppColors.p500 : AppColors.g200,
                 ),
               ),

@@ -20,3 +20,25 @@ class Width extends StatelessWidget {
     return SizedBox(width: width.w);
   }
 }
+
+class AppSizedBox extends StatelessWidget {
+  const AppSizedBox({
+    super.key,
+    this.width,
+    this.height,
+    this.child,
+  });
+  final double? width;
+  final double? height;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      key: key,
+      width: width?.w,
+      height: height?.h,
+      child: child,
+    );
+  }
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mybalanceapp/config/themes/app_colors.dart';
 import 'package:mybalanceapp/core/widgets/app_back_button.dart';
 import 'package:mybalanceapp/core/widgets/sizedbox.dart';
@@ -35,7 +36,7 @@ class CustomAppBar extends AppBar {
       ? Text(
           text!,
           style: theme.textTheme.titleLarge?.copyWith(
-            fontSize: 23,
+            fontSize: 23.sp,
             color: AppColors.b300,
           ),
         )

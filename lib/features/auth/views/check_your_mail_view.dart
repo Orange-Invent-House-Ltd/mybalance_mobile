@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,6 +11,7 @@ import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/widgets/app_rich_text.dart';
 import '../../../core/widgets/custom_app_bar.dart';
+import '../../../core/widgets/sizedbox.dart';
 import './providers/provider.dart';
 
 class CheckYourMailView extends ConsumerStatefulWidget {
@@ -119,25 +121,25 @@ class _CheckYourMailViewState extends ConsumerState<CheckYourMailView> {
           children: [
             SvgPicture.asset(
               AppAssets.logo,
-              width: 50,
-              height: 50,
+              width: 50.r,
+              height: 50.r,
             ),
-            const SizedBox(height: 64),
+            const Height(64),
             Text(
               'Check your email',
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: AppColors.b300,
                 fontWeight: FontWeight.w500,
-                fontSize: 18,
+                fontSize: 18.sp,
               ),
             ),
-            const SizedBox(height: 8),
+            const Height(8),
             Text.rich(
               TextSpan(
                 text: 'We sent a password reset link to ',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: AppColors.g200,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                 ),
                 children: [
                   TextSpan(
@@ -151,9 +153,9 @@ class _CheckYourMailViewState extends ConsumerState<CheckYourMailView> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
+            const Height(32),
             SizedBox(
-              height: 44,
+              height: 44.h,
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
@@ -163,7 +165,7 @@ class _CheckYourMailViewState extends ConsumerState<CheckYourMailView> {
                 child: const Text('Open email app'),
               ),
             ),
-            const SizedBox(height: 24),
+            const Height(24),
             ListenableBuilder(
               listenable:
                   Listenable.merge([canResendNotifier, countdownNotifier]),

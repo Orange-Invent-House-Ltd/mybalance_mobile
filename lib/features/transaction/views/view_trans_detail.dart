@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../config/routes/route_name.dart';
@@ -71,7 +72,7 @@ class _ViewTransDetailState extends State<ViewTransDetail> {
             Text(
               'ITEM(S) INFORMATION',
               style: theme.textTheme.titleMedium?.copyWith(
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: AppColors.g50,
               ),
             ),
@@ -114,7 +115,7 @@ class _ViewTransDetailState extends State<ViewTransDetail> {
             Text(
               'RECEIVER ACCOUNT INFORMATION',
               style: theme.textTheme.titleMedium?.copyWith(
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: AppColors.g50,
               ),
             ),

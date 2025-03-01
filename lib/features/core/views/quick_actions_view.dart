@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/widgets/custom_app_bar.dart';
@@ -73,11 +74,11 @@ class _QuickActionsViewState extends State<QuickActionsView>
                 ),
               ),
               labelStyle: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: 13,
+                fontSize: 13.sp,
                 color: AppColors.p500,
               ),
               unselectedLabelStyle: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: 13,
+                fontSize: 13.sp,
                 color: AppColors.g200,
               ),
               tabs: const [

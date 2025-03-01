@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/label_text_field.dart';
+import '../../../../core/widgets/sizedbox.dart';
 
 class SignUpSellerStep1 extends StatelessWidget {
   const SignUpSellerStep1({
@@ -31,25 +32,25 @@ class SignUpSellerStep1 extends StatelessWidget {
           label: 'Full name',
           hintText: 'e.g "Aremu Jamiu"',
         ),
-        const SizedBox(height: 16),
+        const Height(16),
         LabelTextField(
           controller: _businessNameController,
           label: 'Business name',
           hintText: 'e.g “Musty Feet”',
         ),
-        const SizedBox(height: 16),
+        const Height(16),
         LabelTextField(
           controller: _serviceController,
           label: 'Describe your service',
           hintText: 'e.g Sales of footwear',
         ),
-        const SizedBox(height: 16),
+        const Height(16),
         LabelTextField(
           controller: _addressController,
           label: 'Address',
           hintText: 'Ikeja, Lagos.',
         ),
-        const SizedBox(height: 16),
+        const Height(16),
         LabelTextField(
           controller: _phoneController,
           label: 'Phone number',

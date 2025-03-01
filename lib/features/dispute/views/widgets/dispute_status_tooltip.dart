@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../models/dispute_resolution_status.dart';
 
@@ -28,7 +29,7 @@ class DisputeStatusTooltip extends StatelessWidget {
         child: Text(
           status.name,
           style: theme.textTheme.bodyMedium?.copyWith(
-            fontSize: 15,
+            fontSize: 15.sp,
             color: status.foregroundColor,
           ),
         ),

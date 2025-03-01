@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../config/themes/app_colors.dart';
@@ -70,11 +71,11 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
                     ),
                   ),
                   labelStyle: theme.textTheme.bodyMedium?.copyWith(
-                    fontSize: 13,
+                    fontSize: 13.sp,
                     color: AppColors.p500,
                   ),
                   unselectedLabelStyle: theme.textTheme.bodyMedium?.copyWith(
-                    fontSize: 13,
+                    fontSize: 13.sp,
                     color: AppColors.g200,
                   ),
                   tabs: const [

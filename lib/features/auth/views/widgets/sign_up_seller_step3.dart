@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/widgets/custom_dropdown.dart';
 import '../../../../core/widgets/label_text_field.dart';
+import '../../../../core/widgets/sizedbox.dart';
 import '../../models/means_of_id.dart';
 
 class SignUpSellerStep3 extends StatefulWidget {
@@ -77,13 +78,13 @@ class _SignUpSellerStep3State extends State<SignUpSellerStep3> {
               ),
               if (widget.meansOfIdController.text ==
                   MeansOfId.internationalPassport.label) ...[
-                const SizedBox(height: 16),
+                const Height(16),
                 LabelTextField(
                   controller: _passportNumberController,
                   label: 'Passport number',
                   hintText: 'e.g 1234 1234 123',
                 ),
-                const SizedBox(height: 24),
+                const Height(24),
                 LabelTextField(
                   controller: _lastNameController,
                   label: 'Last name',
@@ -91,7 +92,7 @@ class _SignUpSellerStep3State extends State<SignUpSellerStep3> {
                 ),
               ],
               if (widget.meansOfIdController.text == MeansOfId.nin.label) ...[
-                const SizedBox(height: 16),
+                const Height(16),
                 LabelTextField(
                   controller: _ninNumberController,
                   label: 'NIN number',
@@ -100,31 +101,31 @@ class _SignUpSellerStep3State extends State<SignUpSellerStep3> {
               ],
               if (widget.meansOfIdController.text ==
                   MeansOfId.votersCard.label) ...[
-                const SizedBox(height: 16),
+                const Height(16),
                 LabelTextField(
                   controller: _votersCardNumberController,
                   label: 'Voter\'s card number',
                   hintText: 'e.g 1234 1234 123',
                 ),
-                const SizedBox(height: 24),
+                const Height(24),
                 LabelTextField(
                   controller: _firstNameController,
                   label: 'First name',
                   hintText: 'e.g Bukayo',
                 ),
-                const SizedBox(height: 24),
+                const Height(24),
                 LabelTextField(
                   controller: _lastNameController,
                   label: 'Last name',
                   hintText: 'e.g Saka',
                 ),
-                const SizedBox(height: 24),
+                const Height(24),
                 LabelTextField(
                   controller: _dobController,
                   label: 'Date of birth',
                   hintText: 'e.g DD-MM-YYYY',
                 ),
-                const SizedBox(height: 24),
+                const Height(24),
                 Row(
                   children: [
                     Expanded(
@@ -134,7 +135,7 @@ class _SignUpSellerStep3State extends State<SignUpSellerStep3> {
                         hintText: 'e.g Lagos',
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const Width(16),
                     Expanded(
                       child: LabelTextField(
                         controller: _lgaController,
@@ -147,13 +148,13 @@ class _SignUpSellerStep3State extends State<SignUpSellerStep3> {
               ],
               if (widget.meansOfIdController.text ==
                   MeansOfId.driversLicense.label) ...[
-                const SizedBox(height: 16),
+                const Height(16),
                 LabelTextField(
                   controller: _passportNumberController,
                   label: 'Driver\'s license number',
                   hintText: 'e.g 1234 1234 123',
                 ),
-                const SizedBox(height: 24),
+                const Height(24),
                 LabelTextField(
                   controller: _dobController,
                   label: 'Date of birth',
@@ -164,7 +165,7 @@ class _SignUpSellerStep3State extends State<SignUpSellerStep3> {
                   ),
                 ),
               ],
-              // const SizedBox(height: 32),
+              // const Height(32),
               // TextButton(
               //   onPressed: () {},
               //   child: Text(
@@ -175,7 +176,7 @@ class _SignUpSellerStep3State extends State<SignUpSellerStep3> {
               //     ),
               //   ),
               // ),
-              // const SizedBox(height: 20),
+              // const Height(20),
             ],
           );
         });

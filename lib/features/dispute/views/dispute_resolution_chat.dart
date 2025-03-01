@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/date_format.dart';
@@ -91,9 +92,7 @@ class _DisputeResolutionChatViewState extends State<DisputeResolutionChatView> {
                   child: TextField(
                     controller: _messageController,
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       color: AppColors.b300,
                     ),
                     decoration: InputDecoration(
@@ -141,8 +140,8 @@ class ChatBubble extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 4),
           child: Text(
             isUserMessage ? "You" : "MyBalance",
-            style: const TextStyle(
-              fontSize: 12,
+            style: TextStyle(
+              fontSize: 12.sp,
               fontWeight: FontWeight.bold,
               color: Colors.black54,
             ),
@@ -181,7 +180,7 @@ class ChatBubble extends StatelessWidget {
             child: Text(
               FormatDate.dayTime(message['timestamp']),
               style: theme.textTheme.bodyMedium
-                  ?.copyWith(fontSize: 13, color: AppColors.g200),
+                  ?.copyWith(fontSize: 13.sp, color: AppColors.g200),
             ),
           ),
       ],

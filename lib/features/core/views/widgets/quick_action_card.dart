@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/widgets/sizedbox.dart';
@@ -23,8 +24,8 @@ class QuickActionCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 150,
-        height: 110,
+        width: 150.w,
+        height: 110.h,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -46,7 +47,7 @@ class QuickActionCard extends StatelessWidget {
             Text(
               subTitle,
               style: theme.textTheme.bodySmall?.copyWith(
-                fontSize: 10,
+                fontSize: 10.sp,
                 color: AppColors.g500,
               ),
             ),

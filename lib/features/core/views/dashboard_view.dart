@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../config/routes/route_name.dart';
@@ -56,7 +57,7 @@ class DashboardView extends StatelessWidget {
                 ],
               ),
               style: theme.textTheme.titleMedium?.copyWith(
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -108,8 +109,8 @@ class DashboardView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 35,
-                    width: 95,
+                    height: 35.h,
+                    width: 95.w,
                     child: ElevatedButton(
                       onPressed: () => context.goNamed(RouteName.createLink),
                       style: ElevatedButton.styleFrom(
@@ -127,7 +128,7 @@ class DashboardView extends StatelessWidget {
             ),
             const Height(32),
             SizedBox(
-              height: 94,
+              height: 94.h,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.only(right: 20),
@@ -237,7 +238,7 @@ class DashboardView extends StatelessWidget {
                 Text(
                   'Transaction history',
                   style: theme.textTheme.titleMedium?.copyWith(
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     color: AppColors.g200,
                   ),
                 ),

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,6 +15,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../../core/widgets/label_text_field.dart';
 import '../../../core/widgets/overlay_loading.dart';
+import '../../../core/widgets/sizedbox.dart';
 import '../../../core/widgets/toast.dart';
 import '../logic/auth_state.dart';
 import './providers/provider.dart';
@@ -105,35 +107,35 @@ class _ForgetPasswordViewState extends ConsumerState<ForgetPasswordView> {
                 children: [
                   SvgPicture.asset(
                     AppAssets.logo,
-                    height: 50,
-                    width: 50,
+                    height: 50.r,
+                    width: 50.r,
                   ),
-                  const SizedBox(height: 32),
+                  const Height(32),
                   Text(
                     'Forgot Password?',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: AppColors.b300,
                       fontWeight: FontWeight.w500,
-                      fontSize: 18,
+                      fontSize: 18.sp,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const Height(8),
                   Text(
                     'No worries, we\'ll send you reset instructions',
                     style: theme.textTheme.bodyMedium
                         ?.copyWith(color: AppColors.g200),
                   ),
-                  const SizedBox(height: 32),
+                  const Height(32),
                   LabelTextField(
                     controller: _emailController,
                     label: 'Email',
                     validator: Validator.emailValidator,
                   ),
-                  const SizedBox(height: 24),
+                  const Height(24),
                   SizedBox(
                     width: double.infinity,
-                    height: 44,
+                    height: 44.h,
                     child: ValueListenableBuilder(
                       valueListenable: _emailController,
                       child: const Text('Reset Password'),

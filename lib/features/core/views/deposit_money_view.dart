@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mybalanceapp/core/models/loading_from.dart';
@@ -202,7 +203,7 @@ class DepositTransferDialog extends StatelessWidget {
             ),
             const Height(24),
             SizedBox(
-              width: 167,
+              width: 167.w,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();

@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../models/loading_from.dart';
-import './sizedbox.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../config/themes/app_colors.dart';
 import '../constants/app_assets.dart';
+import '../models/loading_from.dart';
+import './sizedbox.dart';
 
 class LoadingPage extends StatefulWidget {
   final LoadingFrom loadingFrom;
@@ -45,14 +47,14 @@ class _LoadingPageState extends State<LoadingPage> {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 100),
+            const Height(100),
             const Expanded(child: SizedBox()),
             const CupertinoActivityIndicator(
               radius: 20.0,
               color: AppColors.p300,
             ),
-            const SizedBox(
-              height: 24.0,
+            SizedBox(
+              height: 24.0.h,
               width: double.infinity,
             ),
             Text(
@@ -64,7 +66,7 @@ class _LoadingPageState extends State<LoadingPage> {
             ),
             const Expanded(child: SizedBox()),
             Container(
-              height: 200,
+              height: 200.h,
               color: Colors.red,
               child: CustomPaint(
                 painter: LoadingBottomPainter(),
@@ -122,7 +124,7 @@ class PaymentStatusDialog extends StatelessWidget {
             Text(
               paymentSuccess ? 'Payment Successful!' : 'Payment Failed!',
               style: theme.textTheme.titleLarge?.copyWith(
-                fontSize: 23,
+                fontSize: 23.sp,
                 color: paymentSuccess ? AppColors.b300 : AppColors.error,
               ),
             ),
@@ -132,7 +134,7 @@ class PaymentStatusDialog extends StatelessWidget {
                   ? 'Your payment was transacted successfully! Click the button below to return to MyBalance dashboard.'
                   : 'Unfortunately, your payment was not successful! Click the button below to return to MyBalance dashboard.',
               style: theme.textTheme.bodySmall?.copyWith(
-                fontSize: 13,
+                fontSize: 13.sp,
                 color: AppColors.g500,
               ),
               textAlign: TextAlign.center,

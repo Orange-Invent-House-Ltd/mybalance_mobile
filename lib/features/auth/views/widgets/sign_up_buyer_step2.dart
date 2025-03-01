@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/validators.dart';
 import '../../../../core/widgets/label_text_field.dart';
+import '../../../../core/widgets/sizedbox.dart';
 
 class SignUpBuyerStep2 extends StatelessWidget {
   const SignUpBuyerStep2({
@@ -22,7 +23,7 @@ class SignUpBuyerStep2 extends StatelessWidget {
           label: 'Phone number',
           hintText: '+234 000 0000 000',
         ),
-        const SizedBox(height: 20),
+        const Height(20),
         LabelTextField(
           controller: _passwordController,
           validator: Validator.passwordValidator,

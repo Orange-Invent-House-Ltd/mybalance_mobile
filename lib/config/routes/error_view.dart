@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../config/routes/route_name.dart';
 import '../../../core/utils/extensions/string_extension.dart';
+import '../../core/widgets/sizedbox.dart';
 
 class ErrorView extends ConsumerWidget {
   const ErrorView({super.key, required this.location});
@@ -32,14 +33,14 @@ class ErrorView extends ConsumerWidget {
                 },
                 child: const Text('go to Login'),
               ),
-              const SizedBox(width: 32.0),
+              const Width(32.0),
               ElevatedButton(
                 onPressed: () {
                   context.go(RouteName.dashboard.toPath());
                 },
                 child: const Text('go to Home'),
               ),
-              const SizedBox(width: 32.0),
+              const Width(32.0),
               ElevatedButton(
                 onPressed: () {
                   context.go(RouteName.onboard.toPath());
