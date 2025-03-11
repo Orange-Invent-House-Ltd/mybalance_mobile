@@ -21,6 +21,25 @@ class Width extends StatelessWidget {
   }
 }
 
+class FullWidth extends StatelessWidget {
+  const FullWidth({
+    super.key,
+    this.height,
+    this.child,
+  });
+  final double? height;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: height?.h,
+      child: child,
+    );
+  }
+}
+
 class AppSizedBox extends StatelessWidget {
   const AppSizedBox({
     super.key,

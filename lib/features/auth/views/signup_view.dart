@@ -10,13 +10,9 @@ import '../../../core/widgets/app_rich_text.dart';
 import '../../../core/widgets/overlay_loading.dart';
 import '../../../core/widgets/sizedbox.dart';
 import '../models/means_of_id.dart';
+import './widgets/is_buyer_view.dart';
+import './widgets/is_seller_view.dart';
 import './widgets/sell_buy_toggle.dart';
-import './widgets/sign_up_buyer_step1.dart';
-import './widgets/sign_up_buyer_step2.dart';
-import './widgets/sign_up_seller_step1.dart';
-import './widgets/sign_up_seller_step2.dart';
-import './widgets/sign_up_seller_step3.dart';
-import './widgets/sign_up_seller_step4.dart';
 import './widgets/step_progress_indicator.dart';
 
 class SignupView extends StatefulWidget {
@@ -29,12 +25,10 @@ class SignupView extends StatefulWidget {
 class _SignupViewState extends State<SignupView> {
   late GlobalKey<FormState> _formKey;
   late ValueNotifier<bool> _isBuyer;
+  late ValueNotifier<bool> _isSellerStep1;
   late ValueNotifier<int> _currentSellerStep;
   late ValueNotifier<int> _currentBuyerStep;
-  final totalSellerSteps = 4;
-  final totalBuyerSteps = 3;
-  late PageStorageKey<String> _buyerKey;
-  late PageStorageKey<String> _sellerKey;
+  final totalSellerSteps = 2;
   late PageController _sellerStepperController, _buyerStepperController;
   late TextEditingController _fullnameController,
       _businessNameController,
@@ -54,10 +48,9 @@ class _SignupViewState extends State<SignupView> {
     super.initState();
     _formKey = GlobalKey<FormState>();
     _isBuyer = ValueNotifier<bool>(true);
+    _isSellerStep1 = ValueNotifier<bool>(true);
     _currentSellerStep = ValueNotifier<int>(1);
     _currentBuyerStep = ValueNotifier<int>(1);
-    _buyerKey = const PageStorageKey<String>('buyer');
-    _sellerKey = const PageStorageKey<String>('seller');
     _sellerStepperController = PageController();
     _buyerStepperController = PageController();
     _fullnameController = TextEditingController();
@@ -77,6 +70,7 @@ class _SignupViewState extends State<SignupView> {
   @override
   void dispose() {
     _isBuyer.dispose();
+    _isSellerStep1.dispose();
     _currentSellerStep.dispose();
     _currentBuyerStep.dispose();
     _sellerStepperController.dispose();
@@ -99,13 +93,13 @@ class _SignupViewState extends State<SignupView> {
   double _calculatePageHeightFactor() {
     if (_isBuyer.value) {
       if (_currentBuyerStep.value <= 2) {
-        return .26;
+        return .9;
       } else {
         return .10;
       }
     } else {
       if (_currentSellerStep.value <= 2) {
-        return .54;
+        return .59;
       } else if (_currentSellerStep.value == 3) {
         if (_meansOfIdController.text.isEmpty) {
           return .11;
@@ -123,22 +117,12 @@ class _SignupViewState extends State<SignupView> {
   }
 
   void _nextStep() {
-    if (_isBuyer.value) {
-      if (_currentBuyerStep.value < totalBuyerSteps) {
-        _currentBuyerStep.value++;
-        _buyerStepperController.nextPage(
-          duration: const Duration(milliseconds: 1),
-          curve: Curves.easeInOut,
-        );
-      }
-    } else {
-      if (_currentSellerStep.value < totalSellerSteps) {
-        _currentSellerStep.value++;
-        _sellerStepperController.nextPage(
-          duration: const Duration(milliseconds: 1),
-          curve: Curves.easeInOut,
-        );
-      }
+    if (_currentSellerStep.value < totalSellerSteps) {
+      _currentSellerStep.value++;
+      _sellerStepperController.nextPage(
+        duration: const Duration(milliseconds: 1),
+        curve: Curves.easeInOut,
+      );
     }
   }
 
@@ -186,7 +170,6 @@ class _SignupViewState extends State<SignupView> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Size size = MediaQuery.sizeOf(context);
 
     return Scaffold(
       body: SafeArea(
@@ -217,7 +200,7 @@ class _SignupViewState extends State<SignupView> {
                   const Height(32),
                   ListenableBuilder(
                     listenable: Listenable.merge(
-                      [_currentSellerStep, _currentBuyerStep, _isBuyer],
+                      [_currentSellerStep, _isBuyer],
                     ),
                     builder: (_, __) {
                       return Column(
@@ -225,10 +208,11 @@ class _SignupViewState extends State<SignupView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _isBuyer.value
-                              ? StepProgressIndicator(
-                                  currentStep: _currentBuyerStep.value,
-                                  totalSteps: totalBuyerSteps,
-                                )
+                              ? const SizedBox.shrink()
+                              // ? StepProgressIndicator(
+                              //     currentStep: _currentBuyerStep.value,
+                              //     totalSteps: totalBuyerSteps,
+                              //   )
                               : StepProgressIndicator(
                                   currentStep: _currentSellerStep.value,
                                   totalSteps: totalSellerSteps,
@@ -273,71 +257,25 @@ class _SignupViewState extends State<SignupView> {
                         _meansOfIdController,
                         _isBuyer,
                         _currentSellerStep,
-                        _currentBuyerStep
+                        // _currentBuyerStep
                       ],
                     ),
                     builder: (context, child) {
-                      return AnimatedContainer(
+                      return AnimatedSwitcher(
                         duration: const Duration(milliseconds: 1),
-                        height: size.height * _calculatePageHeightFactor(),
-                        // height: size.height * 0.85,
-                        // child: AnimatedSwitcher(duration: Duration(milliseconds: 1)),
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 1),
-                          child: _isBuyer.value
-                              ? PageView(
-                                  key: _buyerKey,
-                                  controller: _buyerStepperController,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  children: [
-                                    SignUpBuyerStep1(
-                                      fullnameController: _fullnameController,
-                                      emailController: _emailController,
-                                    ),
-                                    SignUpBuyerStep2(
-                                      phoneController: _phoneController,
-                                      passwordController: _passwordController,
-                                    ),
-                                    SignUpSellerStep4(
-                                      otpNumberController: _otpNumberController,
-                                    ),
-                                  ],
-                                )
-                              : PageView(
-                                  key: _sellerKey,
-                                  controller: _sellerStepperController,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  children: [
-                                    SignUpSellerStep1(
-                                      fullnameController: _fullnameController,
-                                      businessNameController:
-                                          _businessNameController,
-                                      serviceController: _serviceController,
-                                      addressController: _addressController,
-                                      phoneController: _phoneController,
-                                    ),
-                                    SignUpSellerStep2(
-                                      emailController: _emailController,
-                                      passwordController: _passwordController,
-                                      bankNameController: _bankNameController,
-                                      accountNumberController:
-                                          _accountNumberController,
-                                      accountNameController:
-                                          _accountNameController,
-                                    ),
-                                    SignUpSellerStep3(
-                                      meansOfIdController: _meansOfIdController,
-                                    ),
-                                    SignUpSellerStep4(
-                                      otpNumberController: _otpNumberController,
-                                    ),
-                                  ],
-                                ),
-                        ),
+                        child: _isBuyer.value
+                            ? const IsBuyerView()
+                            : _currentSellerStep.value == 1
+                                ? IsSellerViewStep1(
+                                    onNextPressed: () {
+                                      _currentSellerStep.value = 2;
+                                    },
+                                  )
+                                : const IsSellerStep2(),
                       );
                     },
                   ),
-                  const Height(24),
+                  // const Height(24),
                   SizedBox(
                     width: double.infinity,
                     child: ListenableBuilder(
@@ -345,75 +283,76 @@ class _SignupViewState extends State<SignupView> {
                         [
                           _isBuyer,
                           _currentSellerStep,
-                          _currentBuyerStep,
+                          // _currentBuyerStep,
                           _meansOfIdController
                         ],
                       ),
                       builder: (context, child) {
-                        return Column(
-                          children: [
-                            (!_isBuyer.value &&
-                                    _currentSellerStep.value == 3 &&
-                                    _meansOfIdController.text.isEmpty)
-                                ? Text.rich(
-                                    TextSpan(
-                                      text: 'Note: ',
-                                      children: [
-                                        TextSpan(
-                                          text:
-                                              'Verify your identity for easy funds withdrawal from escrow.',
-                                          style: theme.textTheme.bodyMedium
-                                              ?.copyWith(
-                                            color: const Color(0xff667085),
-                                            fontSize: 13.sp,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    style: theme.textTheme.bodyMedium?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: const Color(0xff667085),
-                                    ),
-                                  )
-                                : SizedBox(
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        _nextStep();
-                                      },
-                                      child: Text(
-                                        _currentSellerStep.value != 4 ||
-                                                _currentBuyerStep.value != 3
-                                            ? 'Next'
-                                            : 'Verify',
-                                      ),
-                                    ),
-                                  ),
-                            if (!_isBuyer.value &&
-                                _currentSellerStep.value == 3)
-                              TextButton(
-                                onPressed: () {
-                                  _nextStep();
-                                },
-                                child: Text(
-                                  'Skip this part',
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.p300,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            if (_currentSellerStep.value == 4 ||
-                                _currentBuyerStep.value == 3) ...[
-                              const Height(32),
-                              AppRichText(
-                                primaryText: 'Didn\'t receive the email?',
-                                secondaryText: 'Click to resend',
-                                onSecondaryTap: () {},
-                              ),
-                            ]
-                          ],
-                        );
+                        return const SizedBox.shrink();
+                        // return Column(
+                        //   children: [
+                        //     (!_isBuyer.value &&
+                        //             _currentSellerStep.value == 3 &&
+                        //             _meansOfIdController.text.isEmpty)
+                        //         ? Text.rich(
+                        //             TextSpan(
+                        //               text: 'Note: ',
+                        //               children: [
+                        //                 TextSpan(
+                        //                   text:
+                        //                       'Verify your identity for easy funds withdrawal from escrow.',
+                        //                   style: theme.textTheme.bodyMedium
+                        //                       ?.copyWith(
+                        //                     color: const Color(0xff667085),
+                        //                     fontSize: 13.sp,
+                        //                   ),
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //             style: theme.textTheme.bodyMedium?.copyWith(
+                        //               fontWeight: FontWeight.w700,
+                        //               color: const Color(0xff667085),
+                        //             ),
+                        //           )
+                        //         : SizedBox(
+                        //             width: double.infinity,
+                        //             child: ElevatedButton(
+                        //               onPressed: () {
+                        //                 _nextStep();
+                        //               },
+                        //               child: Text(
+                        //                 _currentSellerStep.value != 4 ||
+                        //                         _currentBuyerStep.value != 3
+                        //                     ? 'Next'
+                        //                     : 'Verify',
+                        //               ),
+                        //             ),
+                        //           ),
+                        //     if (!_isBuyer.value &&
+                        //         _currentSellerStep.value == 3)
+                        //       TextButton(
+                        //         onPressed: () {
+                        //           _nextStep();
+                        //         },
+                        //         child: Text(
+                        //           'Skip this part',
+                        //           style: theme.textTheme.bodyMedium?.copyWith(
+                        //             color: AppColors.p300,
+                        //             fontWeight: FontWeight.w500,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     if (_currentSellerStep.value == 4 ||
+                        //         _currentBuyerStep.value == 3) ...[
+                        //       const Height(32),
+                        //       AppRichText(
+                        //         primaryText: 'Didn\'t receive the email?',
+                        //         secondaryText: 'Click to resend',
+                        //         onSecondaryTap: () {},
+                        //       ),
+                        //     ]
+                        //   ],
+                        // );
                       },
                     ),
                   ),
@@ -436,6 +375,7 @@ class _SignupViewState extends State<SignupView> {
                             ),
                           ],
                           child!,
+                          const Height(48)
                         ],
                       );
                     },

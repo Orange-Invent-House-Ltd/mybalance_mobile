@@ -15,7 +15,7 @@ class SellBuyToggle extends StatefulWidget {
 }
 
 class _SellBuyToggleState extends State<SellBuyToggle> {
-  bool isBuyer = false;
+  bool isBuyer = true;
   void _onSelected(bool value) {
     setState(() {
       isBuyer = value;

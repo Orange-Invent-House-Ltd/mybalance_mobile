@@ -78,4 +78,11 @@ class Validator {
     if (value == null || value.isEmpty) return 'Field cannot be empty';
     return null;
   }
+
+  static String? accountNumberValidator(String? value) {
+    if (value == null || value.isEmpty) return 'Account number cannot be empty';
+    if (value.length != 10) return 'Account number must be 10 digits long';
+    if (int.tryParse(value) == null) return 'Account number must be a number';
+    return null;
+  }
 }

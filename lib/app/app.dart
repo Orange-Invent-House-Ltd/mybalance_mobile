@@ -27,7 +27,6 @@ class MyBalanceApp extends ConsumerWidget {
             supportedLocales: Localization.supportedLocales,
             theme: AppTheme.lightTheme(),
             routerConfig: ref.watch(goRouterProvider),
-
             builder: (context, child) => MediaQuery.withClampedTextScaling(
               key: _globalKey,
               minScaleFactor: 1.0,

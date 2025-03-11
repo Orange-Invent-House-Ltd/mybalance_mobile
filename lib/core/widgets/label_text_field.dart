@@ -24,6 +24,7 @@ class LabelTextField extends StatelessWidget {
     this.style,
     this.inputFormatters,
     this.isDescription = false,
+    this.maxLength,
   });
   final TextEditingController controller;
   final String label;
@@ -42,6 +43,7 @@ class LabelTextField extends StatelessWidget {
   final TextStyle? style;
   final List<TextInputFormatter>? inputFormatters;
   final bool isDescription;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,7 @@ class LabelTextField extends StatelessWidget {
           ),
           maxLines: isDescription ? 4 : 1,
           minLines: isDescription ? 4 : 1,
+          maxLength: maxLength,
         ),
       ],
     );
