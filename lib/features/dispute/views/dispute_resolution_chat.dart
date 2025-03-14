@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/date_format.dart';
-import '../../../core/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
 import '../models/dispute_resolution_model.dart';
 import './widgets/dispute_status_tooltip.dart';
 

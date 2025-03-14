@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/widgets/label_text_field.dart';
-import '../../../../core/widgets/sizedbox.dart';
+import '../../../../core/shared/widgets/label_text_field.dart';
+import '../../../../core/shared/widgets/sizedbox.dart';
 
 class SignUpSellerStep1 extends StatelessWidget {
   const SignUpSellerStep1({

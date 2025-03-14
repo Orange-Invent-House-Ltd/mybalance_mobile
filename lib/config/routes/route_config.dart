@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/components/rest_client/rest_client.dart';
 import '../../core/utils/extensions/string_extension.dart';
-import '../../core/widgets/loading_page.dart';
+import '../../core/shared/widgets/loading_page.dart';
 import '../../features/auth/views/providers/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/core/views/views.dart';

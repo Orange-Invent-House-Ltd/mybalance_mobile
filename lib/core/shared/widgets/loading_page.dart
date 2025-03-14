@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../config/themes/app_colors.dart';
-import '../constants/app_assets.dart';
-import '../models/loading_from.dart';
-import './sizedbox.dart';
+import '../../../config/themes/app_colors.dart';
+import '../../constants/app_assets.dart';
+import '../../models/loading_from.dart';
+import 'sizedbox.dart';
 
 class LoadingPage extends StatefulWidget {
   final LoadingFrom loadingFrom;

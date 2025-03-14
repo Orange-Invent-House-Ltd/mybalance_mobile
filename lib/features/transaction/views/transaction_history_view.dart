@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 
 import '../model/transaction_model.dart';
 import './widgets/transaction_history_card.dart';

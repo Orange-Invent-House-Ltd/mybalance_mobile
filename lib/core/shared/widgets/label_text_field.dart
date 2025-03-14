@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../config/themes/app_colors.dart';
+import '../../../../config/themes/app_colors.dart';
 import 'sizedbox.dart';
 
 class LabelTextField extends StatelessWidget {
@@ -25,6 +25,7 @@ class LabelTextField extends StatelessWidget {
     this.inputFormatters,
     this.isDescription = false,
     this.maxLength,
+    this.isLoading = false,
   });
   final TextEditingController controller;
   final String label;
@@ -44,6 +45,7 @@ class LabelTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool isDescription;
   final int? maxLength;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +79,14 @@ class LabelTextField extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hintText,
             suffixIcon: suffixIcon,
+            suffixIconConstraints: isLoading
+                ? const BoxConstraints(
+                    minHeight: 24,
+                    minWidth: 24,
+                    maxWidth: 24,
+                    maxHeight: 24,
+                  )
+                : null,
           ),
           maxLines: isDescription ? 4 : 1,
           minLines: isDescription ? 4 : 1,

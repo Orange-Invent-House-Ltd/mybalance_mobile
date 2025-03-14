@@ -7,9 +7,9 @@ import 'package:mybalanceapp/core/models/loading_from.dart';
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/label_text_field.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/label_text_field.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 
 class DepositMoneyView extends StatefulWidget {
   const DepositMoneyView({super.key});

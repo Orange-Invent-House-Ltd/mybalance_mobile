@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../config/routes/route_name.dart';
 import '../../../core/utils/extensions/string_extension.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 import 'provider/provider.dart';
 
 class OnboardStoryView extends StatefulWidget {

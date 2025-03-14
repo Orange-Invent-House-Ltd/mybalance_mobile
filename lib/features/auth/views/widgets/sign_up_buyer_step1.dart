@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/label_text_field.dart';
-import '../../../../core/widgets/sizedbox.dart';
+import '../../../../core/shared/widgets/label_text_field.dart';
+import '../../../../core/shared/widgets/sizedbox.dart';
 
 class SignUpBuyerStep1 extends StatelessWidget {
   const SignUpBuyerStep1({

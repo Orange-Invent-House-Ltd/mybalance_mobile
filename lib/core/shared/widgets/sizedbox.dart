@@ -54,7 +54,6 @@ class AppSizedBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      key: key,
       width: width?.w,
       height: height?.h,
       child: child,

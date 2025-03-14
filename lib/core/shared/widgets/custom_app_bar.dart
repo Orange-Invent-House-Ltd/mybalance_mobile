@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mybalanceapp/config/themes/app_colors.dart';
-import 'package:mybalanceapp/core/widgets/app_back_button.dart';
-import 'package:mybalanceapp/core/widgets/sizedbox.dart';
+import 'package:mybalanceapp/core/shared/widgets/app_back_button.dart';
+import 'package:mybalanceapp/core/shared/widgets/sizedbox.dart';
 
 class CustomAppBar extends AppBar {
   CustomAppBar({

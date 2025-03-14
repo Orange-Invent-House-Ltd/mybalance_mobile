@@ -13,11 +13,11 @@ import '../../../core/components/rest_client/src/exception/network_exception.dar
 import '../../../core/constants/app_assets.dart';
 import '../../../core/utils/extensions/string_extension.dart';
 import '../../../core/utils/validators.dart';
-import '../../../core/widgets/app_rich_text.dart';
-import '../../../core/widgets/label_text_field.dart';
-import '../../../core/widgets/overlay_loading.dart';
-import '../../../core/widgets/sizedbox.dart';
-import '../../../core/widgets/toast.dart';
+import '../../../core/shared/widgets/app_rich_text.dart';
+import '../../../core/shared/widgets/label_text_field.dart';
+import '../../../core/shared/widgets/overlay_loading.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/toast.dart';
 import 'providers/provider.dart';
 
 class SigninView extends ConsumerStatefulWidget {

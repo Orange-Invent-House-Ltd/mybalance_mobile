@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mybalanceapp/core/constants/app_assets.dart';
-import 'package:mybalanceapp/core/widgets/sizedbox.dart';
+import 'package:mybalanceapp/core/shared/widgets/sizedbox.dart';
 
 import '../../../../config/themes/app_colors.dart';
 

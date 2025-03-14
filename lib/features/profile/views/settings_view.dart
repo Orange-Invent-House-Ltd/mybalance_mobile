@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/validators.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/label_text_field.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/label_text_field.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});

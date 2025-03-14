@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../config/themes/app_colors.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 import '../models/notification_model.dart';
 import './widgets/notification_card.dart';
 

@@ -4,9 +4,9 @@ import 'package:mybalanceapp/features/core/views/widgets/unlock_fund_dialog.dart
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/date_format.dart';
 import '../../../core/utils/validators.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/label_text_field.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/label_text_field.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 import 'widgets/calendar_dialog.dart';
 
 class UnlockMoneyView extends StatefulWidget {

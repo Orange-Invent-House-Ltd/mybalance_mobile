@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../config/routes/route_name.dart';
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/models/loading_from.dart';
-import '../../../../core/widgets/label_text_field.dart';
-import '../../../../core/widgets/sizedbox.dart';
+import '../../../../core/shared/widgets/label_text_field.dart';
+import '../../../../core/shared/widgets/sizedbox.dart';
 
 class WithdrawMoneyTab extends StatefulWidget {
   const WithdrawMoneyTab({super.key});

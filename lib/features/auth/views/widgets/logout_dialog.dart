@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/constants/app_assets.dart';
-import '../../../../core/widgets/sizedbox.dart';
+import '../../../../core/shared/widgets/sizedbox.dart';
 import '../providers/provider.dart';
 
 class LogoutDialog extends ConsumerWidget {

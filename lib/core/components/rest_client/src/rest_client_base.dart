@@ -47,8 +47,7 @@ abstract base class RestClientBase implements RestClient {
   /// Decodes [body] from JSON \ UTF8
   @protected
   @visibleForTesting
-  FutureOr<Map<String, Object?>?>
-      decodeResponse(
+  FutureOr<Map<String, Object?>?> decodeResponse(
     Object? body, {
     int? statusCode,
   }) async {
@@ -81,6 +80,17 @@ abstract base class RestClientBase implements RestClient {
           case {
             'success': true,
             'data': final Map<String, dynamic>? data,
+            'meta': final Map<String, dynamic>? meta,
+          }) {
+        return {
+          'data': data,
+          'meta': meta,
+        };
+      }
+      if (result
+          case {
+            'success': true,
+            'data': final List<dynamic> data,
             'meta': final Map<String, dynamic>? meta,
           }) {
         return {

@@ -9,7 +9,7 @@ import '../../../../config/routes/route_name.dart';
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/utils/extensions/num_extension.dart';
-import '../../../../core/widgets/sizedbox.dart';
+import '../../../../core/shared/widgets/sizedbox.dart';
 import '../../model/transaction_status.dart';
 import './status_tooltip.dart';
 

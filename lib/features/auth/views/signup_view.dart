@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -6,23 +7,22 @@ import 'package:go_router/go_router.dart';
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
-import '../../../core/widgets/app_rich_text.dart';
-import '../../../core/widgets/overlay_loading.dart';
-import '../../../core/widgets/sizedbox.dart';
-import '../models/means_of_id.dart';
+import '../../../core/shared/widgets/app_rich_text.dart';
+import '../../../core/shared/widgets/overlay_loading.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 import './widgets/is_buyer_view.dart';
 import './widgets/is_seller_view.dart';
 import './widgets/sell_buy_toggle.dart';
 import './widgets/step_progress_indicator.dart';
 
-class SignupView extends StatefulWidget {
+class SignupView extends ConsumerStatefulWidget {
   const SignupView({super.key});
 
   @override
-  State<SignupView> createState() => _SignupViewState();
+  ConsumerState<SignupView> createState() => _SignupViewState();
 }
 
-class _SignupViewState extends State<SignupView> {
+class _SignupViewState extends ConsumerState<SignupView> {
   late GlobalKey<FormState> _formKey;
   late ValueNotifier<bool> _isBuyer;
   late ValueNotifier<bool> _isSellerStep1;
@@ -90,41 +90,41 @@ class _SignupViewState extends State<SignupView> {
     super.dispose();
   }
 
-  double _calculatePageHeightFactor() {
-    if (_isBuyer.value) {
-      if (_currentBuyerStep.value <= 2) {
-        return .9;
-      } else {
-        return .10;
-      }
-    } else {
-      if (_currentSellerStep.value <= 2) {
-        return .59;
-      } else if (_currentSellerStep.value == 3) {
-        if (_meansOfIdController.text.isEmpty) {
-          return .11;
-        } else if (_meansOfIdController.text == MeansOfId.nin.label) {
-          return .23;
-        } else if (_meansOfIdController.text == MeansOfId.votersCard.label) {
-          return .70;
-        } else {
-          return .33;
-        }
-      } else {
-        return .11;
-      }
-    }
-  }
+  // double _calculatePageHeightFactor() {
+  //   if (_isBuyer.value) {
+  //     if (_currentBuyerStep.value <= 2) {
+  //       return .9;
+  //     } else {
+  //       return .10;
+  //     }
+  //   } else {
+  //     if (_currentSellerStep.value <= 2) {
+  //       return .59;
+  //     } else if (_currentSellerStep.value == 3) {
+  //       if (_meansOfIdController.text.isEmpty) {
+  //         return .11;
+  //       } else if (_meansOfIdController.text == MeansOfId.nin.label) {
+  //         return .23;
+  //       } else if (_meansOfIdController.text == MeansOfId.votersCard.label) {
+  //         return .70;
+  //       } else {
+  //         return .33;
+  //       }
+  //     } else {
+  //       return .11;
+  //     }
+  //   }
+  // }
 
-  void _nextStep() {
-    if (_currentSellerStep.value < totalSellerSteps) {
-      _currentSellerStep.value++;
-      _sellerStepperController.nextPage(
-        duration: const Duration(milliseconds: 1),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
+  // void _nextStep() {
+  //   if (_currentSellerStep.value < totalSellerSteps) {
+  //     _currentSellerStep.value++;
+  //     _sellerStepperController.nextPage(
+  //       duration: const Duration(milliseconds: 1),
+  //       curve: Curves.easeInOut,
+  //     );
+  //   }
+  // }
 
   String _title() {
     if (_currentBuyerStep.value <= 2 || _currentSellerStep.value <= 2) {
@@ -170,7 +170,6 @@ class _SignupViewState extends State<SignupView> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-
     return Scaffold(
       body: SafeArea(
         child: OverlayLoading(

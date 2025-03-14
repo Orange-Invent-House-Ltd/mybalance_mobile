@@ -12,11 +12,11 @@ import '../../../core/components/rest_client/rest_client.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/utils/extensions/string_extension.dart';
 import '../../../core/utils/validators.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/label_text_field.dart';
-import '../../../core/widgets/overlay_loading.dart';
-import '../../../core/widgets/sizedbox.dart';
-import '../../../core/widgets/toast.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/label_text_field.dart';
+import '../../../core/shared/widgets/overlay_loading.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/toast.dart';
 import '../logic/auth_state.dart';
 import './providers/provider.dart';
 
@@ -75,9 +75,11 @@ class _ForgetPasswordViewState extends ConsumerState<ForgetPasswordView> {
           },
           idle: (value) {
             if (value.status == AuthenticationStatus.unauthenticated &&
-                prev?.maybeMap(processing: (_) => true, orElse: () => false) ==
+                prev?.maybeMap(
+                      processing: (_) => true,
+                      orElse: () => false,
+                    ) ==
                     true) {
-              // if (context.mounted) {
               context.pushNamed(
                 RouteName.checkEmail,
                 queryParameters: {'email': _emailController.text},

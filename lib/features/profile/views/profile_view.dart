@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../config/themes/app_colors.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/label_text_field.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/label_text_field.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 import './provider/profile_provider.dart';
 
 class ProfileView extends ConsumerStatefulWidget {

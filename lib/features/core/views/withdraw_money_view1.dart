@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mybalanceapp/core/widgets/label_text_field.dart';
+import 'package:mybalanceapp/core/shared/widgets/label_text_field.dart';
 
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/models/loading_from.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 
 class WithdrawMoneyView extends StatefulWidget {
   const WithdrawMoneyView({super.key});

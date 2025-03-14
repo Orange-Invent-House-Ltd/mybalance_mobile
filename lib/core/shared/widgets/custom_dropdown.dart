@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import '../../config/themes/app_colors.dart';
-import '../utils/extensions/list_extension.dart';
-import './label_text_field.dart';
-import './popup/popup.dart';
+import '../../../config/themes/app_colors.dart';
+import '../../utils/extensions/list_extension.dart';
+import 'label_text_field.dart';
+import 'popup/popup.dart';
 
 final class CustomDropdownEntry<T> {
   final T value;
@@ -23,6 +23,10 @@ class CustomDropdown<T> extends StatefulWidget {
     required this.textController,
     required this.label,
     required this.hintText,
+    this.isLoading = false,
+    this.withSuffix = true,
+    this.readOnly = true,
+    this.withVerticalPadding = false,
   });
 
   final List<CustomDropdownEntry<T>> items;
@@ -31,6 +35,10 @@ class CustomDropdown<T> extends StatefulWidget {
   final TextEditingController textController;
   final String label;
   final String hintText;
+  final bool isLoading;
+  final bool withSuffix;
+  final bool readOnly;
+  final bool withVerticalPadding;
 
   @override
   State<CustomDropdown<T>> createState() => _CustomDropdownState<T>();
@@ -94,12 +102,23 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
         child: LabelTextField(
           controller: widget.textController,
           label: widget.label,
+          isLoading: widget.isLoading,
           hintText: widget.hintText,
-          readOnly: true,
-          suffixIcon: RotationTransition(
-            turns: _iconAnimation,
-            child: const Icon(Icons.keyboard_arrow_down),
-          ),
+          readOnly: widget.readOnly,
+          suffixIcon: widget.isLoading
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    color: AppColors.p200,
+                  ),
+                )
+              : widget.withSuffix
+                  ? RotationTransition(
+                      turns: _iconAnimation,
+                      child: const Icon(Icons.keyboard_arrow_down),
+                    )
+                  : const SizedBox.shrink(),
           onTap: () {
             _toggleDropdown(controller);
           },
@@ -114,7 +133,10 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
         onDismiss: controller.hide,
         tapRegionGroupId: controller,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: widget.withVerticalPadding ? kToolbarHeight : 0,
+          ),
           child: Card(
             color: AppColors.w50,
             elevation: 10,

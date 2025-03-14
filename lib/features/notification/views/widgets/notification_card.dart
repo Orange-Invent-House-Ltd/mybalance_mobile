@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/themes/app_colors.dart';
 import '../../../../core/utils/date_format.dart';
-import '../../../../core/widgets/sizedbox.dart';
+import '../../../../core/shared/widgets/sizedbox.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({

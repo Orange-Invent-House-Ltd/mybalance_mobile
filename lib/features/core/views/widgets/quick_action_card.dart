@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/themes/app_colors.dart';
-import '../../../../core/widgets/sizedbox.dart';
+import '../../../../core/shared/widgets/sizedbox.dart';
 import 'filled_icon.dart';
 
 class QuickActionCard extends StatelessWidget {
@@ -25,7 +25,7 @@ class QuickActionCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 150.w,
-        height: 110.h,
+        height: 115.h,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

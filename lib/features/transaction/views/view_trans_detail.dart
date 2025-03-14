@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/date_format.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/label_text_field.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/label_text_field.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 import '../model/transaction_model.dart';
 
 class ViewTransDetail extends StatefulWidget {

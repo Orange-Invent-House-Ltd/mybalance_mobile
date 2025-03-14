@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../config/themes/app_colors.dart';
+import '../../../config/themes/app_colors.dart';
 
 class AppRichText extends StatelessWidget {
   const AppRichText({

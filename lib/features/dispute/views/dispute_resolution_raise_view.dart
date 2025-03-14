@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/utils/extensions/string_extension.dart';
-import '../../../core/widgets/custom_app_bar.dart';
-import '../../../core/widgets/custom_dropdown.dart';
-import '../../../core/widgets/label_text_field.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/custom_app_bar.dart';
+import '../../../core/shared/widgets/custom_dropdown.dart';
+import '../../../core/shared/widgets/label_text_field.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 import '../models/dispute_priority_enum.dart';
 
 class DisputeResolutionRaiseView extends StatefulWidget {

@@ -5,13 +5,13 @@ import 'package:go_router/go_router.dart';
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
-import '../../../core/widgets/app_drawer.dart';
-import '../../../core/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/app_drawer.dart';
+import '../../../core/shared/widgets/sizedbox.dart';
 import '../../transaction/model/transaction_model.dart';
 import '../../transaction/views/widgets/transaction_history_card.dart';
-import 'widgets/amount_card.dart';
-import 'widgets/our_charges_card.dart';
-import 'widgets/quick_action_card.dart';
+import './widgets/amount_card.dart';
+import './widgets/our_charges_card.dart';
+import './widgets/quick_action_card.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
@@ -152,8 +152,8 @@ class DashboardView extends StatelessWidget {
               ),
             ),
             const Height(32),
-            SizedBox(
-              width: double.infinity,
+            FullWidth(
+              // width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                   context.goNamed(RouteName.withdrawFunds);

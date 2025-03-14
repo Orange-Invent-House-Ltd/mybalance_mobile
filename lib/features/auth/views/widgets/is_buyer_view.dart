@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../config/themes/app_colors.dart';
+import '../../../../core/shared/widgets/label_text_field.dart';
+import '../../../../core/shared/widgets/sizedbox.dart';
 import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/label_text_field.dart';
-import '../../../../core/widgets/sizedbox.dart';
 
 class IsBuyerView extends StatefulWidget {
   const IsBuyerView({super.key});
@@ -64,7 +64,7 @@ class _IsBuyerViewState extends State<IsBuyerView> {
           ),
           const Height(20),
           LabelTextField(
-            controller: _firstNameController,
+            controller: _lastNameController,
             validator: Validator.nameValidator,
             label: 'Last name',
             hintText: 'e.g "Albert"',
