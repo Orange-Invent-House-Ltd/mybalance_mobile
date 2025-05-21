@@ -2,15 +2,26 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
+import '../../database/database.dart';
 import './exception/network_exception.dart';
 import './rest_client_base.dart';
 
 final class RestClientDio extends RestClientBase {
-  RestClientDio({required Dio dio})
-      : _dio = dio,
+  RestClientDio({
+    required Dio dio,
+    required TokenStorage tokenStorage,
+    required PreferencesDao preferencesDao,
+    bool withAuthHeader = false,
+  })  : _dio = dio,
+        _tokenStorage = tokenStorage,
+        _preferencesDao = preferencesDao,
+        _withAuthHeader = withAuthHeader,
         super(baseUrl: dio.options.baseUrl);
 
   final Dio _dio;
+  final TokenStorage _tokenStorage;
+  final PreferencesDao _preferencesDao;
+  final bool _withAuthHeader;
 
   Future<Map<String, dynamic>?> sendRequest<T extends Object>({
     required String path,
@@ -20,7 +31,13 @@ final class RestClientDio extends RestClientBase {
     Map<String, Object?>? queryParams,
   }) async {
     try {
+      if (_withAuthHeader) {
+        final token = await _tokenStorage.load();
+        _dio.options.headers['Authorization'] = 'Bearer ${token?.accessToken}';
+      }
+      log('before uri: $path');
       final uri = buildUri(path: path, queryParams: queryParams);
+      log('after uri: $uri');
       final options = Options(
         headers: headers,
         method: method,
@@ -32,6 +49,18 @@ final class RestClientDio extends RestClientBase {
         data: body,
         options: options,
       );
+      if (response.statusCode == 401) {
+        log('in Here');
+        PreferencesEntry<String> userTypeKey =
+            _preferencesDao.stringEntry('userType');
+        PreferencesEntry<String> userNameKey =
+            _preferencesDao.stringEntry('userName');
+
+        await _tokenStorage.clear();
+        await userTypeKey.remove();
+        await userNameKey.remove();
+        return {};
+      }
       final resp = await decodeResponse(
         response.data,
         statusCode: response.statusCode,

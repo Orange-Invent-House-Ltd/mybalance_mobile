@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../config/themes/app_colors.dart';
-import '../../../core/utils/validators.dart';
+import '../../../core/components/rest_client/src/exception/network_exception.dart';
 import '../../../core/shared/widgets/custom_app_bar.dart';
 import '../../../core/shared/widgets/label_text_field.dart';
+import '../../../core/shared/widgets/overlay_loading.dart';
 import '../../../core/shared/widgets/sizedbox.dart';
+import '../../../core/shared/widgets/toast.dart';
+import '../../../core/utils/validators.dart';
+import 'provider/profile_provider.dart';
 
-class SettingsView extends StatefulWidget {
+class SettingsView extends ConsumerStatefulWidget {
   const SettingsView({super.key});
 
   @override
-  State<SettingsView> createState() => _SettingsViewState();
+  ConsumerState<SettingsView> createState() => _SettingsViewState();
 }
 
-class _SettingsViewState extends State<SettingsView> {
+class _SettingsViewState extends ConsumerState<SettingsView> {
   late TextEditingController _oldPasswordController,
       _newPasswordController,
       _retypePasswordController,
@@ -50,19 +55,43 @@ class _SettingsViewState extends State<SettingsView> {
     super.dispose();
   }
 
-  ValueNotifier<bool> showChangePassword = ValueNotifier<bool>(true);
-  ValueNotifier<bool> showChangePhone = ValueNotifier<bool>(false);
-  void _tryChangePassword(String oldPassword, String newPassword) {
+  final ValueNotifier<bool> _isLoading = ValueNotifier(false);
+  final ValueNotifier<bool> showChangePassword = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> showChangePhone = ValueNotifier<bool>(false);
+
+  Future<void> _tryChangePassword(
+      String currentPassword, String password, String confirmPassword) async {
     if (_passwordFormKey.currentState != null &&
         _passwordFormKey.currentState!.validate()) {
-      // Change password
+      _isLoading.value = true;
+      final provider = ref.read(
+          changePasswordProvider((currentPassword, password, currentPassword)));
+      provider.when(
+        data: (_) => AppToast.success('Password Successfully changed'),
+        loading: () => _isLoading.value = true,
+        error: (error, stackTrace) {
+          error as RestClientException;
+          AppToast.error('${error.message}: password is incorrect');
+        },
+      );
+      _isLoading.value = false;
     }
   }
 
-  void _tryChangePhone(String oldPhone, String newPhone) {
+  Future<void> _tryChangePhone(String oldPhone, String newPhone) async {
     if (_phoneFormKey.currentState != null &&
         _phoneFormKey.currentState!.validate()) {
-      // Change phone
+      _isLoading.value = true;
+      final provider = ref.read(changePhoneProvider(newPhone));
+      provider.when(
+        data: (_) => AppToast.success('Phone number Successfully changed'),
+        error: (error, stackTrace) {
+          error as RestClientException;
+          // AppToast.error('${error.message}: password is incorrect');
+        },
+        loading: () => _isLoading.value = true,
+      );
+      _isLoading.value = false;
     }
   }
 
@@ -74,81 +103,86 @@ class _SettingsViewState extends State<SettingsView> {
         theme: theme,
         text: 'Settings',
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Text(
-              'Make changes to your number, password and so on.',
-              style:
-                  theme.textTheme.bodyMedium?.copyWith(color: AppColors.g500),
-            ),
-            const Height(32),
-            SettingsButton(
-              onTap: () {
-                showChangePhone.value = false;
-                showChangePassword.value = !showChangePassword.value;
-              },
-              title: 'Change Password',
-              isCurrent: showChangePassword,
-            ),
-            const Height(24),
-            ValueListenableBuilder(
-                valueListenable: showChangePassword,
-                builder: (context, value, child) {
-                  return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    switchInCurve: Curves.easeInOutCubicEmphasized,
-                    switchOutCurve: Curves.easeInOutCubicEmphasized,
-                    transitionBuilder: (widget, animation) {
-                      return SizeTransition(
-                        sizeFactor: animation,
-                        child: FadeTransition(
-                          opacity: animation,
-                          child: widget,
-                        ),
+      body: ValueListenableBuilder(
+          valueListenable: _isLoading,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                Text(
+                  'Make changes to your number, password and so on.',
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: AppColors.g500),
+                ),
+                const Height(32),
+                SettingsButton(
+                  onTap: () {
+                    showChangePhone.value = false;
+                    showChangePassword.value = !showChangePassword.value;
+                  },
+                  title: 'Change Password',
+                  isCurrent: showChangePassword,
+                ),
+                const Height(24),
+                ValueListenableBuilder(
+                    valueListenable: showChangePassword,
+                    builder: (context, value, child) {
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        switchInCurve: Curves.easeInOutCubicEmphasized,
+                        switchOutCurve: Curves.easeInOutCubicEmphasized,
+                        transitionBuilder: (widget, animation) {
+                          return SizeTransition(
+                            sizeFactor: animation,
+                            child: FadeTransition(
+                              opacity: animation,
+                              child: widget,
+                            ),
+                          );
+                        },
+                        child: value
+                            ? _buildChangePassword(theme)
+                            : const SizedBox.shrink(),
                       );
-                    },
-                    child: value
-                        ? _buildChangePassword(theme)
-                        : const SizedBox.shrink(),
-                  );
-                }),
-            SettingsButton(
-              onTap: () {
-                showChangePassword.value = false;
-                showChangePhone.value = !showChangePhone.value;
-              },
-              title: 'Change Phone',
-              isCurrent: showChangePhone,
-              icon: Icons.phone_outlined,
-            ),
-            const Height(24),
-            ValueListenableBuilder(
-              valueListenable: showChangePhone,
-              builder: (context, value, child) {
-                return AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  switchInCurve: Curves.easeInOutCubicEmphasized,
-                  switchOutCurve: Curves.easeInOutCubicEmphasized,
-                  transitionBuilder: (widget, animation) {
-                    return SizeTransition(
-                      sizeFactor: animation,
-                      child: FadeTransition(
-                        opacity: animation,
-                        child: widget,
-                      ),
+                    }),
+                SettingsButton(
+                  onTap: () {
+                    showChangePassword.value = false;
+                    showChangePhone.value = !showChangePhone.value;
+                  },
+                  title: 'Change Phone',
+                  isCurrent: showChangePhone,
+                  icon: Icons.phone_outlined,
+                ),
+                const Height(24),
+                ValueListenableBuilder(
+                  valueListenable: showChangePhone,
+                  builder: (context, value, child) {
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      switchInCurve: Curves.easeInOutCubicEmphasized,
+                      switchOutCurve: Curves.easeInOutCubicEmphasized,
+                      transitionBuilder: (widget, animation) {
+                        return SizeTransition(
+                          sizeFactor: animation,
+                          child: FadeTransition(
+                            opacity: animation,
+                            child: widget,
+                          ),
+                        );
+                      },
+                      child: value
+                          ? _buildChangePhone(theme)
+                          : const SizedBox.shrink(),
                     );
                   },
-                  child: value
-                      ? _buildChangePhone(theme)
-                      : const SizedBox.shrink(),
-                );
-              },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+          builder: (context, value, child) {
+            return OverlayLoading(isLoading: value, child: child!);
+          }),
     );
   }
 
@@ -218,8 +252,8 @@ class _SettingsViewState extends State<SettingsView> {
                           _newPhoneController.text.isEmpty ||
                           _retypePhoneController.text.isEmpty
                       ? null
-                      : () {
-                          _tryChangePhone(
+                      : () async {
+                          await _tryChangePhone(
                             _oldPasswordController.text,
                             _newPasswordController.text,
                           );
@@ -318,10 +352,11 @@ class _SettingsViewState extends State<SettingsView> {
                             _newPasswordController.text.isEmpty ||
                             _retypePasswordController.text.isEmpty
                         ? null
-                        : () {
-                            _tryChangePassword(
+                        : () async {
+                            await _tryChangePassword(
                               _oldPasswordController.text,
                               _newPasswordController.text,
+                              _retypePasswordController.text,
                             );
                           },
                     child: const Text('Change Password'),

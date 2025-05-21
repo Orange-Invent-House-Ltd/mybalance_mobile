@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mybalanceapp/features/transaction/model/transaction_type.dart';
 
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/shared/widgets/custom_app_bar.dart';
 import '../../../core/shared/widgets/sizedbox.dart';
-
 import '../model/transaction_model.dart';
 import './widgets/transaction_history_card.dart';
+import 'provider/transaction_provider.dart';
 
-class TransactionHistoryView extends StatefulWidget {
+class TransactionHistoryView extends ConsumerStatefulWidget {
   const TransactionHistoryView({super.key});
 
   @override
-  State<TransactionHistoryView> createState() => _TransactionHistoryViewState();
+  ConsumerState<TransactionHistoryView> createState() =>
+      _TransactionHistoryViewState();
 }
 
-class _TransactionHistoryViewState extends State<TransactionHistoryView>
+class _TransactionHistoryViewState extends ConsumerState<TransactionHistoryView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   @override
@@ -35,6 +38,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final transactions = ref.watch(notifierProvider);
     return Scaffold(
       appBar: CustomAppBar(
         theme: theme,
@@ -95,17 +99,41 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView>
                 ),
               ],
             ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  TransactionHistoryList(transactions: trans),
-                  TransactionHistoryList(transactions: trans),
-                  const TransactionHistoryList(transactions: []),
-                  TransactionHistoryList(transactions: trans),
-                ],
+            transactions.when(
+              data: (data) => Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    TransactionHistoryList(transactions: data),
+                    TransactionHistoryList(
+                        transactions: data
+                            .where((e) => e.type == TransactionType.deposit)
+                            .toList()),
+                    TransactionHistoryList(
+                        transactions: data
+                            .where((e) => e.type == TransactionType.escrow)
+                            .toList()),
+                    TransactionHistoryList(
+                        transactions: data
+                            .where((e) => e.type == TransactionType.withdrawal)
+                            .toList()),
+                  ],
+                ),
               ),
+              loading: () => const CircularProgressIndicator(),
+              error: (_, __) => const Text('Error loading history'),
             ),
+            // Expanded(
+            //   child: TabBarView(
+            //     controller: _tabController,
+            //     children: [
+            //       TransactionHistoryList(transactions: trans),
+            //       TransactionHistoryList(transactions: trans),
+            //       const TransactionHistoryList(transactions: []),
+            //       TransactionHistoryList(transactions: trans),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -118,7 +146,7 @@ class TransactionHistoryList extends StatelessWidget {
     super.key,
     required this.transactions,
   });
-  final List<Transactions> transactions;
+  final List<Transaction> transactions;
 
   @override
   Widget build(BuildContext context) {
@@ -128,15 +156,16 @@ class TransactionHistoryList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 24),
             itemCount: transactions.length,
             itemBuilder: (_, index) {
-              final Transactions transaction = transactions[index];
+              final Transaction transaction = transactions[index];
               return TransactionHistoryCard(
                 id: transaction.id,
-                refId: transaction.refId,
+                refId: transaction.reference,
                 status: transaction.status,
-                title: transaction.title,
+                title: transaction.meta.title,
                 price: transaction.amount,
-                description: transaction.description ?? '',
-                dateTime: DateTime.now(),
+                description: transaction.narration ?? '',
+                dateTime: transaction.createdAt,
+                isLoading: false,
               );
             },
             separatorBuilder: (_, index) => const Height(12),

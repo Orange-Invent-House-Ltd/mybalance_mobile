@@ -7,4 +7,8 @@ class Token {
 
   /// Refresh token (used to refresh the access token)
   final String refreshToken;
+
+  @override
+  String toString() =>
+      'Token(accessToken: $accessToken, refreshToken: $refreshToken)';
 }

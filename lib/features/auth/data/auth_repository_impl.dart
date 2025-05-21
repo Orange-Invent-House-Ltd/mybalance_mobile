@@ -10,23 +10,32 @@ class AuthRepositoryImpl implements AuthRepository {
   final TokenStorage _tokenStorage;
   final PreferencesDao _preferencesDao;
 
-  AuthRepositoryImpl(
-      {required AuthDataSource authDataSource,
-      required TokenStorage tokenStorage,
-      required PreferencesDao preferencesDao})
-      : _authDataSource = authDataSource,
+  AuthRepositoryImpl({
+    required AuthDataSource authDataSource,
+    required TokenStorage tokenStorage,
+    required PreferencesDao preferencesDao,
+  })  : _authDataSource = authDataSource,
         _tokenStorage = tokenStorage,
         _preferencesDao = preferencesDao;
 
   PreferencesEntry<String> get userTypeKey =>
       _preferencesDao.stringEntry('userType');
+  PreferencesEntry<String> get userNameKey =>
+      _preferencesDao.stringEntry('userName');
 
   @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    final (token, userType) =
+    final (token, userType, name) =
         await _authDataSource.signInWithEmailAndPassword(email, password);
-    await _tokenStorage.save(token);
-    userTypeKey.set(userType);
+    // tokenKey.set(token.accessToken);
+
+    (
+      _tokenStorage.save(token),
+      userTypeKey.set(userType),
+      userNameKey.set(name),
+    ).wait;
+    final ttoken = await _tokenStorage.load();
+    log('access ttoken ${ttoken?.accessToken}');
     log('User signed in as $userType');
     log('access token ${token.accessToken}');
   }
@@ -40,6 +49,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> signOut() async {
     await _tokenStorage.clear();
     await userTypeKey.remove();
+    await userNameKey.remove();
   }
 
   @override

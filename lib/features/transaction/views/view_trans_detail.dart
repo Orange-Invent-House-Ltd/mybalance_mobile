@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
-import '../../../core/utils/date_format.dart';
 import '../../../core/shared/widgets/custom_app_bar.dart';
 import '../../../core/shared/widgets/label_text_field.dart';
 import '../../../core/shared/widgets/sizedbox.dart';
+import '../../../core/utils/date_format.dart';
 import '../model/transaction_model.dart';
+import 'provider/transaction_provider.dart';
 
-class ViewTransDetail extends StatefulWidget {
+class ViewTransDetail extends ConsumerStatefulWidget {
   const ViewTransDetail({super.key, required this.id});
   final String id;
 
   @override
-  State<ViewTransDetail> createState() => _ViewTransDetailState();
+  ConsumerState<ViewTransDetail> createState() => _ViewTransDetailState();
 }
 
-class _ViewTransDetailState extends State<ViewTransDetail> {
+class _ViewTransDetailState extends ConsumerState<ViewTransDetail> {
   late TextEditingController _titleController,
       _descriptionController,
       _noOfItemsController,
@@ -48,7 +50,9 @@ class _ViewTransDetailState extends State<ViewTransDetail> {
     super.dispose();
   }
 
-  Transactions get transaction => trans.firstWhere((t) => t.id == widget.id);
+// Transaction
+  Transaction get transaction =>
+      ref.watch(notifierProvider).value!.firstWhere((t) => t.id == widget.id);
 
   @override
   Widget build(BuildContext context) {
@@ -81,14 +85,14 @@ class _ViewTransDetailState extends State<ViewTransDetail> {
               controller: _titleController,
               readOnly: true,
               label: 'Title',
-              hintText: transaction.title,
+              hintText: transaction.meta.title,
             ),
             const Height(16),
             LabelTextField(
               controller: _descriptionController,
               readOnly: true,
               label: 'Description',
-              hintText: transaction.description,
+              hintText: transaction.narration,
             ),
             const Height(16),
             LabelTextField(
@@ -109,7 +113,7 @@ class _ViewTransDetailState extends State<ViewTransDetail> {
               controller: _deliveryTimeController,
               readOnly: true,
               label: 'Delivery timeline',
-              hintText: FormatDate.ddMMYYYY(transaction.date),
+              hintText: FormatDate.ddMMYYYY(transaction.createdAt),
             ),
             const Height(32),
             Text(

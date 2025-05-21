@@ -6,3 +6,8 @@ enum AuthenticationStatus {
   /// Unauthenticated
   unauthenticated,
 }
+
+abstract interface class AuthStatusSource {
+  /// Stream of [AuthenticationStatus]
+  Stream<AuthenticationStatus> get authStatus;
+}

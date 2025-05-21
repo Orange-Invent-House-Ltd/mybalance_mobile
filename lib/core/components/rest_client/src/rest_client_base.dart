@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:meta/meta.dart';
 
@@ -57,6 +58,7 @@ abstract base class RestClientBase implements RestClient {
       if (body is Map<String, dynamic>) {
         result = body;
       } else {
+        log(body.toString());
         throw WrongResponseTypeException(
           message: 'Unexpected response body type: ${body.runtimeType}',
           statusCode: statusCode,
@@ -93,6 +95,7 @@ abstract base class RestClientBase implements RestClient {
             'data': final List<dynamic> data,
             'meta': final Map<String, dynamic>? meta,
           }) {
+        log(data.toString());
         return {
           'data': data,
           'meta': meta,

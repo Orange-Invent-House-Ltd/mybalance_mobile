@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,8 +14,8 @@ class AppBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppSizedBox(
-      height: 30,
-      width: 29,
+      height: 30.h,
+      width: 26.5.w,
       child: ElevatedButton(
         onPressed: onBackPressed ?? context.pop,
         style: ElevatedButton.styleFrom(

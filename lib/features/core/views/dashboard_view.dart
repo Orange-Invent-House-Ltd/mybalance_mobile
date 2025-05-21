@@ -1,25 +1,56 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mybalanceapp/features/transaction/model/transaction_model.dart';
+import 'package:mybalanceapp/features/transaction/views/widgets/transaction_history_card.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/shared/widgets/app_drawer.dart';
 import '../../../core/shared/widgets/sizedbox.dart';
-import '../../transaction/model/transaction_model.dart';
-import '../../transaction/views/widgets/transaction_history_card.dart';
+import '../../../core/utils/date_format.dart';
+import '../../profile/views/provider/profile_provider.dart';
+import '../../transaction/views/provider/transaction_provider.dart';
+import '../../wallet/model/wallet.dart';
+import '../../wallet/view/wallet_providers.dart';
+import './provider/view_providers.dart';
 import './widgets/amount_card.dart';
 import './widgets/our_charges_card.dart';
 import './widgets/quick_action_card.dart';
 
-class DashboardView extends StatelessWidget {
+class DashboardView extends ConsumerWidget {
   const DashboardView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const name = 'Jamjam';
+  Widget build(BuildContext context, WidgetRef ref) {
+    final name = ref.watch(nameProvider).maybeWhen(
+        orElse: () {
+          log('Name not found');
+          return '';
+        },
+        data: (name) => '$name!');
+
     final ThemeData theme = Theme.of(context);
+    final Size size = MediaQuery.sizeOf(context);
+    final profile = ref.watch(readProfileProvider);
+    final wallet = ref.watch(readWalletProvider);
+    wallet.maybeWhen(
+      orElse: () {
+        log('Profile not found');
+      },
+      data: (data) {
+        log(data.first.createdAt.toString());
+      },
+      error: (error, _) {
+        log(error.toString());
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -44,13 +75,13 @@ class DashboardView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text.rich(
-              const TextSpan(
+              TextSpan(
                 text: 'Welcome ',
-                style: TextStyle(color: AppColors.b100),
+                style: const TextStyle(color: AppColors.b100),
                 children: [
                   TextSpan(
-                    text: '$name!',
-                    style: TextStyle(
+                    text: name,
+                    style: const TextStyle(
                       color: AppColors.b300,
                     ),
                   ),
@@ -62,33 +93,65 @@ class DashboardView extends StatelessWidget {
               ),
             ),
             const Height(8),
-            Text(
-              'Your last login was on 01/12/2022 10:00:34 AM',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: AppColors.g500,
+            AppBoxShimmer(
+              width: size.width * 0.75,
+              height: 20,
+              borderRadius: BorderRadius.circular(6),
+              isLoading: profile.isLoading,
+              withContainer: true,
+              child: profile.when(
+                data: (data) {
+                  if (data.lastLoginDate == null) {
+                    return const SizedBox.shrink();
+                  }
+                  return Text(
+                    'Your last login was on ${FormatDate.mmddyyyyHhmmss(data.lastLoginDate!)}',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.g500,
+                    ),
+                  );
+                },
+                error: (_, __) => const SizedBox.shrink(),
+                loading: () => const SizedBox.shrink(),
               ),
             ),
             const Height(8),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xffEBF4EC),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'You have 5 free escrow transactions',
-                    style: theme.textTheme.titleSmall
-                        ?.copyWith(color: const Color(0xff2D7738)),
-                  ),
-                  const Width(6),
-                  const Icon(
-                    Icons.info,
-                    color: Color(0xff2D7738),
-                  ),
-                ],
+            AppBoxShimmer(
+              width: size.width * 0.7,
+              height: 25,
+              isLoading: profile.isLoading,
+              borderRadius: BorderRadius.circular(15),
+              child: profile.when(
+                data: (data) {
+                  if (data.freeEscrowTransactions > 0) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xffEBF4EC),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'You have 5 free escrow transactions',
+                            style: theme.textTheme.titleSmall
+                                ?.copyWith(color: const Color(0xff2D7738)),
+                          ),
+                          const Width(6),
+                          const Icon(
+                            Icons.info,
+                            color: Color(0xff2D7738),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+                error: (_, __) => const SizedBox.shrink(),
+                loading: () => const SizedBox.shrink(),
               ),
             ),
             const Height(32),
@@ -129,26 +192,87 @@ class DashboardView extends StatelessWidget {
             const Height(32),
             SizedBox(
               height: 94.h,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.only(right: 20),
-                children: const [
-                  AmountCard(
-                    title: 'Available balance in escrow',
-                    amount: 30000,
-                  ),
-                  Width(20),
-                  AmountCard(
-                    title: 'Total amount locked',
-                    amount: 10000,
-                  ),
-                  Width(20),
-                  AmountCard(
-                    title: 'Total amount withdrawn',
-                    amount: 0,
-                  ),
-                  Width(20),
-                ],
+              child: wallet.when(
+                data: (data) {
+                  final Wallet nigeriaWallet = data.firstWhere(
+                    (element) => element.currency == 'NGN',
+                  );
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(right: 20),
+                    children: [
+                      AmountCard(
+                        title: 'Available balance in escrow',
+                        amount: nigeriaWallet.balance,
+                        isLoading: false,
+                      ),
+                      const Width(20),
+                      AmountCard(
+                        title: 'Total amount locked',
+                        amount: nigeriaWallet.lockedAmountInward,
+                        isLoading: false,
+                      ),
+                      const Width(20),
+                      AmountCard(
+                        title: 'Total amount withdrawn',
+                        amount: nigeriaWallet.withdrawnAmount,
+                        isLoading: false,
+                      ),
+                      const Width(20),
+                    ],
+                  );
+                },
+                error: (e, __) {
+                  log(e.toString());
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(right: 20),
+                    children: const [
+                      AmountCard(
+                        title: 'Available balance in escrow',
+                        amount: 0,
+                        isLoading: true,
+                      ),
+                      Width(20),
+                      AmountCard(
+                        title: 'Total amount locked',
+                        amount: 0,
+                        isLoading: true,
+                      ),
+                      Width(20),
+                      AmountCard(
+                        title: 'Total amount withdrawn',
+                        amount: 0,
+                        isLoading: true,
+                      ),
+                      Width(20),
+                    ],
+                  );
+                },
+                loading: () => ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.only(right: 20),
+                  children: const [
+                    AmountCard(
+                      title: 'Available balance in escrow',
+                      amount: 0,
+                      isLoading: true,
+                    ),
+                    Width(20),
+                    AmountCard(
+                      title: 'Total amount locked',
+                      amount: 0,
+                      isLoading: true,
+                    ),
+                    Width(20),
+                    AmountCard(
+                      title: 'Total amount withdrawn',
+                      amount: 0,
+                      isLoading: true,
+                    ),
+                    Width(20),
+                  ],
+                ),
               ),
             ),
             const Height(32),
@@ -251,22 +375,104 @@ class DashboardView extends StatelessWidget {
               ],
             ),
             const Height(20),
-            for (var i = trans.length - 2; i < trans.length; i++) ...[
-              TransactionHistoryCard(
-                id: trans[i].id,
-                refId: trans[i].refId,
-                status: trans[i].status,
-                title: trans[i].title,
-                price: trans[i].amount,
-                description: trans[i].description ?? '',
-                dateTime: trans[i].date,
-              ),
-              const Height(12),
-            ],
+            ref.watch(notifierProvider).when(
+                  data: (dat) {
+                    late List<Transaction> data;
+                    if (dat.length >= 2) {
+                      data = dat.sublist(0, 2);
+                    } else if (dat.isNotEmpty) {
+                      data = dat.sublist(0, dat.length);
+                    } else {
+                      data = [];
+                    }
+                    return Column(
+                      children: data.map(
+                        (transaction) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TransactionHistoryCard(
+                                id: transaction.id,
+                                refId: transaction.reference,
+                                status: transaction.status,
+                                title: transaction.meta.title,
+                                price: transaction.amount,
+                                description: transaction.narration ?? '',
+                                dateTime: transaction.createdAt,
+                                isLoading: false,
+                              ),
+                              const Height(12),
+                            ],
+                          );
+                        },
+                      ).toList(),
+                    );
+                  },
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (e, st) {
+                    log('transaction err: $e');
+                    log('transaction st: $st');
+                    return Center(
+                      child: Text(
+                        'Error fetching history',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: AppColors.error,
+                        ),
+                      ),
+                    );
+                  },
+                ),
             const Height(20),
           ],
         ),
       ),
     );
+  }
+}
+
+class AppBoxShimmer extends ConsumerWidget {
+  const AppBoxShimmer({
+    super.key,
+    required this.child,
+    this.width,
+    this.height,
+    this.borderRadius,
+    this.isLoading = false,
+    this.isCircle = false,
+    this.withContainer = false,
+    this.baseColor,
+    this.highlightColor,
+  });
+  final bool isLoading;
+  final bool isCircle;
+  final bool withContainer;
+  final Widget child;
+  final double? width;
+  final double? height;
+  final BorderRadius? borderRadius;
+  final Color? baseColor;
+  final Color? highlightColor;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return isLoading
+        ? Shimmer.fromColors(
+            baseColor: baseColor ?? AppColors.g50,
+            highlightColor: highlightColor ?? Colors.white,
+            child: !withContainer
+                ? child
+                : Container(
+                    width: width,
+                    height: height,
+                    decoration: BoxDecoration(
+                      color: AppColors.g50,
+                      shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
+                      borderRadius: borderRadius,
+                    ),
+                  ),
+          )
+        : child;
   }
 }

@@ -2,9 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/components/rest_client/rest_client.dart';
-import '../../core/utils/extensions/string_extension.dart';
 import '../../core/shared/widgets/loading_page.dart';
+import '../../core/utils/extensions/string_extension.dart';
 import '../../features/auth/views/providers/provider.dart';
 import '../../features/auth/views/views.dart';
 import '../../features/core/views/views.dart';
@@ -14,19 +13,19 @@ import '../../features/onboarding/views/provider/provider.dart';
 import '../../features/onboarding/views/views.dart';
 import '../../features/transaction/views/views.dart';
 import './error_view.dart';
-import './route_name.dart';
 import './redirect_guards/guards.dart';
+import './route_name.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 final goRouterProvider = Provider<GoRouter>(
   (ref) {
     final authStatusStream = ref.watch(authRepositoryProvider).authStatus;
-    final authStatusAsync = ref.watch(authStatusProvider);
+    // final authStatusAsync = ref.watch(authStatusProvider);
+    final authStatusAsync = ref.watch(authProvider);
     final onboardedStatusAsync = ref.watch(onboardedStatusProvider);
 
-    final authStatus =
-        authStatusAsync.value ?? AuthenticationStatus.unauthenticated;
+    final authStatus = authStatusAsync.status;
     final isOnboarded = onboardedStatusAsync.value ?? false;
 
     final refreshNotifier = GoRouterRefreshStream(authStatusStream);

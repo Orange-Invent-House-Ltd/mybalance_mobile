@@ -18,6 +18,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
     authDataSource: authDataSource,
     tokenStorage: tokenStorage,
     preferencesDao: ref.read(sharedDaoProvider),
+    // preferencesDaoSec: ref.read(secureDaoProvider)
   );
 });
 

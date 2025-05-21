@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -6,35 +7,65 @@ import 'package:go_router/go_router.dart';
 import '../../../config/routes/route_name.dart';
 import '../../../config/themes/app_colors.dart';
 import '../../../core/constants/app_assets.dart';
-import '../../../core/utils/date_format.dart';
 import '../../../core/shared/widgets/custom_app_bar.dart';
 import '../../../core/shared/widgets/sizedbox.dart';
-import '../models/dispute_resolution_model.dart';
+import '../../../core/utils/date_format.dart';
+import '../logic/dispute_notifier.dart';
+import '../models/dispute.dart';
 import '../models/dispute_resolution_status.dart';
 import './widgets/dispute_status_tooltip.dart';
+import 'provider/dispute_provider.dart';
 
-class DisputeResolutionView extends StatelessWidget {
+class DisputeResolutionView extends ConsumerWidget {
   const DisputeResolutionView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
-    final List<DisputeResolution> disputes = dummyDisputes;
+    final disputeState = ref.watch(disputeNotifierProvider);
     return Scaffold(
       appBar: CustomAppBar(
         theme: theme,
         text: 'Dispute Resolution',
       ),
-      body: disputes.isEmpty
-          ? const EmptyDispute()
-          : NotEmptyDispute(disputes: disputes),
+      body: Builder(
+        builder: (context) {
+          if (disputeState.status == DisputeStatuss.loading &&
+              disputeState.disputes.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (disputeState.status == DisputeStatuss.error &&
+              disputeState.disputes.isEmpty) {
+            return const Center(child: Text('Unable to load disputes'));
+          }
+
+          if (disputeState.disputes.isEmpty) {
+            return const EmptyDispute();
+          }
+          return NotEmptyDispute(
+            disputes: disputeState.disputes,
+          );
+        },
+      ),
+      // body: disputes.when(
+      //   data: (data) => data.isEmpty
+      //       ? const EmptyDispute()
+      //       : NotEmptyDispute(disputes: data),
+      //   error: (_, __) => const Center(
+      //     child: Text('Unable to load disputes'),
+      //   ),
+      //   loading: () => const Center(
+      //     child: CircularProgressIndicator(),
+      //   ),
+      // ),
     );
   }
 }
 
 class NotEmptyDispute extends StatelessWidget {
   const NotEmptyDispute({super.key, required this.disputes});
-  final List<DisputeResolution> disputes;
+  final List<Dispute> disputes;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +102,7 @@ class DisputeResolutionCard extends StatelessWidget {
     required this.dispute,
   });
 
-  final DisputeResolution dispute;
+  final Dispute dispute;
 
   @override
   Widget build(BuildContext context) {
@@ -100,10 +131,10 @@ class DisputeResolutionCard extends StatelessWidget {
                   SizedBox(
                     width: size.width * 0.45,
                     child: Text(
-                      dispute.title,
+                      dispute.reason,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: AppColors.g500.withAlpha(
-                          (dispute.status == DisputeResolutionStatus.resolved
+                          (dispute.status == DisputeStatus.resolved
                                   ? 255.0 * .4
                                   : 255.0 * 1)
                               .round(),
@@ -127,7 +158,7 @@ class DisputeResolutionCard extends StatelessWidget {
                       dispute.description,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: AppColors.g500.withAlpha(
-                          (dispute.status == DisputeResolutionStatus.resolved
+                          (dispute.status == DisputeStatus.resolved
                                   ? 255.0 * .4
                                   : 255.0 * 1)
                               .round(),
@@ -139,11 +170,11 @@ class DisputeResolutionCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    FormatDate.monthDayYear(dispute.timestamp),
+                    FormatDate.monthDayYear(dispute.createdAt),
                     style: theme.textTheme.bodySmall?.copyWith(
                       fontSize: 10.sp,
                       color: AppColors.g300.withAlpha(
-                        (dispute.status == DisputeResolutionStatus.resolved
+                        (dispute.status == DisputeStatus.resolved
                                 ? 255.0 * .4
                                 : 255.0 * 1)
                             .round(),

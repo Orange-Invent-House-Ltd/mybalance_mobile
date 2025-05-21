@@ -5,6 +5,11 @@ class FormatDate {
     return DateFormat("dd/MM/yyyy").format(dateTime);
   }
 
+  static String mmddyyyyHhmmss(DateTime dateTime) {
+    return DateFormat("MM/dd/yyyy hh:mm:ss a").format(dateTime);
+  }
+  
+
   static String monthDayYear(DateTime dateTime) {
     return DateFormat("MMM d, y h:mm a").format(dateTime);
   }

@@ -20,18 +20,18 @@ class AppStartupErrorWidget extends StatefulWidget {
 
 class _AppStartupErrorWidgetState extends State<AppStartupErrorWidget> {
   /// Whether the initialization is in progress.
-  final _inProgress = ValueNotifier<bool>(false);
+  final _progress = ValueNotifier<bool>(false);
 
   @override
   void dispose() {
-    _inProgress.dispose();
+    _progress.dispose();
     super.dispose();
   }
 
   Future<void> _retryInitialization() async {
-    _inProgress.value = true;
+    _progress.value = true;
     await widget.retryInitialization!();
-    _inProgress.value = false;
+    _progress.value = false;
   }
 
   @override

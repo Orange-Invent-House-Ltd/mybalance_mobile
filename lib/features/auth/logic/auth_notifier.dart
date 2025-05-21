@@ -14,9 +14,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
         super(const AuthState.idle(
           status: AuthenticationStatus.unauthenticated,
         )) {
-    _authRepository.authStatus.listen((status) {
-      state = AuthState.idle(status: status);
-    });
+    // _authRepository.authStatus.listen((status) {
+    //   state = AuthState.idle(status: status);
+    // });
   }
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {

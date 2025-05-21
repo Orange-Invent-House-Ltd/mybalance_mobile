@@ -9,7 +9,7 @@ class DisputeStatusTooltip extends StatelessWidget {
     required this.status,
   });
 
-  final DisputeResolutionStatus status;
+  final DisputeStatus status;
 
   @override
   Widget build(BuildContext context) {

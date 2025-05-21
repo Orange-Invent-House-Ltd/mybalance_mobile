@@ -11,9 +11,11 @@ class AmountCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.amount,
+    required this.isLoading,
   });
   final String title;
   final double amount;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class AmountCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  amount.toCurrency(),
+                  isLoading ? '...' : amount.toCurrency(),
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                     color: AppColors.g500,

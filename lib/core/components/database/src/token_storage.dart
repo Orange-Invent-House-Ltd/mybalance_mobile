@@ -26,7 +26,7 @@ final class TokenStorage implements StorageManager<Token> {
   Token? _cachedToken;
 
   @override
-  Future<Token?> load() {
+  Future<Token?> load() async {
     final accessToken = _accessToken.read();
     final refreshToken = _refreshToken.read();
 
@@ -43,7 +43,7 @@ final class TokenStorage implements StorageManager<Token> {
 
   @override
   Future<void> save(Token tokenPair) async {
-    await (
+    (
       _accessToken.set(tokenPair.accessToken),
       _refreshToken.set(tokenPair.refreshToken)
     ).wait;

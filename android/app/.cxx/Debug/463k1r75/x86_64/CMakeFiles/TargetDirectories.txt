@@ -1,0 +1,2 @@
+/Users/mac/Development/apps/work/orange invent/mybalance/mybalanceapp/android/app/.cxx/Debug/463k1r75/x86_64/CMakeFiles/edit_cache.dir
+/Users/mac/Development/apps/work/orange invent/mybalance/mybalanceapp/android/app/.cxx/Debug/463k1r75/x86_64/CMakeFiles/rebuild_cache.dir

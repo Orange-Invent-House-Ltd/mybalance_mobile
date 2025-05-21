@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../core/components/rest_client/rest_client.dart';
 import './auth_data_source.dart';
 
@@ -8,8 +10,8 @@ class AuthDataSourceImpl implements AuthDataSource {
       : _restClient = restClient;
 
   @override
-  Future<(Token token, String userType)> signInWithEmailAndPassword(
-      String email, String password) async {
+  Future<(Token token, String userType, String name)>
+      signInWithEmailAndPassword(String email, String password) async {
     final response = await _restClient.post(
       '/auth/login',
       body: {
@@ -21,10 +23,12 @@ class AuthDataSourceImpl implements AuthDataSource {
         response?['data'] as Map<String, dynamic>?;
     // print(data);
     // print(data?['user']);
+    log(data.toString());
     if (data
         case {
           "token": final String accessToken,
           'user': {
+            'name': final String name,
             "isBuyer": final bool isBuyer,
             "isSeller": final bool isSeller,
             "isMerchant": final bool isMerchant,
@@ -55,7 +59,7 @@ class AuthDataSourceImpl implements AuthDataSource {
 
       const String refreshToken = 'Not implemented';
       final Token token = Token(accessToken, refreshToken);
-      return (token, userType);
+      return (token, userType, name);
     }
     throw Exception('Invalid response');
   }
